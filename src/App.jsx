@@ -1147,12 +1147,16 @@ export default function App() {
 
         if (ts.status === 'fulfilled') setTotalSupply(fmt(ts.value));
         if (tpm.status === 'fulfilled') setTokensPerMatic(tpm.value);
-        if (bal.status === 'fulfilled') { console.log('WTC balance raw:', bal.value.toString()); setWlthBalance(fmt(bal.value)); }
-        if (staked.status === 'fulfilled') setStakedBal(fmt(staked.value));
-        if (rewards.status === 'fulfilled') setPendingRew(fmt(rewards.value));
         if (totalS.status === 'fulfilled') setTotalStaked(fmt(totalS.value));
-        if (maticBal.status === 'fulfilled') setMaticBalance(ethers.formatEther(maticBal.value));
-        if (allowanceData && allowanceData.status === 'fulfilled') setAllowance(allowanceData.value.toString());
+        // Only update per-address state when we actually have an address —
+        // a null-address call resolves these to 0n and must not overwrite real balances.
+        if (addr) {
+          if (bal.status === 'fulfilled') { console.log('WTC balance raw:', bal.value.toString()); setWlthBalance(fmt(bal.value)); }
+          if (staked.status === 'fulfilled') setStakedBal(fmt(staked.value));
+          if (rewards.status === 'fulfilled') setPendingRew(fmt(rewards.value));
+          if (maticBal.status === 'fulfilled') setMaticBalance(ethers.formatEther(maticBal.value));
+          if (allowanceData && allowanceData.status === 'fulfilled') setAllowance(allowanceData.value.toString());
+        }
         return; // success — stop trying more RPCs
       } catch (e) {
         console.warn(`RPC ${rpcUrl} failed:`, e);
