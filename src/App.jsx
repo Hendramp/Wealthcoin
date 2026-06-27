@@ -470,14 +470,24 @@ function BuySection({ account, chainId, tokensPerMatic, totalSupply, polUsdPrice
 
   async function handleBuy() {
     if (!maticAmt || parseFloat(maticAmt) <= 0) { addToast('Enter a valid POL amount', 'error'); return; }
-    const maticValue = parseFloat(maticAmt);
-    const maticBal = parseFloat(maticBalance);
-    if (maticValue > maticBal) { addToast(`Insufficient POL balance. You have ${maticBal.toFixed(4)} POL`, 'error'); return; }
     setLoading(true);
     try {
       const rawProvider = window.__qdapp_getProvider ? await window.__qdapp_getProvider() : window.ethereum;
+      if (!rawProvider) throw new Error('No wallet provider found. Please reconnect your wallet.');
       const provider = new ethers.BrowserProvider(rawProvider);
       const signer = await provider.getSigner();
+
+      // Read POL balance directly from wallet provider — reliable regardless of RPC state
+      const signerAddr = await signer.getAddress();
+      const polBalWei = await provider.getBalance(signerAddr);
+      const polBal = parseFloat(ethers.formatEther(polBalWei));
+      const maticValue = parseFloat(maticAmt);
+      if (maticValue > polBal) {
+        addToast(`Insufficient POL balance. You have ${polBal.toFixed(4)} POL`, 'error');
+        setLoading(false);
+        return;
+      }
+
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
       const value = ethers.parseEther(maticAmt);
       addToast('Confirm transaction in wallet…', 'info');
@@ -486,7 +496,13 @@ function BuySection({ account, chainId, tokensPerMatic, totalSupply, polUsdPrice
       await tx.wait();
       addToast(`Successfully purchased WTC! TX: ${shortAddr(tx.hash)}`, 'success');
       setMaticAmt('');
-      await loadContractData(account);
+      // Refresh balances via wallet provider directly after purchase
+      const [newPolBal, newWtcBal] = await Promise.allSettled([
+        provider.getBalance(signerAddr),
+        new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider).balanceOf(signerAddr),
+      ]);
+      if (newPolBal.status === 'fulfilled') setMaticBalance(ethers.formatEther(newPolBal.value));
+      if (newWtcBal.status === 'fulfilled') setWlthBalance(fmt(newWtcBal.value));
     } catch (e) {
       if (e?.code === 'INSUFFICIENT_FUNDS') {
         addToast('Insufficient gas funds to complete transaction', 'error');
@@ -1216,7 +1232,24 @@ export default function App() {
   }, []);
 
   const loadContractData = useCallback(async (addr) => {
-    // Try each RPC in order until one succeeds
+    // If we have a live wallet provider, use it to read POL balance — it's always accurate
+    if (addr && providerRef.current) {
+      try {
+        const walletProvider = new ethers.BrowserProvider(providerRef.current);
+        const polWei = await walletProvider.getBalance(addr);
+        setMaticBalance(ethers.formatEther(polWei));
+        console.log('POL balance from wallet:', ethers.formatEther(polWei));
+        // Also read WTC balance via wallet provider
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, walletProvider);
+        const wtcBal = await contract.balanceOf(addr);
+        console.log('WTC balance from wallet:', wtcBal.toString());
+        setWlthBalance(fmt(wtcBal));
+      } catch (e) {
+        console.warn('Wallet provider balance read failed:', e);
+      }
+    }
+
+    // Try each RPC in order for contract/staking data
     let lastError;
     for (const rpcUrl of POLYGON_RPC_URLS) {
       try {
@@ -1226,35 +1259,28 @@ export default function App() {
         const queries = [
           contract.totalSupply(),
           contract.tokensPerMatic(),
-          addr ? contract.balanceOf(addr) : Promise.resolve(0n),
           addr ? contract.stakedBalance(addr) : Promise.resolve(0n),
           addr ? contract.pendingRewards(addr) : Promise.resolve(0n),
           contract.totalStaked(),
-          addr ? provider.getBalance(addr) : Promise.resolve(0n),
+          addr ? contract.allowance(addr, CONTRACT_ADDRESS) : Promise.resolve(0n),
         ];
-        if (addr) queries.push(contract.allowance(addr, CONTRACT_ADDRESS));
 
         const results = await Promise.allSettled(queries);
-        const [ts, tpm, bal, staked, rewards, totalS, maticBal, allowanceData] = results;
+        const [ts, tpm, staked, rewards, totalS, allowanceData] = results;
 
-        // Log any individual call failures to help diagnose issues
         results.forEach((r, i) => {
-          if (r.status === 'rejected') console.warn(`Contract query[${i}] failed (${rpcUrl}):`, r.reason);
+          if (r.status === 'rejected') console.warn(`RPC query[${i}] failed (${rpcUrl}):`, r.reason);
         });
 
         if (ts.status === 'fulfilled') setTotalSupply(fmt(ts.value));
         if (tpm.status === 'fulfilled') setTokensPerMatic(tpm.value);
         if (totalS.status === 'fulfilled') setTotalStaked(fmt(totalS.value));
-        // Only update per-address state when we actually have an address —
-        // a null-address call resolves these to 0n and must not overwrite real balances.
         if (addr) {
-          if (bal.status === 'fulfilled') { console.log('WTC balance raw:', bal.value.toString()); setWlthBalance(fmt(bal.value)); }
           if (staked.status === 'fulfilled') setStakedBal(fmt(staked.value));
           if (rewards.status === 'fulfilled') setPendingRew(fmt(rewards.value));
-          if (maticBal.status === 'fulfilled') setMaticBalance(ethers.formatEther(maticBal.value));
-          if (allowanceData && allowanceData.status === 'fulfilled') setAllowance(allowanceData.value.toString());
+          if (allowanceData.status === 'fulfilled') setAllowance(allowanceData.value.toString());
         }
-        return; // success — stop trying more RPCs
+        return;
       } catch (e) {
         console.warn(`RPC ${rpcUrl} failed:`, e);
         lastError = e;
