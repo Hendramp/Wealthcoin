@@ -340,11 +340,12 @@ function Hero({ account, onConnect }) {
         </div>
 
         {/* Stats row */}
-        <div className="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        <div className="mt-16 grid grid-cols-4 gap-4 max-w-2xl mx-auto">
           {[
             { label: 'Network', val: 'Polygon' },
             { label: 'Token', val: 'WTC' },
-            { label: 'Type', val: 'ERC-20' },
+            { label: 'Total Supply', val: '7.5B' },
+            { label: 'Moon Goal', val: '$0.75' },
           ].map(s => (
             <div key={s.label} className="card-glass p-3 rounded-xl text-center">
               <div className="text-[#D4AF37] font-bold text-sm">{s.val}</div>
@@ -524,8 +525,13 @@ function BuySection({ account, chainId, tokensPerMatic, totalSupply, addToast, o
         <div className="space-y-4">
           <div className="card-glass p-5 rounded-2xl border border-[#D4AF37]/20">
             <div className="text-white/40 text-xs uppercase tracking-wider mb-1">Total Supply</div>
-            <div className="text-[#FFD700] font-bold text-2xl">{totalSupply || '—'}</div>
-            <div className="text-white/30 text-xs mt-0.5">WTC tokens</div>
+            <div className="text-[#FFD700] font-bold text-2xl">{totalSupply || '7,500,000,000'}</div>
+            <div className="text-white/30 text-xs mt-0.5">WTC tokens (7.5 billion)</div>
+          </div>
+          <div className="card-glass p-5 rounded-2xl border border-[#00C853]/20">
+            <div className="text-white/40 text-xs uppercase tracking-wider mb-1">🌙 Moon Goal</div>
+            <div className="text-[#00C853] font-bold text-2xl">$0.75</div>
+            <div className="text-white/30 text-xs mt-0.5">per WTC — $5.625B market cap</div>
           </div>
           <div className="card-glass p-5 rounded-2xl border border-[#D4AF37]/20">
             <div className="text-white/40 text-xs uppercase tracking-wider mb-1">Exchange Rate</div>
@@ -908,9 +914,21 @@ function TokenomicsSection() {
     <section id="tokenomics" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <SectionLabel>Tokenomics</SectionLabel>
       <h2 className="section-title mb-4">Strategic <span className="gold-text">Allocation</span></h2>
-      <p className="text-white/40 text-base text-center max-w-2xl mx-auto mb-16">
+      <p className="text-white/40 text-base text-center max-w-2xl mx-auto mb-6">
         Designed for sustainable growth, community stewardship, and meaningful impact through missionary support and long-term value preservation.
       </p>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-14">
+        <div className="card-glass px-6 py-4 rounded-2xl border border-[#D4AF37]/20 text-center">
+          <div className="text-white/40 text-xs uppercase tracking-wider mb-1">Total Supply</div>
+          <div className="text-[#FFD700] font-bold text-2xl">7,500,000,000</div>
+          <div className="text-white/30 text-xs mt-0.5">7.5 Billion WTC</div>
+        </div>
+        <div className="card-glass px-6 py-4 rounded-2xl border border-[#00C853]/20 text-center">
+          <div className="text-white/40 text-xs uppercase tracking-wider mb-1">🌙 Moon Goal</div>
+          <div className="text-[#00C853] font-bold text-2xl">$0.75 <span className="text-sm font-normal text-white/40">/ WTC</span></div>
+          <div className="text-white/30 text-xs mt-0.5">$5.625B fully diluted market cap</div>
+        </div>
+      </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5">
         {allocations.map((a, i) => (
