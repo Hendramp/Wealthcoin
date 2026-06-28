@@ -1,7 +1,6 @@
 export const TARGET_CHAIN_ID = 137;
 export const CHAIN_HEX = '0x89';
-export const POLYGON_RPC_URL = 'https://polygon.drpc.org';
-
+export const POLYGON_RPC_URL = 'https://polygon-bor-rpc.publicnode.com';
 export const CONTRACTS = {
   WTC_TOKEN: '0x394b57F4a40ff31530d66f904e1Db2C6516c018F',
   WTC_PRESALE: '0x94366D01e9496220dAC8BF81F66cBd1464fB1630',
