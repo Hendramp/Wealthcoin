@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Toast from './components/Toast';
 import { useWallet } from './hooks/useWallet';
 import { usePresale } from './hooks/usePresale';
+import StakingCenter from './components/StakingCenter';
 
 export default function App() {
   const [toasts, setToasts] = useState([]);
@@ -36,6 +37,7 @@ export default function App() {
       />
       <Hero account={wallet.account} onConnect={wallet.connectInjected} />
       <WalletPanel account={wallet.account} chainId={wallet.chainId} stats={presale.stats} onRefresh={presale.refresh} onSwitch={wallet.switchToPolygon} />
+<StakingCenter />
       <Presale
         account={wallet.account}
         chainId={wallet.chainId}
