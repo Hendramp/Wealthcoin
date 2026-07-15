@@ -1,30 +1,33 @@
 {
-  "name": "wealthcoin-dapp",
+  "name": "officialwealthcoin-2",
+  "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "WealthCoin - Faith-based DeFi DApp on Polygon",
-  "packageManager": "npm@11.13.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "vercel-build": "vite build",
-    "preview": "vite preview"
-  },
-  "engines": {
-    "node": "24.x"
+    "preview": "vite preview",
+    "compile": "hardhat compile --config hardhat.config.cjs",
+    "test": "hardhat test --config hardhat.config.cjs",
+    "deploy:hardhat": "hardhat run scripts/deploy.js --network hardhat --config hardhat.config.cjs",
+    "deploy:amoy": "hardhat run scripts/deploy.js --network polygonAmoy --config hardhat.config.cjs",
+    "deploy:polygon": "hardhat run scripts/deploy.js --network polygon --config hardhat.config.cjs",
+    "fund-presale:polygon": "hardhat run scripts/fundPresale.js --network polygon --config hardhat.config.cjs",
+    "deploy:genesis:amoy": "hardhat run scripts/deployGenesisAmoy.js --network polygonAmoy --config hardhat.config.cjs"
   },
   "dependencies": {
-    "@walletconnect/ethereum-provider": "^2.23.10",
-    "ethers": "^6.11.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@reown/appkit": "^1.8.22",
+    "@reown/appkit-adapter-ethers": "^1.8.22",
+    "ethers": "^6.17.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-pdf": "^10.4.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.4.1",
-    "vite": "^5.0.8",
-    "vite-plugin-node-polyfills": "^0.28.0"
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.21"
   }
 }

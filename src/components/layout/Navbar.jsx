@@ -1,140 +1,76 @@
-import { useState } from "react";
-import { IconCoin } from "../shared/Icons";
+import React from "react";
+import {
+  useAppKit,
+  useAppKitAccount,
+} from "@reown/appkit/react";
 
-export default function Navbar({
-  account,
-  connectWallet,
-  disconnectWallet,
-}) {
-  const [open, setOpen] = useState(false);
+const links = [
+  { label: "Home", href: "#home" },
+  { label: "Foundation", href: "#foundation" },
+  { label: "Community", href: "#community" },
+  { label: "Marketplace", href: "#marketplace" },
+  { label: "Library", href: "#foundation" },
+  { label: "Early Access", href: "#early-access" },
+];
 
-  const links = [
-    "Home",
-    "Academy",
-    "Community",
-    "Foundation",
-    "Documents",
-    "Dashboard",
-  ];
+function shortenAddress(address) {
+  if (!address) {
+    return "";
+  }
+
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+export default function Navbar() {
+  const { open } = useAppKit();
+  const { address, isConnected } = useAppKitAccount();
+
+  function openWalletModal() {
+    open({
+      view: isConnected ? "Account" : "Connect",
+    });
+  }
 
   return (
-    <>
-      <header
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 9999,
-        }}
-        className="bg-black/90 backdrop-blur-xl border-b border-[#D4AF37]/20"
-      >
-        <div className="max-w-7xl mx-auto h-20 px-6 flex items-center justify-between">
-
-          {/* Logo */}
-
-          <div className="flex items-center gap-4">
-
-            <div className="w-12 h-12">
-              <IconCoin />
-            </div>
-
-            <h1 className="font-display text-4xl gold-text font-bold">
-              WealthCoin
-            </h1>
-
+    <header className="fixed left-0 top-0 z-50 w-full border-b border-[#D4AF37]/20 bg-black/90 backdrop-blur-md">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-6">
+        <a href="#home" className="flex items-center gap-3">
+          {/* Same cropped logo treatment as the Hero */}
+          <div className="navbar-coin-frame">
+            <img
+              src="/assets/logos/wealthcoin-logo.png"
+              alt="WealthCoin"
+              className="navbar-coin-image"
+            />
           </div>
 
-          {/* Desktop Nav */}
+          <span className="font-display text-xl font-bold text-[#D4AF37] sm:text-2xl">
+            WealthCoin
+          </span>
+        </a>
 
-          <nav className="hidden lg:flex items-center gap-8">
-
-            {links.map((item) => (
-              <a
-                key={item}
-                href={"#" + item.toLowerCase()}
-                className="text-white/75 hover:text-[#FFD700] transition text-sm uppercase tracking-wider"
-              >
-                {item}
-              </a>
-            ))}
-
-          </nav>
-
-          {/* Desktop Wallet */}
-
-          <div className="hidden lg:block">
-
-            <button
-              onClick={account ? disconnectWallet : connectWallet}
-              className="px-6 py-3 rounded-xl border border-[#D4AF37]/50 text-[#FFD700] hover:bg-[#D4AF37]/10 transition"
+        <nav className="hidden items-center gap-7 lg:flex">
+          {links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-sm uppercase tracking-wide text-white/70 transition hover:text-[#D4AF37]"
             >
-              {account ? "Disconnect" : "Connect Wallet"}
-            </button>
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-          </div>
-
-          {/* Mobile Hamburger */}
-
-          <button
-            onClick={() => setOpen(!open)}
-            className="lg:hidden flex flex-col gap-1"
-          >
-
-            <span className="w-6 h-[2px] bg-[#FFD700]" />
-            <span className="w-6 h-[2px] bg-[#FFD700]" />
-            <span className="w-6 h-[2px] bg-[#FFD700]" />
-
-          </button>
-
-        </div>
-
-        {/* Mobile Menu */}
-
-        {open && (
-
-          <div className="lg:hidden border-t border-[#D4AF37]/20 bg-black">
-
-            <div className="px-6 py-6 flex flex-col gap-5">
-
-              {links.map((item) => (
-
-                <a
-                  key={item}
-                  href={"#" + item.toLowerCase()}
-                  onClick={() => setOpen(false)}
-                  className="text-white/80 text-lg"
-                >
-                  {item}
-                </a>
-
-              ))}
-
-              <button
-                onClick={() => {
-                  setOpen(false);
-
-                  if (account)
-                    disconnectWallet();
-                  else
-                    connectWallet();
-                }}
-                className="mt-4 py-3 rounded-xl border border-[#D4AF37]/40 text-[#FFD700]"
-              >
-                {account ? "Disconnect" : "Connect Wallet"}
-              </button>
-
-            </div>
-
-          </div>
-
-        )}
-
-      </header>
-
-      {/* Prevent content from hiding behind navbar */}
-
-      <div className="h-20" />
-    </>
+        <button
+          type="button"
+          onClick={openWalletModal}
+          className="btn-gold rounded-xl px-4 py-3 text-sm font-bold sm:px-5"
+        >
+          {isConnected
+            ? shortenAddress(address)
+            : "Connect Wallet"}
+        </button>
+      </div>
+    </header>
   );
 }

@@ -1,327 +1,243 @@
-/* ── WealthCoin DApp — Global Styles ─────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@400;600;700;800&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cinzel:wght@400;600;700&display=swap');
-
-/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: #0A0A0A;
-  color: #ffffff;
+  margin: 0;
+  background: #030303;
+  color: white;
   font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-.scripture-hidden {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.75s ease, transform 0.75s ease;
-}
-
-.scripture-visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.75s ease, transform 0.75s ease;
-}
-
-/* ── Scrollbar ──────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0A0A0A; }
-::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #FFD700; }
-
-/* ── Hero Background ────────────────────────────────────────────────────── */
-.hero-bg {
-  background: radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 20%, rgba(0, 200, 83, 0.05) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-              linear-gradient(180deg, #0A0A0A 0%, #0d0d0d 50%, #0A0A0A 100%);
-}
-
-/* ── Grid Overlay ───────────────────────────────────────────────────────── */
-.grid-overlay {
-  background-image:
-    linear-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* ── Gold Text ──────────────────────────────────────────────────────────── */
-.gold-text {
-  background: linear-gradient(135deg, #FFD700 0%, #D4AF37 40%, #B8860B 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gold-text-shimmer {
-  background: linear-gradient(
-    90deg,
-    #B8860B 0%,
-    #D4AF37 20%,
-    #FFD700 40%,
-    #FFF8DC 50%,
-    #FFD700 60%,
-    #D4AF37 80%,
-    #B8860B 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-/* ── Float animation ────────────────────────────────────────────────────── */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* ── Pulse Gold ─────────────────────────────────────────────────────────── */
-@keyframes pulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-  50% { box-shadow: 0 0 0 14px rgba(212, 175, 55, 0); }
-}
-
-.animate-pulse-gold {
-  animation: pulseGold 2.5s ease-in-out infinite;
-}
-
-/* ── Section Title ──────────────────────────────────────────────────────── */
-.section-title {
+.font-display {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 700;
-  text-align: center;
-  color: #ffffff;
-  line-height: 1.2;
 }
 
-/* ── Cards ──────────────────────────────────────────────────────────────── */
-.card-glass {
-  background: rgba(22, 22, 22, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.hero-bg {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(212,175,55,0.2), transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(8,40,20,0.55), transparent 45%),
+    linear-gradient(180deg, #020202 0%, #081008 50%, #030303 100%);
 }
 
-.card-glass:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.08);
+.gold-text {
+  background: linear-gradient(135deg, #fff2a8 0%, #ffd700 30%, #d4af37 60%, #8b6914 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.card-gold {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(184, 134, 11, 0.05) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  backdrop-filter: blur(16px);
-}
-
-.card-gold-glow {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(184, 134, 11, 0.06) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 0 24px rgba(212, 175, 55, 0.08), inset 0 1px 0 rgba(255, 215, 0, 0.1);
-}
-
-/* ── Buttons ────────────────────────────────────────────────────────────── */
 .btn-gold {
-  background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-  color: #0A0A0A;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-gold::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.4s ease;
-}
-
-.btn-gold:hover::before {
-  left: 100%;
-}
-
-.btn-gold:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-}
-
-.btn-gold:active {
-  transform: translateY(0);
-}
-
-.btn-green {
-  background: linear-gradient(135deg, #00C853 0%, #00A846 100%);
-  color: #ffffff;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-green:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 200, 83, 0.35);
-  background: linear-gradient(135deg, #00D85A 0%, #00B84C 100%);
-}
-
-.btn-green:active {
-  transform: translateY(0);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-ghost:hover {
-  border-color: rgba(212, 175, 55, 0.4);
-  color: #D4AF37;
-  background: rgba(212, 175, 55, 0.05);
-}
-
-.btn-danger {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  font-weight: 600;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-danger:hover {
-  background: rgba(239, 68, 68, 0.25);
-}
-
-.btn-disabled {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  cursor: not-allowed;
-}
-
-/* ── Inputs ─────────────────────────────────────────────────────────────── */
-.connect-option {
-  display: grid;
-  grid-template-columns: 44px 1fr auto;
-  align-items: center;
-  gap: 12px;
-  min-height: 72px;
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  background: rgba(212, 175, 55, 0.04);
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-}
-
-.connect-option:hover:not(:disabled) {
-  border-color: rgba(212, 175, 55, 0.45);
-  background: rgba(212, 175, 55, 0.08);
-  transform: translateY(-1px);
-}
-
-.connect-option-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  background: rgba(10, 10, 10, 0.7);
-  color: #D4AF37;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  color: #070707;
+  border: 1px solid rgba(255,215,0,0.65);
+  transition: all .25s ease;
 }
 
-.connect-spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #D4AF37;
-  border-radius: 999px;
-  animation: spin 0.8s linear infinite;
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(212,175,55,.35);
 }
 
-.input-gold {
-  background: rgba(212, 175, 55, 0.04);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  color: #ffffff;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  font-family: 'Inter', sans-serif;
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(212,175,55,.5);
+  color: #f5d76e;
+  background: rgba(0,0,0,.3);
+  transition: all .25s ease;
 }
 
-.input-gold::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+.btn-ghost:hover {
+  background: rgba(212,175,55,.1);
 }
 
-.input-gold:focus {
-  border-color: rgba(212, 175, 55, 0.6);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+.card-gold {
+  background: rgba(5,5,5,.68);
+  border: 1px solid rgba(212,175,55,.28);
+  box-shadow: 0 0 30px rgba(212,175,55,.08);
+}
+/* =========================================================
+   WealthCoin Logo Treatment
+   ========================================================= */
+
+.hero-coin-wrap {
+  position: relative;
+  width: fit-content;
+  animation: hero-float 6s ease-in-out infinite;
 }
 
-/* Remove number input arrows */
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
-}
-input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-/* ── Selection ──────────────────────────────────────────────────────────── */
-::selection {
-  background: rgba(212, 175, 55, 0.25);
-  color: #FFD700;
+/*
+  The image itself contains a dark outer area.
+  This circular frame crops that portion away.
+*/
+.hero-coin-frame {
+  position: relative;
+  width: 9rem;
+  height: 9rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #d4af37;
+  box-shadow:
+    0 0 18px rgba(255, 224, 105, 0.42),
+    0 0 46px rgba(212, 175, 55, 0.22);
 }
 
-/* ── Responsive utilities ───────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  .section-title {
-    font-size: 1.75rem;
+.hero-coin-frame::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  z-index: -1;
+  border-radius: 9999px;
+  background: rgba(212, 175, 55, 0.14);
+  filter: blur(28px);
+  animation: hero-soft-glow 5s ease-in-out infinite;
+}
+
+.hero-coin-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+
+  /*
+    Enlarges the original picture slightly so its dark
+    exterior is cropped outside the circular frame.
+  */
+  transform: scale(1.2);
+
+  filter:
+    saturate(1.05)
+    contrast(1.04)
+    brightness(1.02);
+}
+
+.navbar-coin-frame {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #d4af37;
+  box-shadow:
+    0 0 10px rgba(255, 224, 105, 0.28),
+    0 0 24px rgba(212, 175, 55, 0.12);
+}
+
+.navbar-coin-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.2);
+  filter:
+    saturate(1.05)
+    contrast(1.04)
+    brightness(1.02);
+}
+
+/* =========================================================
+   Polygon Network Badge
+   ========================================================= */
+
+.polygon-badge {
+  color: #c991ff;
+  border: 1px solid rgba(168, 85, 247, 0.55);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(78, 29, 123, 0.32),
+      rgba(30, 13, 49, 0.58)
+    );
+  box-shadow:
+    0 0 22px rgba(168, 85, 247, 0.14),
+    inset 0 0 18px rgba(168, 85, 247, 0.07);
+  backdrop-filter: blur(12px);
+}
+
+.polygon-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: #c084fc;
+  box-shadow:
+    0 0 7px rgba(192, 132, 252, 0.95),
+    0 0 16px rgba(168, 85, 247, 0.55);
+}
+
+/* =========================================================
+   Hero Motion
+   ========================================================= */
+
+.hero-halo {
+  animation: hero-halo-breathe 7s ease-in-out infinite;
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes hero-soft-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.82;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes hero-halo-breathe {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: translateX(-50%) scale(0.97);
+  }
+
+  50% {
+    opacity: 0.64;
+    transform: translateX(-50%) scale(1.04);
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-coin-frame {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-coin-frame {
+    width: 11rem;
+    height: 11rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-coin-wrap,
+  .hero-coin-frame::before,
+  .hero-halo {
+    animation: none;
   }
 }

@@ -1,103 +1,215 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { CHAIN_HEX, TARGET_CHAIN_ID, WALLETCONNECT_PROJECT_ID } from '../contracts/addresses';
+import { useEffect, useState } from "react";
 
-export function useWallet(addToast) {
-  const [account, setAccount] = useState('');
-  const [chainId, setChainId] = useState(null);
-  const [providerSource, setProviderSource] = useState(null);
-  const [connecting, setConnecting] = useState(false);
+const NETWORKS = {
+  polygon: {
+    chainId: "0x89",
+    name: "Polygon Mainnet",
+    rpc: "https://polygon-rpc.com",
+    explorer: "https://polygonscan.com",
+  },
 
-  const readConnection = useCallback(async (rawProvider) => {
-    if (!rawProvider) return;
-    const provider = new ethers.BrowserProvider(rawProvider);
-    const network = await provider.getNetwork();
-    const accounts = await provider.send('eth_accounts', []);
-    setProviderSource(rawProvider);
-    setChainId(Number(network.chainId));
-    setAccount(accounts?.[0] || '');
-  }, []);
+  polygonAmoy: {
+    chainId: "0x13882",
+    name: "Polygon Amoy",
+    rpc: "https://rpc-amoy.polygon.technology/",
+    explorer: "https://amoy.polygonscan.com",
+  },
+};
 
-  const connectInjected = useCallback(async () => {
-    setConnecting(true);
+const ACTIVE_NETWORK = NETWORKS.polygonAmoy;
+
+export default function useWallet() {
+  const [account, setAccount] = useState("");
+  const [chainId, setChainId] = useState("");
+  const [error, setError] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  async function readWalletState() {
+    if (!window.ethereum) return;
+
     try {
-      if (!window.ethereum) throw new Error('No browser wallet found. Install MetaMask, Rabby, Coinbase Wallet, or use WalletConnect.');
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      await readConnection(window.ethereum);
-      addToast?.('Wallet connected.', 'success');
-    } catch (error) {
-      addToast?.(error?.message || 'Wallet connection failed.', 'error');
-    } finally {
-      setConnecting(false);
-    }
-  }, [addToast, readConnection]);
-
-  const connectWalletConnect = useCallback(async () => {
-    setConnecting(true);
-    try {
-      if (!WALLETCONNECT_PROJECT_ID) throw new Error('WalletConnect is not configured. Add VITE_WALLETCONNECT_PROJECT_ID in Vercel.');
-      const { default: EthereumProvider } = await import('@walletconnect/ethereum-provider');
-      const wcProvider = await EthereumProvider.init({
-        projectId: WALLETCONNECT_PROJECT_ID,
-        chains: [TARGET_CHAIN_ID],
-        showQrModal: true,
-        rpcMap: { [TARGET_CHAIN_ID]: 'https://polygon.drpc.org' }
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
       });
-      await wcProvider.enable();
-      await readConnection(wcProvider);
-      addToast?.('WalletConnect connected.', 'success');
-    } catch (error) {
-      addToast?.(error?.message || 'WalletConnect failed.', 'error');
-    } finally {
-      setConnecting(false);
-    }
-  }, [addToast, readConnection]);
 
-  const disconnect = useCallback(async () => {
-    try {
-      if (providerSource?.disconnect) await providerSource.disconnect();
-    } catch {}
-    setAccount('');
-    setProviderSource(null);
-    addToast?.('Wallet disconnected.', 'info');
-  }, [addToast, providerSource]);
-
-  const switchToPolygon = useCallback(async () => {
-    const raw = providerSource || window.ethereum;
-    if (!raw?.request) return;
-    try {
-      await raw.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: CHAIN_HEX }] });
-      await readConnection(raw);
-    } catch (error) {
-      if (error?.code === 4902) {
-        await raw.request({
-          method: 'wallet_addEthereumChain',
-          params: [{
-            chainId: CHAIN_HEX,
-            chainName: 'Polygon Mainnet',
-            nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
-            rpcUrls: ['https://polygon.drpc.org'],
-            blockExplorerUrls: ['https://polygonscan.com']
-          }]
+      const currentChainId =
+        await window.ethereum.request({
+          method: "eth_chainId",
         });
-      } else {
-        addToast?.(error?.message || 'Could not switch network.', 'error');
-      }
+
+      setAccount(accounts[0] || "");
+      setChainId(currentChainId);
+    } catch (walletError) {
+      console.error(
+        "Could not read wallet state:",
+        walletError
+      );
     }
-  }, [addToast, providerSource, readConnection]);
+  }
 
   useEffect(() => {
-    if (!window.ethereum) return;
-    readConnection(window.ethereum);
-    const onAccounts = () => readConnection(window.ethereum);
-    const onChain = () => readConnection(window.ethereum);
-    window.ethereum.on?.('accountsChanged', onAccounts);
-    window.ethereum.on?.('chainChanged', onChain);
-    return () => {
-      window.ethereum.removeListener?.('accountsChanged', onAccounts);
-      window.ethereum.removeListener?.('chainChanged', onChain);
-    };
-  }, [readConnection]);
+    readWalletState();
 
-  return { account, chainId, providerSource, connecting, connectInjected, connectWalletConnect, disconnect, switchToPolygon };
+    if (!window.ethereum) return;
+
+    function handleAccountsChanged(accounts) {
+      setAccount(accounts[0] || "");
+    }
+
+    function handleChainChanged(nextChainId) {
+      setChainId(nextChainId);
+    }
+
+    window.ethereum.on(
+      "accountsChanged",
+      handleAccountsChanged
+    );
+
+    window.ethereum.on(
+      "chainChanged",
+      handleChainChanged
+    );
+
+    return () => {
+      window.ethereum.removeListener(
+        "accountsChanged",
+        handleAccountsChanged
+      );
+
+      window.ethereum.removeListener(
+        "chainChanged",
+        handleChainChanged
+      );
+    };
+  }, []);
+
+  async function switchNetwork() {
+    if (!window.ethereum) {
+      throw new Error("Wallet not detected.");
+    }
+
+    try {
+      await window.ethereum.request({
+        method:
+          "wallet_switchEthereumChain",
+        params: [
+          {
+            chainId:
+              ACTIVE_NETWORK.chainId,
+          },
+        ],
+      });
+    } catch (switchError) {
+      if (switchError.code !== 4902) {
+        throw switchError;
+      }
+
+      await window.ethereum.request({
+        method:
+          "wallet_addEthereumChain",
+        params: [
+          {
+            chainId:
+              ACTIVE_NETWORK.chainId,
+
+            chainName:
+              ACTIVE_NETWORK.name,
+
+            nativeCurrency: {
+              name: "POL",
+              symbol: "POL",
+              decimals: 18,
+            },
+
+            rpcUrls: [
+              ACTIVE_NETWORK.rpc,
+            ],
+
+            blockExplorerUrls: [
+              ACTIVE_NETWORK.explorer,
+            ],
+          },
+        ],
+      });
+    }
+
+    setChainId(
+      ACTIVE_NETWORK.chainId
+    );
+  }
+
+  async function connectWallet() {
+    setError("");
+    setIsConnecting(true);
+
+    try {
+      if (!window.ethereum) {
+        throw new Error(
+          "Install MetaMask or another EVM wallet."
+        );
+      }
+
+      const accounts =
+        await window.ethereum.request({
+          method:
+            "eth_requestAccounts",
+        });
+
+      const currentChainId =
+        await window.ethereum.request({
+          method:
+            "eth_chainId",
+        });
+
+      setAccount(
+        accounts[0] || ""
+      );
+
+      setChainId(
+        currentChainId
+      );
+
+      if (
+        currentChainId !==
+        ACTIVE_NETWORK.chainId
+      ) {
+        await switchNetwork();
+      }
+
+    } catch (walletError) {
+      console.error(
+        "Wallet connection failed:",
+        walletError
+      );
+
+      if (walletError.code === 4001) {
+        setError(
+          "Wallet connection cancelled."
+        );
+      } else {
+        setError(
+          walletError.message
+        );
+      }
+
+    } finally {
+      setIsConnecting(false);
+    }
+  }
+
+  return {
+    account,
+    chainId,
+    error,
+    isConnecting,
+
+    network:
+      ACTIVE_NETWORK.name,
+
+    isCorrectNetwork:
+      chainId === ACTIVE_NETWORK.chainId,
+
+    connectWallet,
+    switchNetwork,
+  };
 }
