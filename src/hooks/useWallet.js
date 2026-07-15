@@ -16,7 +16,7 @@ const NETWORKS = {
   },
 };
 
-const ACTIVE_NETWORK = NETWORKS.polygonAmoy;
+const ACTIVE_NETWORK = NETWORKS.polygon;
 
 export default function useWallet() {
   const [account, setAccount] = useState("");

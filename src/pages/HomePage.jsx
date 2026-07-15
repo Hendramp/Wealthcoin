@@ -9,9 +9,9 @@ export default function HomePage() {
   const {
     account,
     error,
-    isPolygon,
+    isCorrectNetwork,
     connectWallet,
-    switchToPolygon,
+    switchNetwork,
   } = useWallet();
 
   return (
@@ -29,9 +29,9 @@ export default function HomePage() {
         <EarlyAccessSection
           account={account}
           error={error}
-          isPolygon={isPolygon}
+          isPolygon={isCorrectNetwork}
           connectWallet={connectWallet}
-          switchToPolygon={switchToPolygon}
+          switchToPolygon={switchNetwork}
         />
       </main>
     </>
