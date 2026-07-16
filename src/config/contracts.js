@@ -10,8 +10,8 @@ export const CONTRACTS = {
     "0x394b57F4a40ff31530d66f904e1Db2C6516c018F",
 
   genesis:
-    import.meta.env.VITE_GENESIS_ADDRESS ||
-    "0x6a78f89e8e06327E772BEDc6650BBC3645BF6995",
+  import.meta.env.VITE_GENESIS_ADDRESS ||
+  "0x51989f93b19eF0698DBc877699294eff8CE7535e",
 
   treasury:
     import.meta.env.VITE_TREASURY_ADDRESS ||
