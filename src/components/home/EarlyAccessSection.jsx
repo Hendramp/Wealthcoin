@@ -9,6 +9,7 @@ import {
   BrowserProvider,
   Contract,
   formatEther,
+  formatUnits,
   parseEther,
 } from "ethers";
 
@@ -22,9 +23,9 @@ import {
 import GenesisArtifact from "../../abi/WealthCoinGenesis.json";
 import { CONTRACTS } from "../../config/contracts";
 
-const WTC_PER_POL = 350;
 const MINIMUM_PURCHASE_POL = 1;
 const POLYGON_CHAIN_ID = 137;
+const STAGE_COUNT = 10;
 
 function shortenAddress(address) {
   if (!address) {
@@ -32,6 +33,50 @@ function shortenAddress(address) {
   }
 
   return `${address.slice(0, 7)}...${address.slice(-5)}`;
+}
+
+function formatWtc(value, maximumFractionDigits = 4) {
+  const numericValue = Number(value || 0);
+
+  if (!Number.isFinite(numericValue)) {
+    return "0";
+  }
+
+  return numericValue.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits,
+  });
+}
+
+function formatCountdown(secondsRemaining) {
+  if (
+    !Number.isFinite(secondsRemaining) ||
+    secondsRemaining <= 0
+  ) {
+    return "Stage ending";
+  }
+
+  const days = Math.floor(
+    secondsRemaining / 86400
+  );
+
+  const hours = Math.floor(
+    (secondsRemaining % 86400) / 3600
+  );
+
+  const minutes = Math.floor(
+    (secondsRemaining % 3600) / 60
+  );
+
+  const seconds = Math.floor(
+    secondsRemaining % 60
+  );
+
+  if (days > 0) {
+    return `${days}d ${hours}h ${minutes}m`;
+  }
+
+  return `${hours}h ${minutes}m ${seconds}s`;
 }
 
 function getReadableError(error) {
@@ -57,18 +102,30 @@ function getReadableError(error) {
     message.includes("SaleNotOpen") ||
     message.includes("EnforcedPause")
   ) {
-    return "Early Access is currently paused or closed.";
+    return "Genesis Early Access is currently paused or closed.";
   }
 
   if (message.includes("WalletCapExceeded")) {
     return "This purchase would exceed the wallet contribution limit.";
   }
 
-  if (message.includes("AllocationExceeded")) {
-    return "The requested amount exceeds the remaining WTC allocation.";
+  if (
+    message.includes("NothingAvailableForPurchase")
+  ) {
+    return "The current Genesis stage has no WTC remaining.";
   }
 
-  if (message.toLowerCase().includes("insufficient funds")) {
+  if (
+    message.includes("InsufficientGenesisFunding")
+  ) {
+    return "The Genesis contract is not fully funded.";
+  }
+
+  if (
+    message
+      .toLowerCase()
+      .includes("insufficient funds")
+  ) {
     return "Your wallet does not have enough POL for the purchase and network fee.";
   }
 
@@ -92,7 +149,8 @@ export default function EarlyAccessSection() {
     walletProvider,
   } = useAppKitProvider("eip155");
 
-  const [polAmount, setPolAmount] = useState("");
+  const [polAmount, setPolAmount] =
+    useState("");
 
   const [polBalance, setPolBalance] =
     useState("0");
@@ -106,11 +164,59 @@ export default function EarlyAccessSection() {
   const [saleOpen, setSaleOpen] =
     useState(false);
 
+  const [hasOpened, setHasOpened] =
+    useState(false);
+
+  const [salePaused, setSalePaused] =
+    useState(true);
+
+  const [saleFinalized, setSaleFinalized] =
+    useState(false);
+
   const [saleLoading, setSaleLoading] =
     useState(false);
 
   const [saleError, setSaleError] =
     useState("");
+
+  const [currentStage, setCurrentStage] =
+    useState(0);
+
+  const [currentRate, setCurrentRate] =
+    useState(0);
+
+  const [
+    stageAllocation,
+    setStageAllocation,
+  ] = useState(0);
+
+  const [stageSold, setStageSold] =
+    useState(0);
+
+  const [stageRemaining, setStageRemaining] =
+    useState(0);
+
+  const [stageStartTime, setStageStartTime] =
+    useState(0);
+
+  const [stageEndTime, setStageEndTime] =
+    useState(0);
+
+  const [totalPolRaised, setTotalPolRaised] =
+    useState(0);
+
+  const [totalWtcSold, setTotalWtcSold] =
+    useState(0);
+
+  const [
+    totalRemainingAllocation,
+    setTotalRemainingAllocation,
+  ] = useState(0);
+
+  const [
+    countdownSeconds,
+    setCountdownSeconds,
+  ] = useState(0);
 
   const [isPurchasing, setIsPurchasing] =
     useState(false);
@@ -118,11 +224,15 @@ export default function EarlyAccessSection() {
   const [purchaseError, setPurchaseError] =
     useState("");
 
-  const [purchaseSuccess, setPurchaseSuccess] =
-    useState("");
+  const [
+    purchaseSuccess,
+    setPurchaseSuccess,
+  ] = useState("");
 
-  const [transactionHash, setTransactionHash] =
-    useState("");
+  const [
+    transactionHash,
+    setTransactionHash,
+  ] = useState("");
 
   const [copiedLabel, setCopiedLabel] =
     useState("");
@@ -136,66 +246,107 @@ export default function EarlyAccessSection() {
   const estimatedWtc = useMemo(() => {
     if (
       !Number.isFinite(numericPolAmount) ||
-      numericPolAmount <= 0
+      numericPolAmount <= 0 ||
+      currentRate <= 0
     ) {
       return 0;
     }
 
-    return numericPolAmount * WTC_PER_POL;
-  }, [numericPolAmount]);
-
-  const loadBalance = useCallback(async () => {
-    if (
-      !isConnected ||
-      !address ||
-      !walletProvider
-    ) {
-      setPolBalance("0");
-      setBalanceError("");
-      return;
-    }
-
-    setBalanceLoading(true);
-    setBalanceError("");
-
-    try {
-      const provider =
-        new BrowserProvider(walletProvider);
-
-      const balance =
-        await provider.getBalance(address);
-
-      const formatted =
-        Number(formatEther(balance));
-
-      setPolBalance(
-        formatted.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 5,
-        })
-      );
-    } catch (error) {
-      console.error(
-        "Could not read POL balance:",
-        error
-      );
-
-      setBalanceError(
-        "Unable to read the wallet POL balance."
-      );
-    } finally {
-      setBalanceLoading(false);
-    }
+    return numericPolAmount * currentRate;
   }, [
-    address,
-    isConnected,
-    walletProvider,
+    numericPolAmount,
+    currentRate,
   ]);
+
+  const stageProgress = useMemo(() => {
+    if (
+      !Number.isFinite(stageAllocation) ||
+      stageAllocation <= 0
+    ) {
+      return 0;
+    }
+
+    const progress =
+      (stageSold / stageAllocation) * 100;
+
+    return Math.min(
+      100,
+      Math.max(0, progress)
+    );
+  }, [
+    stageAllocation,
+    stageSold,
+  ]);
+
+  const countdownText = useMemo(
+    () =>
+      formatCountdown(
+        countdownSeconds
+      ),
+    [countdownSeconds]
+  );
+
+  const loadBalance =
+    useCallback(async () => {
+      if (
+        !isConnected ||
+        !address ||
+        !walletProvider
+      ) {
+        setPolBalance("0");
+        setBalanceError("");
+        return;
+      }
+
+      setBalanceLoading(true);
+      setBalanceError("");
+
+      try {
+        const provider =
+          new BrowserProvider(
+            walletProvider
+          );
+
+        const balance =
+          await provider.getBalance(
+            address
+          );
+
+        const formatted =
+          Number(
+            formatEther(balance)
+          );
+
+        setPolBalance(
+          formatted.toLocaleString(
+            undefined,
+            {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 5,
+            }
+          )
+        );
+      } catch (error) {
+        console.error(
+          "Could not read POL balance:",
+          error
+        );
+
+        setBalanceError(
+          "Unable to read the wallet POL balance."
+        );
+      } finally {
+        setBalanceLoading(false);
+      }
+    }, [
+      address,
+      isConnected,
+      walletProvider,
+    ]);
 
   const loadSaleStatus =
     useCallback(async () => {
       if (
-        !isConnected ||
         !walletProvider ||
         !isPolygon
       ) {
@@ -210,7 +361,9 @@ export default function EarlyAccessSection() {
 
       try {
         const provider =
-          new BrowserProvider(walletProvider);
+          new BrowserProvider(
+            walletProvider
+          );
 
         const genesis =
           new Contract(
@@ -220,19 +373,111 @@ export default function EarlyAccessSection() {
           );
 
         const [
+          openedStatus,
           openStatus,
           pausedStatus,
           finalizedStatus,
+          details,
+          raised,
+          sold,
+          remaining,
         ] = await Promise.all([
+          genesis.hasOpened(),
           genesis.saleOpen(),
           genesis.paused(),
           genesis.saleFinalized(),
+          genesis.getCurrentStageDetails(),
+          genesis.totalPolRaised(),
+          genesis.totalWtcSold(),
+          genesis.remainingAllocation(),
         ]);
 
-        setSaleOpen(
+        const liveSale =
           Boolean(openStatus) &&
           !Boolean(pausedStatus) &&
-          !Boolean(finalizedStatus)
+          !Boolean(finalizedStatus);
+
+        setHasOpened(
+          Boolean(openedStatus)
+        );
+
+        setSaleOpen(liveSale);
+
+        setSalePaused(
+          Boolean(pausedStatus)
+        );
+
+        setSaleFinalized(
+          Boolean(finalizedStatus)
+        );
+
+        setCurrentStage(
+          Number(details.stage)
+        );
+
+        setCurrentRate(
+          Number(
+            formatUnits(
+              details.rate,
+              18
+            )
+          )
+        );
+
+        setStageAllocation(
+          Number(
+            formatUnits(
+              details.allocation,
+              18
+            )
+          )
+        );
+
+        setStageSold(
+          Number(
+            formatUnits(
+              details.sold,
+              18
+            )
+          )
+        );
+
+        setStageRemaining(
+          Number(
+            formatUnits(
+              details.remaining,
+              18
+            )
+          )
+        );
+
+        setStageStartTime(
+          Number(details.startTime)
+        );
+
+        setStageEndTime(
+          Number(details.endTime)
+        );
+
+        setTotalPolRaised(
+          Number(
+            formatEther(raised)
+          )
+        );
+
+        setTotalWtcSold(
+          Number(
+            formatUnits(sold, 18)
+          )
+        );
+
+        setTotalRemainingAllocation(
+          Number(
+            formatUnits(
+              remaining,
+              18
+            )
+          )
         );
       } catch (error) {
         console.error(
@@ -249,7 +494,6 @@ export default function EarlyAccessSection() {
         setSaleLoading(false);
       }
     }, [
-      isConnected,
       isPolygon,
       walletProvider,
     ]);
@@ -265,7 +509,70 @@ export default function EarlyAccessSection() {
     loadSaleStatus();
   }, [loadSaleStatus]);
 
-  function openWallet() {
+  useEffect(() => {
+    if (
+      !hasOpened ||
+      saleFinalized ||
+      stageEndTime <= 0
+    ) {
+      setCountdownSeconds(0);
+      return undefined;
+    }
+
+    function updateCountdown() {
+      const now = Math.floor(
+        Date.now() / 1000
+      );
+
+      setCountdownSeconds(
+        Math.max(
+          0,
+          stageEndTime - now
+        )
+      );
+    }
+
+    updateCountdown();
+
+    const timer =
+      window.setInterval(
+        updateCountdown,
+        1000
+      );
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [
+    hasOpened,
+    saleFinalized,
+    stageEndTime,
+  ]);
+
+  useEffect(() => {
+    if (
+      !walletProvider ||
+      !isPolygon
+    ) {
+      return undefined;
+    }
+
+    const refreshTimer =
+      window.setInterval(() => {
+        loadSaleStatus();
+      }, 30000);
+
+    return () => {
+      window.clearInterval(
+        refreshTimer
+      );
+    };
+  }, [
+    isPolygon,
+    loadSaleStatus,
+    walletProvider,
+  ]);
+    function openWallet() {
     open({
       view: isConnected
         ? "Account"
@@ -279,7 +586,7 @@ export default function EarlyAccessSection() {
     try {
       await switchNetwork({
         id: POLYGON_CHAIN_ID,
-        name: "Polygon",
+        name: "Polygon Mainnet",
         nativeCurrency: {
           name: "POL",
           symbol: "POL",
@@ -288,7 +595,7 @@ export default function EarlyAccessSection() {
         rpcUrls: {
           default: {
             http: [
-              "https://polygon-rpc.com",
+              "https://polygon.drpc.org",
             ],
           },
         },
@@ -371,14 +678,14 @@ export default function EarlyAccessSection() {
         MINIMUM_PURCHASE_POL
     ) {
       setPurchaseError(
-        "The minimum Early Access purchase is 1 POL."
+        "The minimum Genesis purchase is 1 POL."
       );
       return;
     }
 
     if (!saleOpen) {
       setPurchaseError(
-        "Early Access is currently paused or closed."
+        "Genesis Early Access is currently paused or closed."
       );
       return;
     }
@@ -387,7 +694,9 @@ export default function EarlyAccessSection() {
 
     try {
       const provider =
-        new BrowserProvider(walletProvider);
+        new BrowserProvider(
+          walletProvider
+        );
 
       const signer =
         await provider.getSigner();
@@ -427,10 +736,14 @@ export default function EarlyAccessSection() {
         openStatus,
         pausedStatus,
         finalizedStatus,
+        tokenEstimate,
       ] = await Promise.all([
         genesis.saleOpen(),
         genesis.paused(),
         genesis.saleFinalized(),
+        genesis.calculateTokenAmount(
+          parseEther(polAmount)
+        ),
       ]);
 
       if (
@@ -439,16 +752,22 @@ export default function EarlyAccessSection() {
         finalizedStatus
       ) {
         throw new Error(
-          "Early Access is currently paused or closed."
+          "Genesis Early Access is currently paused or closed."
         );
       }
 
-      const purchaseValue =
-        parseEther(polAmount);
+      const confirmedEstimate =
+        Number(
+          formatUnits(
+            tokenEstimate,
+            18
+          )
+        );
 
       const transaction =
         await genesis.buyTokens({
-          value: purchaseValue,
+          value:
+            parseEther(polAmount),
         });
 
       setTransactionHash(
@@ -462,7 +781,10 @@ export default function EarlyAccessSection() {
       await transaction.wait();
 
       setPurchaseSuccess(
-        `Purchase confirmed. Approximately ${estimatedWtc.toLocaleString()} WTC was delivered to your wallet.`
+        `Purchase confirmed. Approximately ${formatWtc(
+          confirmedEstimate,
+          6
+        )} WTC was delivered to your wallet.`
       );
 
       setPolAmount("");
@@ -500,17 +822,45 @@ export default function EarlyAccessSection() {
     numericPolAmount <
       MINIMUM_PURCHASE_POL;
 
+  const saleStatusText = (() => {
+    if (!isConnected) {
+      return "Connect to Check";
+    }
+
+    if (saleLoading) {
+      return "Checking Genesis";
+    }
+
+    if (saleFinalized) {
+      return "Genesis Finalized";
+    }
+
+    if (!hasOpened) {
+      return "Genesis Not Open";
+    }
+
+    if (saleOpen) {
+      return "Genesis Live";
+    }
+
+    if (salePaused) {
+      return "Genesis Paused";
+    }
+
+    return "Genesis Closed";
+  })();
+
   return (
     <section
       id="early-access"
-      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-6 py-24 text-white"
+      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-4 py-20 text-white sm:px-6 sm:py-24"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(212,175,55,0.10),transparent_35%),radial-gradient(circle_at_50%_75%,rgba(28,90,48,0.18),transparent_45%)]" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="text-center">
-          <p className="font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
-            WealthCoin Early Access
+          <p className="font-display text-xs uppercase tracking-[0.3em] text-[#D4AF37] sm:text-sm sm:tracking-[0.4em]">
+            WealthCoin Genesis Early Access
           </p>
 
           <h2 className="gold-text mt-5 font-display text-4xl font-bold sm:text-5xl md:text-6xl">
@@ -519,22 +869,24 @@ export default function EarlyAccessSection() {
 
           <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/65 sm:text-lg">
             Connect securely, confirm
-            Polygon Mainnet, review your POL
-            balance, and purchase WTC through
-            the verified Genesis contract.
+            Polygon Mainnet, review the live
+            Genesis stage, and purchase WTC
+            through the verified contract.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="rounded-3xl border border-[#D4AF37]/30 bg-black/55 p-6 shadow-[0_0_45px_rgba(212,175,55,0.08)] sm:p-8">
+        <div className="mt-12 grid gap-8 lg:mt-14 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="min-w-0 rounded-3xl border border-[#D4AF37]/30 bg-black/55 p-5 shadow-[0_0_45px_rgba(212,175,55,0.08)] sm:p-8">
             <div className="flex flex-col gap-4 border-b border-[#D4AF37]/15 pb-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm uppercase tracking-[0.25em] text-white/45">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/45 sm:text-sm sm:tracking-[0.25em]">
                   Current Offering
                 </p>
 
                 <h3 className="mt-2 font-display text-2xl text-[#D4AF37]">
-                  Early Access Phase
+                  Stage{" "}
+                  {currentStage + 1} of{" "}
+                  {STAGE_COUNT}
                 </h3>
               </div>
 
@@ -553,18 +905,12 @@ export default function EarlyAccessSection() {
                   }`}
                 />
 
-                {!isConnected
-                  ? "Connect to Check"
-                  : saleLoading
-                    ? "Checking Genesis"
-                    : saleOpen
-                      ? "Early Access Live"
-                      : "Purchases Paused"}
+                {saleStatusText}
               </div>
             </div>
 
             <div className="mt-7 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="min-w-0 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Connected Wallet
                 </p>
@@ -595,7 +941,7 @@ export default function EarlyAccessSection() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5 sm:col-span-2">
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Available POL Balance
                 </p>
@@ -612,16 +958,156 @@ export default function EarlyAccessSection() {
                   </p>
                 )}
               </div>
+
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+                <p className="text-xs uppercase tracking-[0.2em] text-white/40">
+                  Stage Time Remaining
+                </p>
+
+                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                  {hasOpened &&
+                  !saleFinalized
+                    ? countdownText
+                    : "Not started"}
+                </p>
+              </div>
             </div>
 
-            <div className="mt-7 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                  Live Rate
+                </p>
+
+                <p className="mt-2 font-display text-xl text-[#D4AF37]">
+                  {currentRate > 0
+                    ? formatWtc(
+                        currentRate,
+                        6
+                      )
+                    : "—"}
+                </p>
+
+                <p className="mt-1 text-xs text-white/45">
+                  WTC per POL
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                  Stage Remaining
+                </p>
+
+                <p className="mt-2 font-display text-xl text-[#D4AF37]">
+                  {formatWtc(
+                    stageRemaining,
+                    2
+                  )}
+                </p>
+
+                <p className="mt-1 text-xs text-white/45">
+                  WTC
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                  Genesis Remaining
+                </p>
+
+                <p className="mt-2 font-display text-xl text-[#D4AF37]">
+                  {formatWtc(
+                    totalRemainingAllocation,
+                    2
+                  )}
+                </p>
+
+                <p className="mt-1 text-xs text-white/45">
+                  WTC
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm uppercase tracking-[0.2em] text-white/45">
+                  Stage Progress
+                </p>
+
+                <p className="text-sm text-white/55">
+                  {formatWtc(
+                    stageSold,
+                    2
+                  )}{" "}
+                  /{" "}
+                  {formatWtc(
+                    stageAllocation,
+                    2
+                  )}{" "}
+                  WTC
+                </p>
+              </div>
+
+              <div className="mt-4 h-3 overflow-hidden rounded-full bg-black/70">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#8f6e16] via-[#D4AF37] to-[#f5df88] transition-all duration-500"
+                  style={{
+                    width: `${stageProgress}%`,
+                  }}
+                />
+              </div>
+
+              <p className="mt-3 text-xs text-white/40">
+                The stage ends when its
+                allocation sells out or its
+                seven-day window expires.
+                Unsold stage tokens do not
+                roll over.
+              </p>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-black/45 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                  Total POL Raised
+                </p>
+
+                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                  {totalPolRaised.toLocaleString(
+                    undefined,
+                    {
+                      maximumFractionDigits:
+                        4,
+                    }
+                  )}{" "}
+                  POL
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-[#D4AF37]/15 bg-black/45 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                  Total WTC Distributed
+                </p>
+
+                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                  {formatWtc(
+                    totalWtcSold,
+                    2
+                  )}{" "}
+                  WTC
+                </p>
+              </div>
+            </div>
+                        <div className="mt-7 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
               <p className="text-sm uppercase tracking-[0.2em] text-white/45">
-                Early Access Rate
+                Current Genesis Rate
               </p>
 
               <p className="mt-2 font-display text-2xl text-[#D4AF37]">
                 1 POL ={" "}
-                {WTC_PER_POL.toLocaleString()}{" "}
+                {currentRate > 0
+                  ? formatWtc(currentRate, 6)
+                  : "—"}{" "}
                 WTC
               </p>
 
@@ -629,7 +1115,7 @@ export default function EarlyAccessSection() {
                 Minimum purchase: 1 POL.
                 WTC is delivered directly to
                 the connected wallet after
-                confirmation.
+                Polygon confirms the transaction.
               </p>
             </div>
 
@@ -727,7 +1213,7 @@ export default function EarlyAccessSection() {
                 Amount in POL
               </label>
 
-              <div className="mt-3 flex items-center rounded-2xl border border-[#D4AF37]/30 bg-black/60 px-5">
+              <div className="mt-3 flex items-center rounded-2xl border border-[#D4AF37]/30 bg-black/60 px-4 sm:px-5">
                 <input
                   id="polAmount"
                   type="number"
@@ -745,7 +1231,7 @@ export default function EarlyAccessSection() {
                     setTransactionHash("");
                   }}
                   placeholder="1.00"
-                  className="w-full bg-transparent py-5 text-2xl text-white outline-none placeholder:text-white/20 disabled:opacity-50"
+                  className="min-w-0 w-full bg-transparent py-5 text-xl text-white outline-none placeholder:text-white/20 disabled:opacity-50 sm:text-2xl"
                 />
 
                 <span className="font-display text-lg text-[#D4AF37]">
@@ -760,8 +1246,18 @@ export default function EarlyAccessSection() {
               </p>
 
               <p className="mt-2 break-words font-display text-3xl text-[#D4AF37]">
-                {estimatedWtc.toLocaleString()}{" "}
+                {formatWtc(
+                  estimatedWtc,
+                  6
+                )}{" "}
                 WTC
+              </p>
+
+              <p className="mt-2 text-xs leading-5 text-white/40">
+                This estimate uses the current
+                on-chain stage rate. The contract
+                calculates the final amount when
+                your transaction is submitted.
               </p>
             </div>
 
@@ -810,9 +1306,7 @@ export default function EarlyAccessSection() {
               !isPolygon ? (
                 <button
                   type="button"
-                  onClick={
-                    handleSwitchNetwork
-                  }
+                  onClick={handleSwitchNetwork}
                   className="btn-gold rounded-xl px-6 py-4 font-bold"
                 >
                   Switch to Polygon
@@ -821,9 +1315,7 @@ export default function EarlyAccessSection() {
                 <button
                   type="button"
                   onClick={handlePurchase}
-                  disabled={
-                    purchaseDisabled
-                  }
+                  disabled={purchaseDisabled}
                   className="btn-gold rounded-xl px-6 py-4 font-bold disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {isPurchasing
@@ -843,16 +1335,32 @@ export default function EarlyAccessSection() {
             </p>
           </div>
 
-          <aside className="space-y-6">
+          <aside className="min-w-0 space-y-6">
             <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
               <p className="font-display text-xl text-[#D4AF37]">
-                Built on Polygon
+                Ten Automatic Stages
               </p>
 
               <p className="mt-3 leading-7 text-white/60">
-                Early Access uses POL on Polygon
-                Mainnet for settlement and network
-                fees.
+                Each stage lasts up to seven days
+                or closes early when its fixed
+                allocation sells out. The contract
+                automatically advances when the
+                next transaction is processed.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
+              <p className="font-display text-xl text-[#D4AF37]">
+                No Stage Rollover
+              </p>
+
+              <p className="mt-3 leading-7 text-white/60">
+                Unsold WTC from an expired stage
+                does not move into the next stage.
+                It remains part of the public
+                allocation for future community
+                governance.
               </p>
             </div>
 
@@ -875,10 +1383,9 @@ export default function EarlyAccessSection() {
               </p>
 
               <p className="mt-3 leading-7 text-white/60">
-                Both the WealthCoin token and
-                Genesis Early Access contracts are
-                publicly inspectable on
-                PolygonScan.
+                The WealthCoin token and Genesis
+                contracts are publicly inspectable
+                on PolygonScan.
               </p>
 
               <a
@@ -891,11 +1398,52 @@ export default function EarlyAccessSection() {
               </a>
             </div>
 
+            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
+              <p className="font-display text-xl text-[#D4AF37]">
+                Stage Schedule
+              </p>
+
+              <p className="mt-3 text-sm leading-7 text-white/60">
+                Stage 1 begins when Genesis is
+                officially opened. The displayed
+                rate, remaining allocation, and
+                countdown are read directly from
+                the Polygon contract.
+              </p>
+
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-black/50 p-3">
+                  <p className="text-white/40">
+                    Current stage
+                  </p>
+
+                  <p className="mt-1 font-semibold text-[#D4AF37]">
+                    {currentStage + 1} /{" "}
+                    {STAGE_COUNT}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-black/50 p-3">
+                  <p className="text-white/40">
+                    Stage begins
+                  </p>
+
+                  <p className="mt-1 font-semibold text-[#D4AF37]">
+                    {stageStartTime > 0
+                      ? new Date(
+                          stageStartTime * 1000
+                        ).toLocaleDateString()
+                      : "Not started"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <a
               href="/documents/Wallet_Guide_EN.pdf"
               target="_blank"
               rel="noreferrer"
-              className="btn-ghost w-full rounded-xl px-6 py-4 text-center font-bold"
+              className="btn-ghost block w-full rounded-xl px-6 py-4 text-center font-bold"
             >
               Open Wallet Guide
             </a>

@@ -1,5 +1,6 @@
 export const CONTRACTS = {
   chainId: Number(import.meta.env.VITE_CHAIN_ID || 137),
+
   network:
     import.meta.env.VITE_NETWORK_NAME ||
     "Polygon Mainnet",
@@ -10,9 +11,9 @@ export const CONTRACTS = {
 
   genesis:
     import.meta.env.VITE_GENESIS_ADDRESS ||
-    "0x294032E6e4D39218840fBF3aEac25f14F0520fd4",
+    "0x6a78f89e8e06327E772BEDc6650BBC3645BF6995",
 
   treasury:
     import.meta.env.VITE_TREASURY_ADDRESS ||
-    "0x3032d0adbb3bc432c08866e47604e0ae142ed60e",
+    "0x3032D0Adbb3bC432c08866e47604e0AE142eD60e",
 };
