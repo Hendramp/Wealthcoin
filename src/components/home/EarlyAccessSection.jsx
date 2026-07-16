@@ -7,7 +7,7 @@ import {
   useAppKitProvider,
 } from "@reown/appkit/react";
 
-const WTC_PER_POL = 1500;
+const WTC_PER_POL = 350;
 const POLYGON_CHAIN_ID = 137;
 
 function shortenAddress(address) {
@@ -210,8 +210,7 @@ export default function EarlyAccessSection() {
               </p>
 
               <p className="mt-2 text-sm leading-6 text-white/45">
-                This rate remains a planned interface value until the final
-                contract configuration is verified.
+                The verified Genesis contract provides 350 WTC per 1 POL.
               </p>
             </div>
 
