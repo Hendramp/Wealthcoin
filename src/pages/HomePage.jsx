@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Layout/Navbar";
+import Navbar from "../components/layout/Navbar";
 import Hero from "../components/home/Hero";
 import FoundationSection from "../components/home/FoundationSection";
 import EarlyAccessSection from "../components/home/EarlyAccessSection";
