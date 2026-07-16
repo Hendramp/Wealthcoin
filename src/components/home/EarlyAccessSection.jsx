@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { CONTRACTS } from "../../config/contracts";
 import { BrowserProvider, formatEther } from "ethers";
 import {
   useAppKit,
@@ -314,25 +315,29 @@ export default function EarlyAccessSection() {
             </div>
 
             <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
-              <p className="font-display text-xl text-[#D4AF37]">
-                Contract Transparency
-              </p>
+  <p className="font-display text-xl text-[#D4AF37]">
+    Contract Transparency
+  </p>
 
-              <p className="mt-3 leading-7 text-white/60">
-                Verified token, Early Access, treasury, and distribution
-                addresses will be displayed before participation opens.
-              </p>
+  <p className="mt-3 leading-7 text-white/60">
+    The verified Genesis contract is publicly inspectable on PolygonScan.
+  </p>
 
-              <div className="mt-5 rounded-xl border border-[#D4AF37]/15 bg-black/60 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/35">
-                  Early Access Contract
-                </p>
+  <div className="mt-5 rounded-xl border border-[#D4AF37]/15 bg-black/60 p-4">
+    <p className="text-xs uppercase tracking-[0.2em] text-white/35">
+      Genesis Contract
+    </p>
 
-                <p className="mt-2 break-all font-mono text-sm text-white/60">
-                  Awaiting final verified deployment
-                </p>
-              </div>
-            </div>
+    <a
+      href={`https://polygonscan.com/address/${CONTRACTS.genesis}`}
+      target="_blank"
+      rel="noreferrer"
+      className="mt-2 block break-all font-mono text-sm text-[#D4AF37] underline"
+    >
+      {CONTRACTS.genesis}
+    </a>
+  </div>
+</div>
 
             <a
               href="/documents/Wallet_Guide_EN.pdf"
