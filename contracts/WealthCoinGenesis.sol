@@ -16,7 +16,7 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
  *
  * Genesis rules:
  * - 1 POL = 350 WTC
- * - Minimum transaction = 50 POL
+ * - Minimum transaction = 1 POL
  * - Maximum cumulative purchase = 5,000 POL per wallet
  * - Maximum total distribution = 21,000,000 WTC
  * - POL is forwarded immediately to the treasury
