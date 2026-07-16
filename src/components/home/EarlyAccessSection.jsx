@@ -8,6 +8,7 @@ import React, {
 import {
   BrowserProvider,
   Contract,
+  JsonRpcProvider,
   formatEther,
   formatUnits,
   parseEther,
@@ -26,7 +27,17 @@ import { CONTRACTS } from "../../config/contracts";
 const MINIMUM_PURCHASE_POL = 1;
 const POLYGON_CHAIN_ID = 137;
 const STAGE_COUNT = 10;
+const PUBLIC_POLYGON_RPC =
+  "https://polygon.drpc.org";
 
+const publicPolygonProvider =
+  new JsonRpcProvider(
+    PUBLIC_POLYGON_RPC,
+    POLYGON_CHAIN_ID,
+    {
+      staticNetwork: true,
+    }
+  );
 function shortenAddress(address) {
   if (!address) {
     return "Not connected";
@@ -360,26 +371,18 @@ export default function EarlyAccessSection() {
       walletProvider,
     ]);
 
-  const loadSaleStatus =
+    const loadSaleStatus =
     useCallback(async () => {
-      if (
-        !walletProvider ||
-        !isPolygon
-      ) {
-        setSaleOpen(false);
-        setSaleLoading(false);
-        setSaleError("");
-        return;
-      }
-
       setSaleLoading(true);
       setSaleError("");
 
       try {
         const provider =
-          new BrowserProvider(
-            walletProvider
-          );
+          walletProvider && isPolygon
+            ? new BrowserProvider(
+                walletProvider
+              )
+            : publicPolygonProvider;
 
         const genesis =
           new Contract(
@@ -565,14 +568,7 @@ export default function EarlyAccessSection() {
     stageEndTime,
   ]);
 
-  useEffect(() => {
-    if (
-      !walletProvider ||
-      !isPolygon
-    ) {
-      return undefined;
-    }
-
+    useEffect(() => {
     const refreshTimer =
       window.setInterval(() => {
         loadSaleStatus();
@@ -583,11 +579,7 @@ export default function EarlyAccessSection() {
         refreshTimer
       );
     };
-  }, [
-    isPolygon,
-    loadSaleStatus,
-    walletProvider,
-  ]);
+  }, [loadSaleStatus]);
     function openWallet() {
     open({
       view: isConnected
