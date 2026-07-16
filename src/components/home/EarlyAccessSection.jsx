@@ -129,6 +129,22 @@ function getReadableError(error) {
     return "Your wallet does not have enough POL for the purchase and network fee.";
   }
 
+  if (
+    message.includes("could not coalesce error") ||
+    error?.code === "UNKNOWN_ERROR"
+  ) {
+    const nestedMessage =
+      error?.error?.message ||
+      error?.info?.error?.message ||
+      error?.payload?.error?.message;
+
+    if (nestedMessage) {
+      return nestedMessage;
+    }
+
+    return "The mobile wallet did not return a valid transaction response. Open WealthCoin inside your wallet's built-in browser, reconnect, and try again.";
+  }
+
   return message;
 }
 
@@ -756,7 +772,7 @@ export default function EarlyAccessSection() {
         );
       }
 
-      const confirmedEstimate =
+            const confirmedEstimate =
         Number(
           formatUnits(
             tokenEstimate,
@@ -764,10 +780,13 @@ export default function EarlyAccessSection() {
           )
         );
 
+      await genesis.buyTokens.staticCall({
+        value: parseEther(polAmount),
+      });
+
       const transaction =
         await genesis.buyTokens({
-          value:
-            parseEther(polAmount),
+          value: parseEther(polAmount),
         });
 
       setTransactionHash(
