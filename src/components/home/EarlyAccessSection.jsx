@@ -27,6 +27,24 @@ import { CONTRACTS } from "../../config/contracts";
 const MINIMUM_PURCHASE_POL = 1;
 const POLYGON_CHAIN_ID = 137;
 const STAGE_COUNT = 10;
+function isIosSafariBrowser() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  const userAgent = navigator.userAgent;
+
+  const isIos =
+    /iPhone|iPad|iPod/i.test(userAgent);
+
+  const isSafari =
+    /Safari/i.test(userAgent) &&
+    !/CriOS|FxiOS|EdgiOS|OPiOS/i.test(
+      userAgent
+    );
+
+  return isIos && isSafari;
+}
 const PUBLIC_POLYGON_RPC =
   "https://polygon.drpc.org";
 
@@ -269,7 +287,8 @@ export default function EarlyAccessSection() {
 
   const numericPolAmount =
     Number(polAmount);
-
+const showMobileWalletNotice =
+  isIosSafariBrowser();
   const estimatedWtc = useMemo(() => {
     if (
       !Number.isFinite(numericPolAmount) ||
@@ -1215,7 +1234,22 @@ export default function EarlyAccessSection() {
                 transaction.
               </p>
             </div>
+{showMobileWalletNotice && (
+  <div className="mt-7 rounded-2xl border border-amber-400/30 bg-amber-950/20 p-5">
+    <p className="font-semibold text-amber-200">
+      📱 iPhone Safari Users
+    </p>
 
+    <p className="mt-2 text-sm leading-6 text-white/70">
+      For the most reliable purchasing
+      experience, open OfficialWealthCoin.com
+      inside your wallet's built-in dApp
+      browser. Some mobile wallets do not
+      reliably return to Safari after signing
+      a blockchain transaction.
+    </p>
+  </div>
+)}
             <div className="mt-7">
               <label
                 htmlFor="polAmount"
@@ -1302,7 +1336,7 @@ export default function EarlyAccessSection() {
               </div>
             )}
 
-            <div className="mt-7 grid gap-4 sm:grid-cols-2">
+            <div className="mt-7 grid gap-4 md:grid-cols-2">
               <button
                 type="button"
                 onClick={openWallet}
