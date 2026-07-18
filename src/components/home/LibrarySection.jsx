@@ -1,68 +1,5 @@
 import React from "react";
 
-const TOTAL_SUPPLY = 1_000_000_000;
-const LOGO_SRC = "/wealthcoin-logo.png";
-
-const allocations = [
-  {
-    name: "Public Sale",
-    percent: 30,
-    amount: "300,000,000 WTC",
-    tone: "#D4AF37",
-    description:
-      "Allocated for community distribution through public token sales.",
-    detail: "Genesis: 7% • Future distribution: 23%",
-  },
-  {
-    name: "Treasury",
-    percent: 17,
-    amount: "170,000,000 WTC",
-    tone: "#A88C32",
-    description:
-      "Supports ecosystem development, operations, liquidity, and long-term sustainability.",
-  },
-  {
-    name: "Missions & Donations",
-    percent: 15,
-    amount: "150,000,000 WTC",
-    tone: "#4D7A42",
-    description:
-      "Reserved for Kingdom missions, charity, humanitarian efforts, and community initiatives.",
-  },
-  {
-    name: "Staking",
-    percent: 13,
-    amount: "130,000,000 WTC",
-    tone: "#365F35",
-    description:
-      "Rewards long-term participation and future ecosystem utility.",
-  },
-  {
-    name: "Founder",
-    percent: 12,
-    amount: "120,000,000 WTC",
-    tone: "#203F2A",
-    description:
-      "Reserved for founding stewardship and long-term project leadership.",
-  },
-  {
-    name: "Burn Allocation",
-    percent: 10,
-    amount: "100,000,000 WTC",
-    tone: "#756E4D",
-    description:
-      "Reserved for strategic burns supporting long-term supply stewardship.",
-  },
-  {
-    name: "Marketing",
-    percent: 3,
-    amount: "30,000,000 WTC",
-    tone: "#78984A",
-    description:
-      "Supports responsible promotion, outreach, partnerships, and community growth.",
-  },
-];
-
 const libraryResources = [
   {
     title: "Wallet Guide — English",
@@ -70,6 +7,8 @@ const libraryResources = [
       "A beginner-friendly guide for setting up a wallet, using Polygon, and purchasing WTC.",
     href: "/documents/Wallet_Guide_EN.pdf",
     label: "Open Guide",
+    language: "English",
+    icon: "📘",
   },
   {
     title: "Wallet Guide — Español",
@@ -77,60 +16,31 @@ const libraryResources = [
       "Guía en español para configurar una billetera, usar Polygon y adquirir WTC.",
     href: "/documents/Wallet_Guide_ES.pdf",
     label: "Abrir Guía",
+    language: "Español",
+    icon: "📘",
   },
 ];
 
-const donutGradient =
-  "conic-gradient(" +
-  [
-    "#D4AF37 0% 30%",
-    "#A88C32 30% 47%",
-    "#4D7A42 47% 62%",
-    "#365F35 62% 75%",
-    "#203F2A 75% 87%",
-    "#756E4D 87% 97%",
-    "#78984A 97% 100%",
-  ].join(", ") +
-  ")";
-
-function AllocationCard({ allocation }) {
-  return (
-    <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
-      <div className="flex items-start gap-3">
-        <span
-          className="mt-1 h-3 w-3 shrink-0 rounded-full"
-          style={{ backgroundColor: allocation.tone }}
-        />
-
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-baseline gap-x-2">
-            <p className="font-semibold text-white/85">
-              {allocation.name}
-            </p>
-
-            <p className="font-display text-lg text-[#D4AF37]">
-              {allocation.percent}%
-            </p>
-          </div>
-
-          <p className="mt-1 text-sm text-white/70">
-            {allocation.amount}
-          </p>
-
-          <p className="mt-2 text-xs leading-5 text-white/45">
-            {allocation.description}
-          </p>
-
-          {allocation.detail && (
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#D4AF37]/75">
-              {allocation.detail}
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+const socialLinks = [
+  {
+    name: "Instagram",
+    handle: "@Officialwealthcoin",
+    description:
+      "Follow official WealthCoin announcements, educational posts, launch updates, and community highlights.",
+    href: "https://www.instagram.com/officialwealthcoin?igsh=ZjJwcXQ5Y3U3Njd6&utm_source=qr",
+    action: "Follow on Instagram",
+    icon: "📸",
+  },
+  {
+    name: "Discord",
+    handle: "WealthCoin Community",
+    description:
+      "Join the official Discord for presale updates, community discussion, support, and early-access announcements.",
+    href: "https://discord.gg/TQCfMbXgK",
+    action: "Join the Discord",
+    icon: "💬",
+  },
+];
 
 export default function LibrarySection() {
   return (
@@ -140,189 +50,118 @@ export default function LibrarySection() {
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(212,175,55,0.07),transparent_32%),radial-gradient(circle_at_80%_75%,rgba(28,90,48,0.13),transparent_38%)]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="font-display text-xs uppercase tracking-[0.3em] text-[#D4AF37]">
             WealthCoin Library
           </p>
 
           <h2 className="gold-text mt-4 font-display text-3xl font-bold sm:text-4xl md:text-5xl">
-            Knowledge, Transparency &amp; Stewardship
+            Learn &amp; Stay Connected
           </h2>
 
           <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
-            Explore WealthCoin resources, educational materials, allocation
-            information, and the economic structure supporting the long-term
-            ecosystem.
+            Access official wallet guides and connect with WealthCoin through
+            the project&apos;s verified social channels.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[0.72fr_1.28fr]">
-          <div className="rounded-2xl border border-[#D4AF37]/20 bg-black/50 p-5">
-            <p className="text-xs uppercase tracking-[0.22em] text-white/40">
-              Educational Resources
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {libraryResources.map((resource) => (
+            <article
+              key={resource.title}
+              className="flex min-h-[280px] flex-col rounded-3xl border border-[#D4AF37]/20 bg-black/50 p-6 shadow-[0_0_35px_rgba(212,175,55,0.04)] transition duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/45 sm:p-7"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="text-4xl" aria-hidden="true">
+                  {resource.icon}
+                </div>
+
+                <span className="rounded-full border border-[#D4AF37]/25 bg-[#D4AF37]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-[#D4AF37]">
+                  {resource.language}
+                </span>
+              </div>
+
+              <h3 className="mt-5 font-display text-2xl text-white/90">
+                {resource.title}
+              </h3>
+
+              <p className="mt-3 flex-1 text-sm leading-7 text-white/50">
+                {resource.description}
+              </p>
+
+              <a
+                href={resource.href}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-gold mt-6 rounded-xl px-5 py-3 text-center text-sm font-bold"
+              >
+                {resource.label}
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-8 overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-black/55 shadow-[0_0_40px_rgba(212,175,55,0.05)]">
+          <div className="border-b border-[#D4AF37]/15 px-6 py-6 text-center sm:px-8">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+              Official Social Channels
             </p>
 
-            <h3 className="mt-2 font-display text-2xl text-[#D4AF37]">
-              Documents &amp; Guides
+            <h3 className="mt-3 font-display text-2xl text-white sm:text-3xl">
+              Follow WealthCoin
             </h3>
 
-            <p className="mt-3 text-sm leading-6 text-white/50">
-              Resources designed to help both new and experienced users
-              interact with WealthCoin safely and confidently.
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/55">
+              Use only the official accounts below for presale updates,
+              announcements, education, and community communication.
             </p>
-
-            <div className="mt-5 space-y-3">
-              {libraryResources.map((resource) => (
-                <a
-                  key={resource.title}
-                  href={resource.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4 transition hover:border-[#D4AF37]/40 hover:bg-[#0a160d]"
-                >
-                  <p className="font-semibold text-white/85">
-                    {resource.title}
-                  </p>
-
-                  <p className="mt-1 text-xs leading-5 text-white/45">
-                    {resource.description}
-                  </p>
-
-                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-[#D4AF37]">
-                    {resource.label}
-                  </p>
-                </a>
-              ))}
-            </div>
-
-            <div className="mt-4 rounded-xl border border-[#D4AF37]/15 bg-black/40 p-4">
-              <p className="font-semibold text-white/80">
-                Additional Library Materials
-              </p>
-
-              <p className="mt-1 text-xs leading-5 text-white/45">
-                The Charter, project overview, risk disclosures, Academy
-                lessons, governance materials, and treasury reports will
-                continue to be added as development progresses.
-              </p>
-            </div>
           </div>
 
-          <div
-            id="tokenomics"
-            className="rounded-2xl border border-[#D4AF37]/25 bg-black/55 p-5 shadow-[0_0_40px_rgba(212,175,55,0.05)] sm:p-6"
-          >
-            <div className="flex flex-col gap-3 border-b border-[#D4AF37]/15 pb-5 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-white/40">
-                  Economic Structure
-                </p>
+          <div className="grid gap-px bg-[#D4AF37]/15 md:grid-cols-2">
+            {socialLinks.map((social) => (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex min-h-[235px] flex-col bg-[#061008] p-6 transition duration-300 hover:bg-[#0a160d] sm:p-8"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-2xl">
+                    {social.icon}
+                  </div>
 
-                <h3 className="mt-2 font-display text-2xl text-[#D4AF37] sm:text-3xl">
-                  WealthCoin Tokenomics
-                </h3>
-              </div>
-
-              <span className="w-fit rounded-full border border-[#D4AF37]/25 bg-[#D4AF37]/10 px-3 py-1.5 text-xs font-semibold text-[#D4AF37]">
-                Initial Launch Allocation
-              </span>
-            </div>
-
-            <div className="mt-6 grid items-center gap-7 xl:grid-cols-[0.95fr_1.05fr]">
-              <div className="relative mx-auto flex aspect-square w-full max-w-[430px] items-center justify-center">
-                <div
-                  className="absolute inset-0 rounded-full border border-[#D4AF37]/30 shadow-[0_0_32px_rgba(212,175,55,0.08)]"
-                  style={{ background: donutGradient }}
-                />
-
-                <div className="absolute inset-[21%] rounded-full border border-[#D4AF37]/30 bg-[#020403] shadow-[inset_0_0_30px_rgba(0,0,0,0.9)]" />
-
-                <div className="relative z-10 flex max-w-[66%] flex-col items-center text-center">
-                  <img
-                    src={LOGO_SRC}
-                    alt="WealthCoin logo"
-                    className="h-16 w-16 rounded-full object-contain sm:h-20 sm:w-20"
-                  />
-
-                  <p className="mt-3 text-[10px] uppercase tracking-[0.24em] text-white/40">
-                    Total Supply
-                  </p>
-
-                  <p className="mt-1 font-display text-2xl text-[#D4AF37] sm:text-3xl">
-                    {TOTAL_SUPPLY.toLocaleString()}
-                  </p>
-
-                  <p className="mt-1 text-sm font-semibold text-white/70">
-                    WTC
-                  </p>
+                  <span className="text-xl text-[#D4AF37] transition-transform duration-300 group-hover:translate-x-1">
+                    ↗
+                  </span>
                 </div>
-              </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-                {allocations.map((allocation) => (
-                  <AllocationCard
-                    key={allocation.name}
-                    allocation={allocation}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/60 p-4">
-                <p className="font-semibold text-white/80">
-                  Genesis Public Sale
+                <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[#D4AF37]">
+                  {social.name}
                 </p>
 
-                <p className="mt-2 text-xs leading-5 text-white/45">
-                  Genesis Early Access represents 7% of total supply,
-                  equal to 21,000,000 WTC. It is the first portion of the
-                  broader 30% public-sale allocation.
-                </p>
-              </div>
+                <h4 className="mt-2 font-display text-xl text-white/90">
+                  {social.handle}
+                </h4>
 
-              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/60 p-4">
-                <p className="font-semibold text-white/80">
-                  Liquidity Stewardship
+                <p className="mt-3 flex-1 text-sm leading-6 text-white/50">
+                  {social.description}
                 </p>
 
-                <p className="mt-2 text-xs leading-5 text-white/45">
-                  Liquidity is not a separate token allocation. It is
-                  intended to be funded through Genesis proceeds and
-                  treasury management.
+                <p className="mt-5 text-sm font-bold text-[#D4AF37]">
+                  {social.action} →
                 </p>
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">
-                Governance Notice
-              </p>
-
-              <p className="mt-2 text-xs leading-5 text-white/50">
-                These allocations represent WealthCoin&apos;s initial
-                launch tokenomics. As the ecosystem matures, future
-                governance mechanisms may propose and approve changes to
-                token allocations, treasury strategy, or ecosystem
-                funding. Any approved changes are intended to be
-                transparent, documented, and subject to the project&apos;s
-                governance process.
-              </p>
-            </div>
-
-            <div className="mt-4 rounded-xl border border-red-500/20 bg-red-950/10 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-red-300">
-                Risk Notice
-              </p>
-
-              <p className="mt-2 text-xs leading-5 text-white/45">
-                Digital assets may be volatile and involve substantial
-                risk. Allocation plans, utility, liquidity, market value,
-                and governance outcomes are not guaranteed.
-              </p>
-            </div>
+              </a>
+            ))}
           </div>
+        </div>
+
+        <div className="mx-auto mt-6 max-w-4xl rounded-2xl border border-[#D4AF37]/15 bg-black/35 p-5 text-center">
+          <p className="text-sm leading-6 text-white/50">
+            Additional educational resources will be added as the WealthCoin
+            ecosystem continues to develop.
+          </p>
         </div>
       </div>
     </section>

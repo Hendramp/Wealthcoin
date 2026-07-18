@@ -27,6 +27,109 @@ import { CONTRACTS } from "../../config/contracts";
 const MINIMUM_PURCHASE_POL = 1;
 const POLYGON_CHAIN_ID = 137;
 const STAGE_COUNT = 10;
+
+const POL_PRICE_REFRESH_MS = 60_000;
+const POL_PRICE_STALE_MS = 5 * 60_000;
+
+const POL_PRICE_URL =
+  "https://api.coingecko.com/api/v3/simple/price" +
+  "?ids=polygon-ecosystem-token" +
+  "&vs_currencies=usd" +
+  "&include_last_updated_at=true";
+
+const PUBLIC_POLYGON_RPC =
+  "https://polygon.drpc.org";
+
+const publicPolygonProvider =
+  new JsonRpcProvider(
+    PUBLIC_POLYGON_RPC,
+    POLYGON_CHAIN_ID,
+    {
+      staticNetwork: true,
+    }
+  );
+
+function formatUsd(
+  value,
+  {
+    minimumFractionDigits = 2,
+    maximumFractionDigits = 2,
+    fallback = "—",
+  } = {}
+) {
+  const numericValue = Number(value);
+
+  if (!Number.isFinite(numericValue)) {
+    return fallback;
+  }
+
+  return numericValue.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits,
+    maximumFractionDigits,
+  });
+}
+
+function formatTokenPriceUsd(value) {
+  const numericValue = Number(value);
+
+  if (
+    !Number.isFinite(numericValue) ||
+    numericValue <= 0
+  ) {
+    return "—";
+  }
+
+  if (numericValue >= 1) {
+    return formatUsd(numericValue, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4,
+    });
+  }
+
+  if (numericValue >= 0.01) {
+    return formatUsd(numericValue, {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 6,
+    });
+  }
+
+  return formatUsd(numericValue, {
+    minimumFractionDigits: 6,
+    maximumFractionDigits: 10,
+  });
+}
+
+function formatPriceAge(timestamp) {
+  if (!timestamp) {
+    return "Waiting for price";
+  }
+
+  const secondsAgo = Math.max(
+    0,
+    Math.floor(
+      (Date.now() - timestamp) / 1000
+    )
+  );
+
+  if (secondsAgo < 10) {
+    return "Updated just now";
+  }
+
+  if (secondsAgo < 60) {
+    return `Updated ${secondsAgo}s ago`;
+  }
+
+  const minutesAgo = Math.floor(
+    secondsAgo / 60
+  );
+
+  return minutesAgo === 1
+    ? "Updated 1 minute ago"
+    : `Updated ${minutesAgo} minutes ago`;
+}
+
 function isIosSafariBrowser() {
   if (typeof navigator === "undefined") {
     return false;
@@ -45,36 +148,35 @@ function isIosSafariBrowser() {
 
   return isIos && isSafari;
 }
-const PUBLIC_POLYGON_RPC =
-  "https://polygon.drpc.org";
 
-const publicPolygonProvider =
-  new JsonRpcProvider(
-    PUBLIC_POLYGON_RPC,
-    POLYGON_CHAIN_ID,
-    {
-      staticNetwork: true,
-    }
-  );
 function shortenAddress(address) {
   if (!address) {
     return "Not connected";
   }
 
-  return `${address.slice(0, 7)}...${address.slice(-5)}`;
+  return `${address.slice(
+    0,
+    7
+  )}...${address.slice(-5)}`;
 }
 
-function formatWtc(value, maximumFractionDigits = 4) {
+function formatWtc(
+  value,
+  maximumFractionDigits = 4
+) {
   const numericValue = Number(value || 0);
 
   if (!Number.isFinite(numericValue)) {
     return "0";
   }
 
-  return numericValue.toLocaleString(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits,
-  });
+  return numericValue.toLocaleString(
+    undefined,
+    {
+      minimumFractionDigits: 0,
+      maximumFractionDigits,
+    }
+  );
 }
 
 function formatCountdown(secondsRemaining) {
@@ -123,7 +225,11 @@ function getReadableError(error) {
     return "The transaction was cancelled in your wallet.";
   }
 
-  if (message.includes("BelowMinimumPurchase")) {
+  if (
+    message.includes(
+      "BelowMinimumPurchase"
+    )
+  ) {
     return "The minimum Early Access purchase is 1 POL.";
   }
 
@@ -134,18 +240,24 @@ function getReadableError(error) {
     return "Genesis Early Access is currently paused or closed.";
   }
 
-  if (message.includes("WalletCapExceeded")) {
+  if (
+    message.includes("WalletCapExceeded")
+  ) {
     return "This purchase would exceed the wallet contribution limit.";
   }
 
   if (
-    message.includes("NothingAvailableForPurchase")
+    message.includes(
+      "NothingAvailableForPurchase"
+    )
   ) {
     return "The current Genesis stage has no WTC remaining.";
   }
 
   if (
-    message.includes("InsufficientGenesisFunding")
+    message.includes(
+      "InsufficientGenesisFunding"
+    )
   ) {
     return "The Genesis contract is not fully funded.";
   }
@@ -159,7 +271,9 @@ function getReadableError(error) {
   }
 
   if (
-    message.includes("could not coalesce error") ||
+    message.includes(
+      "could not coalesce error"
+    ) ||
     error?.code === "UNKNOWN_ERROR"
   ) {
     const nestedMessage =
@@ -200,11 +314,15 @@ export default function EarlyAccessSection() {
   const [polBalance, setPolBalance] =
     useState("0");
 
-  const [balanceLoading, setBalanceLoading] =
-    useState(false);
+  const [
+    balanceLoading,
+    setBalanceLoading,
+  ] = useState(false);
 
-  const [balanceError, setBalanceError] =
-    useState("");
+  const [
+    balanceError,
+    setBalanceError,
+  ] = useState("");
 
   const [saleOpen, setSaleOpen] =
     useState(false);
@@ -215,8 +333,10 @@ export default function EarlyAccessSection() {
   const [salePaused, setSalePaused] =
     useState(true);
 
-  const [saleFinalized, setSaleFinalized] =
-    useState(false);
+  const [
+    saleFinalized,
+    setSaleFinalized,
+  ] = useState(false);
 
   const [saleLoading, setSaleLoading] =
     useState(false);
@@ -238,20 +358,30 @@ export default function EarlyAccessSection() {
   const [stageSold, setStageSold] =
     useState(0);
 
-  const [stageRemaining, setStageRemaining] =
-    useState(0);
+  const [
+    stageRemaining,
+    setStageRemaining,
+  ] = useState(0);
 
-  const [stageStartTime, setStageStartTime] =
-    useState(0);
+  const [
+    stageStartTime,
+    setStageStartTime,
+  ] = useState(0);
 
-  const [stageEndTime, setStageEndTime] =
-    useState(0);
+  const [
+    stageEndTime,
+    setStageEndTime,
+  ] = useState(0);
 
-  const [totalPolRaised, setTotalPolRaised] =
-    useState(0);
+  const [
+    totalPolRaised,
+    setTotalPolRaised,
+  ] = useState(0);
 
-  const [totalWtcSold, setTotalWtcSold] =
-    useState(0);
+  const [
+    totalWtcSold,
+    setTotalWtcSold,
+  ] = useState(0);
 
   const [
     totalRemainingAllocation,
@@ -263,11 +393,15 @@ export default function EarlyAccessSection() {
     setCountdownSeconds,
   ] = useState(0);
 
-  const [isPurchasing, setIsPurchasing] =
-    useState(false);
+  const [
+    isPurchasing,
+    setIsPurchasing,
+  ] = useState(false);
 
-  const [purchaseError, setPurchaseError] =
-    useState("");
+  const [
+    purchaseError,
+    setPurchaseError,
+  ] = useState("");
 
   const [
     purchaseSuccess,
@@ -279,11 +413,39 @@ export default function EarlyAccessSection() {
     setTransactionHash,
   ] = useState("");
 
-  const [copiedLabel, setCopiedLabel] =
-    useState("");
+  const [
+    copiedLabel,
+    setCopiedLabel,
+  ] = useState("");
+
+  const [
+    polUsdPrice,
+    setPolUsdPrice,
+  ] = useState(null);
+
+  const [
+    polPriceLoading,
+    setPolPriceLoading,
+  ] = useState(true);
+
+  const [
+    polPriceError,
+    setPolPriceError,
+  ] = useState("");
+
+  const [
+    polPriceUpdatedAt,
+    setPolPriceUpdatedAt,
+  ] = useState(null);
+
+  const [
+    priceClock,
+    setPriceClock,
+  ] = useState(Date.now());
 
   const isPolygon =
-    Number(chainId) === POLYGON_CHAIN_ID;
+    Number(chainId) ===
+    POLYGON_CHAIN_ID;
 
   const numericPolAmount =
     Number(polAmount);
@@ -293,46 +455,298 @@ export default function EarlyAccessSection() {
 
   const estimatedWtc = useMemo(() => {
     if (
-      !Number.isFinite(numericPolAmount) ||
+      !Number.isFinite(
+        numericPolAmount
+      ) ||
       numericPolAmount <= 0 ||
       currentRate <= 0
     ) {
       return 0;
     }
 
-    return numericPolAmount * currentRate;
+    return (
+      numericPolAmount *
+      currentRate
+    );
   }, [
     numericPolAmount,
     currentRate,
   ]);
 
-  const stageProgress = useMemo(() => {
-    if (
-      !Number.isFinite(stageAllocation) ||
-      stageAllocation <= 0
-    ) {
-      return 0;
-    }
+  const enteredPolUsd =
+    useMemo(() => {
+      if (
+        !Number.isFinite(
+          numericPolAmount
+        ) ||
+        numericPolAmount <= 0 ||
+        !Number.isFinite(
+          polUsdPrice
+        ) ||
+        polUsdPrice <= 0
+      ) {
+        return null;
+      }
 
-    const progress =
-      (stageSold / stageAllocation) * 100;
+      return (
+        numericPolAmount *
+        polUsdPrice
+      );
+    }, [
+      numericPolAmount,
+      polUsdPrice,
+    ]);
 
-    return Math.min(
-      100,
-      Math.max(0, progress)
+  const walletBalanceNumeric =
+    useMemo(() => {
+      const normalizedBalance =
+        String(
+          polBalance || "0"
+        ).replaceAll(",", "");
+
+      const value =
+        Number(normalizedBalance);
+
+      return Number.isFinite(value)
+        ? value
+        : 0;
+    }, [polBalance]);
+
+  const walletBalanceUsd =
+    useMemo(() => {
+      if (
+        !Number.isFinite(
+          polUsdPrice
+        ) ||
+        polUsdPrice <= 0
+      ) {
+        return null;
+      }
+
+      return (
+        walletBalanceNumeric *
+        polUsdPrice
+      );
+    }, [
+      walletBalanceNumeric,
+      polUsdPrice,
+    ]);
+
+  const currentWtcUsdPrice =
+    useMemo(() => {
+      if (
+        !Number.isFinite(
+          polUsdPrice
+        ) ||
+        polUsdPrice <= 0 ||
+        !Number.isFinite(
+          currentRate
+        ) ||
+        currentRate <= 0
+      ) {
+        return null;
+      }
+
+      return (
+        polUsdPrice /
+        currentRate
+      );
+    }, [
+      polUsdPrice,
+      currentRate,
+    ]);
+
+  const minimumPurchaseUsd =
+    useMemo(() => {
+      if (
+        !Number.isFinite(
+          polUsdPrice
+        ) ||
+        polUsdPrice <= 0
+      ) {
+        return null;
+      }
+
+      return (
+        MINIMUM_PURCHASE_POL *
+        polUsdPrice
+      );
+    }, [polUsdPrice]);
+
+  const stageProgress =
+    useMemo(() => {
+      if (
+        !Number.isFinite(
+          stageAllocation
+        ) ||
+        stageAllocation <= 0
+      ) {
+        return 0;
+      }
+
+      const progress =
+        (stageSold /
+          stageAllocation) *
+        100;
+
+      return Math.min(
+        100,
+        Math.max(0, progress)
+      );
+    }, [
+      stageAllocation,
+      stageSold,
+    ]);
+
+  const stagePurchasePercent =
+    useMemo(() => {
+      if (
+        !Number.isFinite(
+          estimatedWtc
+        ) ||
+        estimatedWtc <= 0 ||
+        !Number.isFinite(
+          stageAllocation
+        ) ||
+        stageAllocation <= 0
+      ) {
+        return 0;
+      }
+
+      return (
+        estimatedWtc /
+        stageAllocation
+      ) * 100;
+    }, [
+      estimatedWtc,
+      stageAllocation,
+    ]);
+  const countdownText =
+    useMemo(
+      () =>
+        formatCountdown(
+          countdownSeconds
+        ),
+      [countdownSeconds]
     );
-  }, [
-    stageAllocation,
-    stageSold,
-  ]);
 
-  const countdownText = useMemo(
-    () =>
-      formatCountdown(
-        countdownSeconds
-      ),
-    [countdownSeconds]
-  );
+  const priceIsStale =
+    polPriceUpdatedAt !== null &&
+    priceClock -
+      polPriceUpdatedAt >
+      POL_PRICE_STALE_MS;
+
+  const polPriceStatusText =
+    (() => {
+      if (
+        polPriceLoading &&
+        !Number.isFinite(
+          polUsdPrice
+        )
+      ) {
+        return "Loading live POL price";
+      }
+
+      if (
+        polPriceError &&
+        Number.isFinite(
+          polUsdPrice
+        )
+      ) {
+        return "Using last available rate";
+      }
+
+      if (polPriceError) {
+        return "USD price unavailable";
+      }
+
+      if (priceIsStale) {
+        return "Price may be delayed";
+      }
+
+      return formatPriceAge(
+        polPriceUpdatedAt
+      );
+    })();
+
+  const loadPolPrice =
+    useCallback(async () => {
+      setPolPriceLoading(true);
+      setPolPriceError("");
+
+      try {
+        const response =
+          await fetch(
+            POL_PRICE_URL,
+            {
+              headers: {
+                Accept:
+                  "application/json",
+              },
+              cache: "no-store",
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            `POL price request failed with status ${response.status}.`
+          );
+        }
+
+        const data =
+          await response.json();
+
+        const priceData =
+          data?.[
+            "polygon-ecosystem-token"
+          ];
+
+        const nextPrice =
+          Number(priceData?.usd);
+
+        if (
+          !Number.isFinite(
+            nextPrice
+          ) ||
+          nextPrice <= 0
+        ) {
+          throw new Error(
+            "The POL price service returned an invalid value."
+          );
+        }
+
+        const providerUpdatedAt =
+          Number(
+            priceData?.last_updated_at
+          ) * 1000;
+
+        setPolUsdPrice(
+          nextPrice
+        );
+
+        setPolPriceUpdatedAt(
+          Number.isFinite(
+            providerUpdatedAt
+          ) &&
+            providerUpdatedAt > 0
+            ? providerUpdatedAt
+            : Date.now()
+        );
+      } catch (error) {
+        console.error(
+          "Could not load POL/USD price:",
+          error
+        );
+
+        setPolPriceError(
+          "Live USD pricing is temporarily unavailable."
+        );
+      } finally {
+        setPolPriceLoading(
+          false
+        );
+      }
+    }, []);
 
   const loadBalance =
     useCallback(async () => {
@@ -369,8 +783,10 @@ export default function EarlyAccessSection() {
           formatted.toLocaleString(
             undefined,
             {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 5,
+              minimumFractionDigits:
+                2,
+              maximumFractionDigits:
+                5,
             }
           )
         );
@@ -384,7 +800,9 @@ export default function EarlyAccessSection() {
           "Unable to read the wallet POL balance."
         );
       } finally {
-        setBalanceLoading(false);
+        setBalanceLoading(
+          false
+        );
       }
     }, [
       address,
@@ -398,13 +816,11 @@ export default function EarlyAccessSection() {
       setSaleError("");
 
       try {
-        const provider = publicPolygonProvider;
-
         const genesis =
           new Contract(
             CONTRACTS.genesis,
             GenesisArtifact.abi,
-            provider
+            publicPolygonProvider
           );
 
         const [
@@ -430,18 +846,9 @@ export default function EarlyAccessSection() {
         const liveSale =
           Boolean(openStatus) &&
           !Boolean(pausedStatus) &&
-          !Boolean(finalizedStatus);
-
-        if (import.meta.env.DEV) {
-          console.log("Genesis contract status:", {
-            contract: CONTRACTS.genesis,
-            opened: Boolean(openedStatus),
-            open: Boolean(openStatus),
-            paused: Boolean(pausedStatus),
-            finalized: Boolean(finalizedStatus),
-            live: liveSale,
-          });
-        }
+          !Boolean(
+            finalizedStatus
+          );
 
         setHasOpened(
           Boolean(openedStatus)
@@ -498,11 +905,15 @@ export default function EarlyAccessSection() {
         );
 
         setStageStartTime(
-          Number(details.startTime)
+          Number(
+            details.startTime
+          )
         );
 
         setStageEndTime(
-          Number(details.endTime)
+          Number(
+            details.endTime
+          )
         );
 
         setTotalPolRaised(
@@ -513,7 +924,10 @@ export default function EarlyAccessSection() {
 
         setTotalWtcSold(
           Number(
-            formatUnits(sold, 18)
+            formatUnits(
+              sold,
+              18
+            )
           )
         );
 
@@ -551,6 +965,37 @@ export default function EarlyAccessSection() {
   useEffect(() => {
     loadSaleStatus();
   }, [loadSaleStatus]);
+
+  useEffect(() => {
+    loadPolPrice();
+
+    const refreshTimer =
+      window.setInterval(
+        loadPolPrice,
+        POL_PRICE_REFRESH_MS
+      );
+
+    return () => {
+      window.clearInterval(
+        refreshTimer
+      );
+    };
+  }, [loadPolPrice]);
+
+  useEffect(() => {
+    const clockTimer =
+      window.setInterval(() => {
+        setPriceClock(
+          Date.now()
+        );
+      }, 10_000);
+
+    return () => {
+      window.clearInterval(
+        clockTimer
+      );
+    };
+  }, []);
 
   useEffect(() => {
     if (
@@ -596,7 +1041,7 @@ export default function EarlyAccessSection() {
     const refreshTimer =
       window.setInterval(() => {
         loadSaleStatus();
-      }, 30000);
+      }, 30_000);
 
     return () => {
       window.clearInterval(
@@ -604,6 +1049,7 @@ export default function EarlyAccessSection() {
       );
     };
   }, [loadSaleStatus]);
+
   function openWallet() {
     open({
       view: isConnected
@@ -627,7 +1073,7 @@ export default function EarlyAccessSection() {
         rpcUrls: {
           default: {
             http: [
-              "https://polygon.drpc.org",
+              PUBLIC_POLYGON_RPC,
             ],
           },
         },
@@ -681,7 +1127,10 @@ export default function EarlyAccessSection() {
     setPurchaseSuccess("");
     setTransactionHash("");
 
-    if (!isConnected || !address) {
+    if (
+      !isConnected ||
+      !address
+    ) {
       setPurchaseError(
         "Connect your wallet before purchasing."
       );
@@ -749,8 +1198,9 @@ export default function EarlyAccessSection() {
         await provider.getNetwork();
 
       if (
-        Number(network.chainId) !==
-        POLYGON_CHAIN_ID
+        Number(
+          network.chainId
+        ) !== POLYGON_CHAIN_ID
       ) {
         throw new Error(
           "Your wallet is not connected to Polygon Mainnet."
@@ -777,6 +1227,7 @@ export default function EarlyAccessSection() {
           parseEther(polAmount)
         ),
       ]);
+
       if (
         !openStatus ||
         pausedStatus ||
@@ -796,12 +1247,14 @@ export default function EarlyAccessSection() {
         );
 
       await genesis.buyTokens.staticCall({
-        value: parseEther(polAmount),
+        value:
+          parseEther(polAmount),
       });
 
       const transaction =
         await genesis.buyTokens({
-          value: parseEther(polAmount),
+          value:
+            parseEther(polAmount),
         });
 
       setTransactionHash(
@@ -855,35 +1308,37 @@ export default function EarlyAccessSection() {
     ) ||
     numericPolAmount <
       MINIMUM_PURCHASE_POL;
-  const saleStatusText = (() => {
-    if (saleLoading) {
-      return "Checking Genesis";
-    }
 
-    if (saleError) {
-  return "Reconnecting";
-}
+  const saleStatusText =
+    (() => {
+      if (saleLoading) {
+        return "Checking Genesis";
+      }
 
-    if (saleFinalized === true) {
-      return "Genesis Finalized";
-    }
+      if (saleError) {
+        return "Reconnecting";
+      }
 
-    if (hasOpened !== true) {
-      return "Genesis Not Open";
-    }
+      if (saleFinalized) {
+        return "Genesis Finalized";
+      }
 
-    if (salePaused === true) {
-      return "Genesis Paused";
-    }
+      if (!hasOpened) {
+        return "Genesis Not Open";
+      }
 
-    if (saleOpen === true) {
-      return "Genesis Live";
-    }
+      if (salePaused) {
+        return "Genesis Paused";
+      }
 
-    return "Genesis Closed";
+      if (saleOpen) {
+        return "Genesis Live";
+      }
+
+         return "Genesis Closed";
   })();
 
-  return (
+      return (
     <section
       id="early-access"
       className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-4 py-16 text-white sm:px-5 sm:py-20"
@@ -901,10 +1356,9 @@ export default function EarlyAccessSection() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/60 sm:text-base">
-            Connect securely, confirm
-            Polygon Mainnet, review the live
-            Genesis stage, and purchase WTC
-            through the verified contract.
+            Connect securely, confirm Polygon Mainnet, review the live
+            Genesis stage, and purchase WTC through the verified
+            contract.
           </p>
         </div>
 
@@ -917,9 +1371,7 @@ export default function EarlyAccessSection() {
                 </p>
 
                 <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                  Stage{" "}
-                  {currentStage + 1} of{" "}
-                  {STAGE_COUNT}
+                  Stage {currentStage + 1} of {STAGE_COUNT}
                 </h3>
               </div>
 
@@ -960,8 +1412,7 @@ export default function EarlyAccessSection() {
 
                 <p
                   className={`mt-2 font-semibold ${
-                    isConnected &&
-                    isPolygon
+                    isConnected && isPolygon
                       ? "text-green-300"
                       : "text-amber-200"
                   }`}
@@ -985,6 +1436,12 @@ export default function EarlyAccessSection() {
                     : `${polBalance} POL`}
                 </p>
 
+                <p className="mt-1 text-xs text-white/45">
+                  {walletBalanceUsd === null
+                    ? "USD estimate unavailable"
+                    : `≈ ${formatUsd(walletBalanceUsd)}`}
+                </p>
+
                 {balanceError && (
                   <p className="mt-2 text-sm text-red-300">
                     {balanceError}
@@ -998,8 +1455,7 @@ export default function EarlyAccessSection() {
                 </p>
 
                 <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                  {hasOpened &&
-                  !saleFinalized
+                  {hasOpened && !saleFinalized
                     ? countdownText
                     : "Not started"}
                 </p>
@@ -1014,10 +1470,7 @@ export default function EarlyAccessSection() {
 
                 <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
                   {currentRate > 0
-                    ? formatWtc(
-                        currentRate,
-                        6
-                      )
+                    ? formatWtc(currentRate, 6)
                     : "—"}
                 </p>
 
@@ -1032,10 +1485,7 @@ export default function EarlyAccessSection() {
                 </p>
 
                 <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
-                  {formatWtc(
-                    stageRemaining,
-                    2
-                  )}
+                  {formatWtc(stageRemaining, 2)}
                 </p>
 
                 <p className="mt-1 text-xs text-white/45">
@@ -1068,16 +1518,8 @@ export default function EarlyAccessSection() {
                 </p>
 
                 <p className="text-sm text-white/55">
-                  {formatWtc(
-                    stageSold,
-                    2
-                  )}{" "}
-                  /{" "}
-                  {formatWtc(
-                    stageAllocation,
-                    2
-                  )}{" "}
-                  WTC
+                  {formatWtc(stageSold, 2)} /{" "}
+                  {formatWtc(stageAllocation, 2)} WTC
                 </p>
               </div>
 
@@ -1090,11 +1532,9 @@ export default function EarlyAccessSection() {
                 />
               </div>
 
-              <p className="mt-3 text-xs text-white/40">
-                The stage ends when its
-                allocation sells out or its
-                seven-day window expires.
-                Unsold stage tokens do not
+              <p className="mt-3 text-xs leading-5 text-white/40">
+                The stage ends when its allocation sells out or its
+                seven-day window expires. Unsold stage tokens do not
                 roll over.
               </p>
             </div>
@@ -1106,13 +1546,9 @@ export default function EarlyAccessSection() {
                 </p>
 
                 <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                  {totalPolRaised.toLocaleString(
-                    undefined,
-                    {
-                      maximumFractionDigits:
-                        4,
-                    }
-                  )}{" "}
+                  {totalPolRaised.toLocaleString(undefined, {
+                    maximumFractionDigits: 4,
+                  })}{" "}
                   POL
                 </p>
               </div>
@@ -1123,51 +1559,90 @@ export default function EarlyAccessSection() {
                 </p>
 
                 <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                  {formatWtc(
-                    totalWtcSold,
-                    2
-                  )}{" "}
-                  WTC
+                  {formatWtc(totalWtcSold, 2)} WTC
                 </p>
               </div>
             </div>
-            <div className="mt-5 rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
-              <p className="text-sm uppercase tracking-[0.2em] text-white/45">
-                Current Genesis Rate
+
+            <div className="mt-5 rounded-xl border border-[#D4AF37]/20 bg-[#071009]/70 p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.2em] text-white/45">
+                    Live Conversion Rate
+                  </p>
+
+                  <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                    1 POL ={" "}
+                    {currentRate > 0
+                      ? formatWtc(currentRate, 6)
+                      : "—"}{" "}
+                    WTC
+                  </p>
+
+                  <p className="mt-1 text-sm text-white/60">
+                    1 POL ≈{" "}
+                    {Number.isFinite(polUsdPrice)
+                      ? formatUsd(polUsdPrice, {
+                          maximumFractionDigits: 4,
+                        })
+                      : "—"}
+                  </p>
+                </div>
+
+                <div
+                  className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] ${
+                    polPriceError || priceIsStale
+                      ? "border-amber-500/25 bg-amber-950/20 text-amber-200"
+                      : "border-green-500/25 bg-green-950/20 text-green-200"
+                  }`}
+                >
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      polPriceError || priceIsStale
+                        ? "bg-amber-400"
+                        : "bg-green-400"
+                    }`}
+                  />
+
+                  {polPriceStatusText}
+                </div>
+              </div>
+
+              <p className="mt-3 text-xs leading-5 text-white/45">
+                Current estimated WTC price:{" "}
+                <span className="font-semibold text-white/70">
+                  {formatTokenPriceUsd(
+                    currentWtcUsdPrice
+                  )}
+                </span>{" "}
+                per WTC.
               </p>
 
-              <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                1 POL ={" "}
-                {currentRate > 0
-                  ? formatWtc(currentRate, 6)
-                  : "—"}{" "}
-                WTC
-              </p>
-
-              <p className="mt-2 text-xs leading-5 text-white/45">
-                Minimum purchase: 1 POL.
-                WTC is delivered directly to
-                the connected wallet after
-                Polygon confirms the transaction.
+              <p className="mt-1 text-xs leading-5 text-white/45">
+                Minimum purchase: 1 POL
+                {minimumPurchaseUsd !== null
+                  ? ` (approximately ${formatUsd(
+                      minimumPurchaseUsd
+                    )})`
+                  : ""}
+                .
               </p>
             </div>
 
-{showMobileWalletNotice && (
-  <div className="mt-5 rounded-xl border border-amber-400/30 bg-amber-950/20 p-4">
-    <p className="font-semibold text-amber-200">
-      📱 iPhone Safari Users
-    </p>
+            {showMobileWalletNotice && (
+              <div className="mt-5 rounded-xl border border-amber-400/30 bg-amber-950/20 p-4">
+                <p className="font-semibold text-amber-200">
+                  📱 iPhone Safari Users
+                </p>
 
-    <p className="mt-2 text-xs leading-5 text-white/70">
-      For the most reliable purchasing
-      experience, open OfficialWealthCoin.com
-      inside your wallet's built-in dApp
-      browser. Some mobile wallets do not
-      reliably return to Safari after signing
-      a blockchain transaction.
-    </p>
-  </div>
-)}
+                <p className="mt-2 text-xs leading-5 text-white/70">
+                  For the most reliable purchasing experience, open
+                  OfficialWealthCoin.com inside your wallet&apos;s
+                  built-in dApp browser.
+                </p>
+              </div>
+            )}
+
             <div className="mt-5">
               <label
                 htmlFor="polAmount"
@@ -1201,29 +1676,29 @@ export default function EarlyAccessSection() {
                   POL
                 </span>
               </div>
-            </div>
 
-            <div className="mt-4 rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-4">
-              <p className="text-sm uppercase tracking-[0.2em] text-white/45">
-                Estimated WealthCoin
-              </p>
-
-              <p className="mt-2 break-words font-display text-xl text-[#D4AF37]">
-                {formatWtc(
-                  estimatedWtc,
-                  6
-                )}{" "}
-                WTC
-              </p>
-
-              <p className="mt-2 text-xs leading-5 text-white/40">
-                This estimate uses the current
-                on-chain stage rate. The contract
-                calculates the final amount when
-                your transaction is submitted.
+              <p className="mt-2 text-sm text-white/50">
+                {enteredPolUsd === null
+                  ? "Enter an amount to view its USD estimate."
+                  : `≈ ${formatUsd(enteredPolUsd)} USD`}
               </p>
             </div>
+{stagePurchasePercent >= 50 && (
+  <div className="mt-4 rounded-xl border border-red-500/30 bg-red-950/20 p-4">
+    <p className="font-semibold text-red-300">
+      Large Purchase Advisory
+    </p>
 
+    <p className="mt-2 text-sm leading-6 text-white/70">
+      This purchase represents approximately{" "}
+      <span className="font-semibold text-red-300">
+        {stagePurchasePercent.toFixed(2)}%
+      </span>{" "}
+      of the current Genesis stage allocation. Please verify the entered
+      amount carefully before approving this transaction.
+    </p>
+  </div>
+)}
             {saleError && (
               <p className="mt-5 rounded-xl border border-red-500/25 bg-red-950/20 p-4 text-sm text-red-200">
                 {saleError}
@@ -1247,55 +1722,11 @@ export default function EarlyAccessSection() {
                     rel="noreferrer"
                     className="mt-2 inline-block font-semibold text-[#D4AF37] underline"
                   >
-                    View transaction on
-                    PolygonScan
+                    View transaction on PolygonScan
                   </a>
                 )}
               </div>
             )}
-
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <button
-                type="button"
-                onClick={openWallet}
-                className="btn-ghost rounded-lg px-5 py-3 font-bold"
-              >
-                {isConnected
-                  ? "Manage Wallet"
-                  : "Connect Wallet"}
-              </button>
-
-              {isConnected &&
-              !isPolygon ? (
-                <button
-                  type="button"
-                  onClick={handleSwitchNetwork}
-                  className="btn-gold rounded-lg px-5 py-3 font-bold"
-                >
-                  Switch to Polygon
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handlePurchase}
-                  disabled={purchaseDisabled}
-                  className="btn-gold rounded-lg px-5 py-3 font-bold disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  {isPurchasing
-                    ? "Confirming Purchase..."
-                    : saleOpen
-                      ? "Purchase WTC"
-                      : "Purchases Paused"}
-                </button>
-              )}
-            </div>
-
-            <p className="mt-4 text-center text-xs leading-5 text-white/40">
-              Cryptocurrency transactions are
-              irreversible. Confirm the network,
-              amount, and verified contract before
-              approving.
-            </p>
           </div>
 
           <aside className="min-w-0 space-y-5 lg:sticky lg:top-24 lg:self-start">
@@ -1355,19 +1786,19 @@ export default function EarlyAccessSection() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/55 p-5 shadow-[0_0_40px_rgba(212,175,55,0.05)]">
+            <div className="rounded-2xl border border-[#D4AF37]/35 bg-black/65 p-5 shadow-[0_0_45px_rgba(212,175,55,0.10)]">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                    Live Contract Data
+                    Purchase Summary
                   </p>
 
                   <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                    Stage Information
+                    Complete Your Purchase
                   </h3>
                 </div>
 
-                <div
+                <span
                   className={`mt-1 h-3 w-3 shrink-0 rounded-full ${
                     saleOpen
                       ? "bg-green-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]"
@@ -1376,177 +1807,181 @@ export default function EarlyAccessSection() {
                 />
               </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-2.5">
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
-                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
-                    Current Stage
+              <div className="mt-4 space-y-3">
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                    You Pay
                   </p>
 
-                  <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
-                    {currentStage + 1} / {STAGE_COUNT}
-                  </p>
-                </div>
-
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
-                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
-                    Current Rate
-                  </p>
-
-                  <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
-                    {currentRate > 0
-                      ? formatWtc(currentRate, 4)
+                  <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                    {Number.isFinite(numericPolAmount) &&
+                    numericPolAmount > 0
+                      ? `${formatWtc(
+                          numericPolAmount,
+                          4
+                        )} POL`
                       : "—"}
                   </p>
 
-                  <p className="mt-1 text-[11px] text-white/35">
-                    WTC per POL
+                  <p className="mt-1 text-sm text-white/50">
+                    {enteredPolUsd === null
+                      ? "USD estimate unavailable"
+                      : `≈ ${formatUsd(enteredPolUsd)}`}
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
-                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
-                    Stage Begins
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/40">
+                    You Receive
                   </p>
 
-                  <p className="mt-2 text-sm font-semibold text-white/80">
-                    {stageStartTime > 0
-                      ? new Date(
-                          stageStartTime * 1000
-                        ).toLocaleDateString()
-                      : "Not started"}
-                  </p>
-                </div>
-
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
-                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
-                    Time Remaining
+                  <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                    {formatWtc(estimatedWtc, 6)} WTC
                   </p>
 
-                  <p className="mt-2 text-sm font-semibold text-white/80">
-                    {hasOpened && !saleFinalized
-                      ? countdownText
-                      : "Not started"}
+                  <p className="mt-1 text-sm text-white/50">
+                    At the current on-chain stage rate
                   </p>
                 </div>
-              </div>
 
-              <div className="mt-3 rounded-xl border border-[#D4AF37]/15 bg-black/45 p-3.5">
-                <div className="flex items-center justify-between gap-4 text-sm">
-                  <span className="text-white/45">
-                    Stage allocation remaining
-                  </span>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  <div className="rounded-xl border border-[#D4AF37]/15 bg-black/45 p-3.5">
+                    <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+                      WTC Unit Price
+                    </p>
 
-                  <span className="font-semibold text-[#D4AF37]">
-                    {formatWtc(stageRemaining, 2)} WTC
-                  </span>
-                </div>
+                    <p className="mt-1.5 text-sm font-semibold text-white/80">
+                      {formatTokenPriceUsd(
+                        currentWtcUsdPrice
+                      )}
+                    </p>
+                  </div>
 
-                <div className="mt-3 h-2 overflow-hidden rounded-full bg-black/80">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#8f6e16] via-[#D4AF37] to-[#f5df88] transition-all duration-500"
-                    style={{
-                      width: `${stageProgress}%`,
-                    }}
-                  />
+                  <div className="rounded-xl border border-[#D4AF37]/15 bg-black/45 p-3.5">
+                    <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+                      Network Fee
+                    </p>
+
+                    <p className="mt-1.5 text-sm font-semibold text-white/80">
+                      Paid separately in POL
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              <div className="mt-5 grid gap-3">
+                <button
+                  type="button"
+                  onClick={openWallet}
+                  className="btn-ghost rounded-lg px-5 py-3 font-bold"
+                >
+                  {isConnected
+                    ? "Manage Wallet"
+                    : "Connect Wallet"}
+                </button>
+
+                {isConnected && !isPolygon ? (
+                  <button
+                    type="button"
+                    onClick={handleSwitchNetwork}
+                    className="btn-gold rounded-lg px-5 py-3 font-bold"
+                  >
+                    Switch to Polygon
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handlePurchase}
+                    disabled={purchaseDisabled}
+                    className="btn-gold rounded-lg px-5 py-3 font-bold disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {isPurchasing
+                      ? "Confirming Purchase..."
+                      : saleOpen
+                        ? "Purchase WTC"
+                        : "Purchases Paused"}
+                  </button>
+                )}
+              </div>
+
+              <p className="mt-4 text-center text-xs leading-5 text-white/40">
+                Network fees are paid separately to Polygon validators.
+                USD values are live estimates and are not the settlement
+                currency.
+              </p>
             </div>
 
             <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/55 p-5 shadow-[0_0_40px_rgba(212,175,55,0.05)]">
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                  Public Verification
-                </p>
+              <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+                Public Verification
+              </p>
 
-                <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
-                  Verified Contracts
-                </h3>
+              <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                Verified Contracts
+              </h3>
 
-                <p className="mt-3 text-xs leading-5 text-white/45">
-                  Confirm these addresses before approving any transaction.
-                </p>
-              </div>
+              <p className="mt-3 text-xs leading-5 text-white/45">
+                Confirm these addresses before approving any transaction.
+              </p>
 
               <div className="mt-4 space-y-3">
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs uppercase tracking-[0.16em] text-white/40">
-                      WTC Token
+                {[
+                  {
+                    label: "WTC Token",
+                    address: CONTRACTS.token,
+                    badge: "Polygon",
+                    url: `https://polygonscan.com/token/${CONTRACTS.token}`,
+                  },
+                  {
+                    label: "Genesis Early Access",
+                    address: CONTRACTS.genesis,
+                    badge: "Verified",
+                    url: `https://polygonscan.com/address/${CONTRACTS.genesis}`,
+                  },
+                ].map((contract) => (
+                  <div
+                    key={contract.label}
+                    className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs uppercase tracking-[0.16em] text-white/40">
+                        {contract.label}
+                      </p>
+
+                      <span className="rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/10 px-2 py-1 text-[10px] uppercase tracking-wider text-[#D4AF37]">
+                        {contract.badge}
+                      </span>
+                    </div>
+
+                    <p className="mt-3 break-all font-mono text-xs leading-5 text-white/65">
+                      {contract.address}
                     </p>
 
-                    <span className="rounded-full border border-green-500/20 bg-green-950/20 px-2 py-1 text-[10px] uppercase tracking-wider text-green-300">
-                      Polygon
-                    </span>
+                    <div className="mt-3 grid grid-cols-2 gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          copyAddress(
+                            contract.address,
+                            `${contract.label} address copied.`
+                          )
+                        }
+                        className="btn-ghost rounded-md px-3 py-2 text-xs font-bold"
+                      >
+                        Copy
+                      </button>
+
+                      <a
+                        href={contract.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-ghost rounded-lg px-3 py-2 text-center text-sm font-bold"
+                      >
+                        View
+                      </a>
+                    </div>
                   </div>
-
-                  <p className="mt-3 break-all font-mono text-xs leading-5 text-white/65">
-                    {CONTRACTS.token}
-                  </p>
-
-                  <div className="mt-3 grid grid-cols-2 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        copyAddress(
-                          CONTRACTS.token,
-                          "WTC token address copied."
-                        )
-                      }
-                      className="btn-ghost rounded-md px-3 py-2 text-xs font-bold"
-                    >
-                      Copy
-                    </button>
-
-                    <a
-                      href={`https://polygonscan.com/token/${CONTRACTS.token}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn-ghost rounded-lg px-3 py-2 text-center text-sm font-bold"
-                    >
-                      View
-                    </a>
-                  </div>
-                </div>
-
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs uppercase tracking-[0.16em] text-white/40">
-                      Genesis Early Access
-                    </p>
-
-                    <span className="rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/10 px-2 py-1 text-[10px] uppercase tracking-wider text-[#D4AF37]">
-                      Verified
-                    </span>
-                  </div>
-
-                  <p className="mt-3 break-all font-mono text-xs leading-5 text-white/65">
-                    {CONTRACTS.genesis}
-                  </p>
-
-                  <div className="mt-3 grid grid-cols-2 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        copyAddress(
-                          CONTRACTS.genesis,
-                          "Genesis address copied."
-                        )
-                      }
-                      className="btn-ghost rounded-md px-3 py-2 text-xs font-bold"
-                    >
-                      Copy
-                    </button>
-
-                    <a
-                      href={`https://polygonscan.com/address/${CONTRACTS.genesis}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn-ghost rounded-lg px-3 py-2 text-center text-sm font-bold"
-                    >
-                      View
-                    </a>
-                  </div>
-                </div>
+                ))}
               </div>
 
               {copiedLabel && (
