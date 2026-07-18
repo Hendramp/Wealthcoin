@@ -66,7 +66,43 @@ export default function LibrarySection() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
+        <div className="mx-auto mt-10 max-w-4xl rounded-3xl border border-amber-400/35 bg-amber-400/[0.07] p-5 shadow-[0_0_35px_rgba(251,191,36,0.05)] sm:p-6">
+          <div className="flex items-start gap-4">
+            <div
+  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-red-500/50 bg-red-500/10 text-xl font-bold text-red-400"
+  aria-hidden="true"
+>
+  !
+</div>
+
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
+                Wallet Security Notice
+              </p>
+
+              <h3 className="mt-2 font-display text-xl text-white sm:text-2xl">
+                Protect Your Private Information
+              </h3>
+
+              <p className="mt-3 text-sm leading-7 text-white/65">
+                Never share your private key, seed phrase, wallet recovery
+                phrase, password, or security credentials with anyone.
+                WealthCoin, its team members, representatives, administrators,
+                and official support channels will never ask you to provide
+                this information.
+              </p>
+
+              <p className="mt-3 text-sm leading-7 text-white/65">
+                Anyone requesting this information while claiming to represent
+                WealthCoin should be treated as fraudulent. Always verify that
+                you are using official WealthCoin resources before connecting
+                your wallet or completing a transaction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
           {libraryResources.map((resource) => (
             <article
               key={resource.title}
