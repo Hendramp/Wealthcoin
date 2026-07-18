@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import DocumentViewer from "../shared/DocumentViewer";
+import React, { useEffect, useState } from "react";
 
 const resources = [
   {
@@ -43,6 +42,41 @@ const riskFactors = [
 export default function FoundationSection() {
   const [activeDocument, setActiveDocument] = useState(null);
 
+  useEffect(() => {
+    if (!activeDocument) {
+      document.body.style.overflow = "";
+      return undefined;
+    }
+
+    document.body.style.overflow = "hidden";
+
+    function handleEscape(event) {
+      if (event.key === "Escape") {
+        setActiveDocument(null);
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [activeDocument]);
+
+  function openDocument(resource) {
+    const isSmallScreen =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 767px)").matches;
+
+    if (isSmallScreen) {
+      window.open(resource.href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    setActiveDocument(resource);
+  }
+
   const scrollToLibrary = () => {
     document.getElementById("library")?.scrollIntoView({
       behavior: "smooth",
@@ -54,7 +88,7 @@ export default function FoundationSection() {
     <>
       <section
         id="foundation"
-        className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#071009] px-6 py-24 text-white"
+        className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#071009] px-4 py-16 text-white sm:px-6 sm:py-24"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.09),transparent_40%),radial-gradient(circle_at_85%_75%,rgba(24,85,48,0.12),transparent_35%)]" />
 
@@ -75,11 +109,11 @@ export default function FoundationSection() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {resources.map((resource) => (
               <article
                 key={resource.title}
-                className={`relative flex min-h-[390px] flex-col overflow-hidden rounded-2xl border p-7 transition duration-300 ${
+                className={`relative flex min-h-0 flex-col overflow-hidden rounded-2xl border p-5 transition duration-300 sm:min-h-[390px] sm:p-7 ${
                   resource.available
                     ? "border-[#D4AF37]/25 bg-black/45 hover:-translate-y-1 hover:border-[#D4AF37]/55"
                     : "border-[#D4AF37]/20 bg-black/35"
@@ -111,11 +145,11 @@ export default function FoundationSection() {
                   </p>
 
                   {resource.available ? (
-                    <div className="mt-7 grid grid-cols-2 gap-3">
+                    <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
                       <button
                         type="button"
-                        onClick={() => setActiveDocument(resource)}
-                        className="btn-gold rounded-xl px-4 py-3 text-sm font-bold"
+                        onClick={() => openDocument(resource)}
+                        className="btn-gold min-h-[50px] w-full rounded-xl px-4 py-3 text-sm font-bold"
                       >
                         {resource.previewLabel}
                       </button>
@@ -123,7 +157,7 @@ export default function FoundationSection() {
                       <a
                         href={resource.href}
                         download
-                        className="btn-ghost rounded-xl px-4 py-3 text-center text-sm font-bold"
+                        className="btn-ghost flex min-h-[50px] w-full items-center justify-center rounded-xl px-4 py-3 text-center text-sm font-bold"
                       >
                         {resource.downloadLabel}
                       </a>
@@ -263,12 +297,72 @@ export default function FoundationSection() {
         </div>
       </section>
 
-      <DocumentViewer
-        isOpen={Boolean(activeDocument)}
-        title={activeDocument?.title}
-        pdfUrl={activeDocument?.href}
-        onClose={() => setActiveDocument(null)}
-      />
+      {activeDocument && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-3 backdrop-blur-sm sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="document-preview-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setActiveDocument(null);
+            }
+          }}
+        >
+          <div className="flex h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#020403] shadow-[0_0_70px_rgba(0,0,0,0.8)]">
+            <div className="flex items-center justify-between gap-4 border-b border-[#D4AF37]/20 px-4 py-3 sm:px-5 sm:py-4">
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/40">
+                  Document Preview
+                </p>
+
+                <h2
+                  id="document-preview-title"
+                  className="mt-1 truncate font-display text-lg text-[#D4AF37] sm:text-xl"
+                >
+                  {activeDocument.title}
+                </h2>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setActiveDocument(null)}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#D4AF37]/25 bg-black/50 text-xl text-white/75 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                aria-label="Close document preview"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="min-h-0 flex-1 bg-[#111]">
+              <iframe
+                src={`${activeDocument.href}#toolbar=1&navpanes=0&view=FitH`}
+                title={`${activeDocument.title} PDF preview`}
+                className="h-full w-full border-0"
+              />
+            </div>
+
+            <div className="grid gap-3 border-t border-[#D4AF37]/20 p-3 sm:grid-cols-2 sm:p-4">
+              <a
+                href={activeDocument.href}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-ghost flex min-h-[48px] items-center justify-center rounded-xl px-5 py-3 text-sm font-bold"
+              >
+                Open Full Screen
+              </a>
+
+              <a
+                href={activeDocument.href}
+                download
+                className="btn-gold flex min-h-[48px] items-center justify-center rounded-xl px-5 py-3 text-sm font-bold"
+              >
+                Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
