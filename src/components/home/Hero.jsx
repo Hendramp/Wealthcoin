@@ -55,21 +55,21 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden bg-[#020302] px-6 pb-20 pt-28 text-white"
+      className="relative min-h-[100svh] overflow-hidden bg-[#020302] px-4 pb-16 pt-24 text-white sm:px-6 sm:pb-20 sm:pt-28"
     >
       {/* Background atmosphere */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(212,175,55,0.11),transparent_24%),radial-gradient(circle_at_50%_60%,rgba(15,65,34,0.22),transparent_48%),linear-gradient(180deg,#020302_0%,#061008_58%,#020202_100%)]" />
 
       {/* Soft ambient glow behind the coin */}
-      <div className="hero-halo absolute left-1/2 top-20 h-80 w-80 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[110px]" />
+      <div className="hero-halo absolute left-1/2 top-20 h-64 w-64 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[90px] sm:h-80 sm:w-80 sm:blur-[110px]" />
 
       {/* Subtle grid */}
       <div className="absolute inset-0 opacity-[0.025] [background-image:linear-gradient(rgba(255,255,255,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.16)_1px,transparent_1px)] [background-size:72px_72px]" />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-7rem)] max-w-7xl items-center justify-center">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl items-center justify-center sm:min-h-[calc(100vh-7rem)]">
         <div className="w-full text-center">
           {/* WealthCoin logo */}
-          <div className="hero-coin-wrap mx-auto mb-7">
+          <div className="hero-coin-wrap mx-auto mb-5 scale-[0.82] sm:mb-7 sm:scale-100">
             <div className="hero-coin-frame">
               <img
                 src="/assets/logos/wealthcoin-logo.png"
@@ -79,7 +79,7 @@ export default function Hero() {
             </div>
           </div>
 {/* Polygon Network */}
-<div className="mt-7 flex flex-col items-center">
+<div className="mt-4 flex flex-col items-center sm:mt-7">
   <svg
     width="56"
     height="32"
@@ -101,22 +101,22 @@ export default function Hero() {
     />
   </svg>
 
-  <span className="mt-2 text-sm font-semibold uppercase tracking-[0.32em] text-[#C8A6FF]">
+  <span className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#C8A6FF] sm:text-sm sm:tracking-[0.32em]">
     Live on Polygon Network
   </span>
 </div>
 
           {/* Main headline */}
-          <h1 className="mt-8 font-display text-5xl font-bold uppercase leading-[0.95] sm:text-6xl md:text-7xl lg:text-[5.25rem]">
+          <h1 className="mt-6 font-display text-[2.65rem] font-bold uppercase leading-[0.95] sm:mt-8 sm:text-6xl md:text-7xl lg:text-[5.25rem]">
             <span className="gold-text block">Build Generational</span>
             <span className="mt-2 block text-white">Wealth</span>
           </h1>
 
-          <p className="mt-7 font-display text-lg tracking-wide text-[#D4AF37]/80 sm:text-xl md:text-2xl">
+          <p className="mt-6 font-display text-base tracking-wide text-[#D4AF37]/80 sm:mt-7 sm:text-xl md:text-2xl">
             Rooted in Faith — Powered by Blockchain
           </p>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/65 sm:text-lg md:text-xl">
+          <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
             WealthCoin is a stewardship-driven digital economy built on
             Polygon—designed to empower builders, strengthen communities, and
             create lasting opportunity across generations.
@@ -124,14 +124,14 @@ export default function Hero() {
 
           {/* Rotating Scripture */}
           <blockquote
-            className={`mx-auto mt-9 flex min-h-[118px] max-w-3xl flex-col items-center justify-center transition-all duration-500 ${
+            className={`mx-auto mt-7 flex min-h-[138px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:mt-9 sm:min-h-[118px] ${
               scriptureVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-2 opacity-0"
             }`}
             aria-live="polite"
           >
-            <p className="text-lg italic leading-8 text-white/75 sm:text-xl">
+            <p className="text-base italic leading-7 text-white/75 sm:text-xl sm:leading-8">
               {activeScripture.verse}
             </p>
 
@@ -167,23 +167,23 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4">
             <a
               href="#early-access"
-              className="btn-gold min-w-[225px] rounded-xl px-8 py-4 text-base font-bold"
+              className="btn-gold min-h-[54px] w-full rounded-xl px-8 py-4 text-base font-bold transition active:scale-[0.99] sm:w-auto sm:min-w-[225px]"
             >
               Join Early Access
             </a>
 
             <a
               href="#foundation"
-              className="btn-ghost min-w-[225px] rounded-xl px-8 py-4 text-base font-bold"
+              className="btn-ghost min-h-[54px] w-full rounded-xl px-8 py-4 text-base font-bold transition active:scale-[0.99] sm:w-auto sm:min-w-[225px]"
             >
               Explore the Foundation
             </a>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-10 sm:mt-12">
             <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
 
             <p className="mt-6 font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">

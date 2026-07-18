@@ -1335,13 +1335,13 @@ export default function EarlyAccessSection() {
         return "Genesis Live";
       }
 
-         return "Genesis Closed";
-  })();
+      return "Genesis Closed";
+    })();
 
-      return (
+  return (
     <section
       id="early-access"
-      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-4 py-16 text-white sm:px-5 sm:py-20"
+      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-4 py-14 text-white sm:px-5 sm:py-20"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(212,175,55,0.10),transparent_35%),radial-gradient(circle_at_50%_75%,rgba(28,90,48,0.18),transparent_45%)]" />
 
@@ -1362,7 +1362,7 @@ export default function EarlyAccessSection() {
           </p>
         </div>
 
-        <div className="mt-9 grid gap-6 lg:mt-10 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="mt-8 grid gap-5 sm:gap-6 lg:mt-10 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="min-w-0 rounded-2xl border border-[#D4AF37]/30 bg-black/55 p-4 shadow-[0_0_45px_rgba(212,175,55,0.08)] sm:p-6">
             <div className="flex flex-col gap-3 border-b border-[#D4AF37]/15 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -1370,7 +1370,7 @@ export default function EarlyAccessSection() {
                   Current Offering
                 </p>
 
-                <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                <h3 className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                   Stage {currentStage + 1} of {STAGE_COUNT}
                 </h3>
               </div>
@@ -1430,7 +1430,7 @@ export default function EarlyAccessSection() {
                   Available POL Balance
                 </p>
 
-                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                   {balanceLoading
                     ? "Loading..."
                     : `${polBalance} POL`}
@@ -1454,7 +1454,7 @@ export default function EarlyAccessSection() {
                   Stage Time Remaining
                 </p>
 
-                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                   {hasOpened && !saleFinalized
                     ? countdownText
                     : "Not started"}
@@ -1468,7 +1468,7 @@ export default function EarlyAccessSection() {
                   Live Rate
                 </p>
 
-                <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-lg text-[#D4AF37]">
                   {currentRate > 0
                     ? formatWtc(currentRate, 6)
                     : "—"}
@@ -1484,7 +1484,7 @@ export default function EarlyAccessSection() {
                   Stage Remaining
                 </p>
 
-                <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-lg text-[#D4AF37]">
                   {formatWtc(stageRemaining, 2)}
                 </p>
 
@@ -1498,7 +1498,7 @@ export default function EarlyAccessSection() {
                   Genesis Remaining
                 </p>
 
-                <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-lg text-[#D4AF37]">
                   {formatWtc(
                     totalRemainingAllocation,
                     2
@@ -1545,7 +1545,7 @@ export default function EarlyAccessSection() {
                   Total POL Raised
                 </p>
 
-                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                   {totalPolRaised.toLocaleString(undefined, {
                     maximumFractionDigits: 4,
                   })}{" "}
@@ -1558,7 +1558,7 @@ export default function EarlyAccessSection() {
                   Total WTC Distributed
                 </p>
 
-                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                   {formatWtc(totalWtcSold, 2)} WTC
                 </p>
               </div>
@@ -1571,7 +1571,7 @@ export default function EarlyAccessSection() {
                     Live Conversion Rate
                   </p>
 
-                  <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                  <p className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                     1 POL ={" "}
                     {currentRate > 0
                       ? formatWtc(currentRate, 6)
@@ -1651,7 +1651,7 @@ export default function EarlyAccessSection() {
                 Amount in POL
               </label>
 
-              <div className="mt-3 flex items-center rounded-xl border border-[#D4AF37]/30 bg-black/60 px-4">
+              <div className="mt-3 flex min-h-[58px] items-center rounded-xl border border-[#D4AF37]/30 bg-black/60 px-4 transition focus-within:border-[#D4AF37]/60 focus-within:shadow-[0_0_0_3px_rgba(212,175,55,0.08)]">
                 <input
                   id="polAmount"
                   type="number"
@@ -1683,22 +1683,23 @@ export default function EarlyAccessSection() {
                   : `≈ ${formatUsd(enteredPolUsd)} USD`}
               </p>
             </div>
-{stagePurchasePercent >= 50 && (
-  <div className="mt-4 rounded-xl border border-red-500/30 bg-red-950/20 p-4">
-    <p className="font-semibold text-red-300">
-      Large Purchase Advisory
-    </p>
+            {stagePurchasePercent >= 50 && (
+              <div className="mt-4 rounded-xl border border-red-500/30 bg-red-950/20 p-4">
+                <p className="font-semibold text-red-300">
+                  Large Purchase Advisory
+                </p>
 
-    <p className="mt-2 text-sm leading-6 text-white/70">
-      This purchase represents approximately{" "}
-      <span className="font-semibold text-red-300">
-        {stagePurchasePercent.toFixed(2)}%
-      </span>{" "}
-      of the current Genesis stage allocation. Please verify the entered
-      amount carefully before approving this transaction.
-    </p>
-  </div>
-)}
+                <p className="mt-2 text-sm leading-6 text-white/70">
+                  This purchase represents approximately{" "}
+                  <span className="font-semibold text-red-300">
+                    {stagePurchasePercent.toFixed(2)}%
+                  </span>{" "}
+                  of the current Genesis stage allocation. Please verify
+                  the entered amount carefully before approving this
+                  transaction.
+                </p>
+              </div>
+            )}
             {saleError && (
               <p className="mt-5 rounded-xl border border-red-500/25 bg-red-950/20 p-4 text-sm text-red-200">
                 {saleError}
@@ -1712,19 +1713,39 @@ export default function EarlyAccessSection() {
             )}
 
             {purchaseSuccess && (
-              <div className="mt-5 rounded-xl border border-green-500/25 bg-green-950/20 p-4 text-sm text-green-200">
-                <p>{purchaseSuccess}</p>
+              <div
+                className="mt-5 rounded-xl border border-green-500/25 bg-green-950/20 p-4 text-green-200"
+                role="status"
+                aria-live="polite"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-green-400/30 bg-green-400/10 font-bold">
+                    ✓
+                  </span>
 
-                {transactionHash && (
-                  <a
-                    href={`https://polygonscan.com/tx/${transactionHash}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-2 inline-block font-semibold text-[#D4AF37] underline"
-                  >
-                    View transaction on PolygonScan
-                  </a>
-                )}
+                  <div className="min-w-0">
+                    <p className="font-semibold">
+                      {transactionHash
+                        ? "Purchase Update"
+                        : "Purchase Confirmed"}
+                    </p>
+
+                    <p className="mt-1 text-sm leading-6 text-green-100/80">
+                      {purchaseSuccess}
+                    </p>
+
+                    {transactionHash && (
+                      <a
+                        href={`https://polygonscan.com/tx/${transactionHash}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-3 inline-flex min-h-[44px] items-center font-semibold text-[#D4AF37] underline underline-offset-4"
+                      >
+                        View transaction on PolygonScan
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -1736,7 +1757,7 @@ export default function EarlyAccessSection() {
                   Genesis Structure
                 </p>
 
-                <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                <h3 className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                   Genesis Overview
                 </h3>
               </div>
@@ -1793,7 +1814,7 @@ export default function EarlyAccessSection() {
                     Purchase Summary
                   </p>
 
-                  <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                  <h3 className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                     Complete Your Purchase
                   </h3>
                 </div>
@@ -1813,7 +1834,7 @@ export default function EarlyAccessSection() {
                     You Pay
                   </p>
 
-                  <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                  <p className="mt-2 break-words font-display text-3xl leading-tight text-[#D4AF37]">
                     {Number.isFinite(numericPolAmount) &&
                     numericPolAmount > 0
                       ? `${formatWtc(
@@ -1835,7 +1856,7 @@ export default function EarlyAccessSection() {
                     You Receive
                   </p>
 
-                  <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                  <p className="mt-2 break-words font-display text-3xl leading-tight text-[#D4AF37]">
                     {formatWtc(estimatedWtc, 6)} WTC
                   </p>
 
@@ -1869,11 +1890,11 @@ export default function EarlyAccessSection() {
                 </div>
               </div>
 
-              <div className="mt-5 grid gap-3">
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 <button
                   type="button"
                   onClick={openWallet}
-                  className="btn-ghost rounded-lg px-5 py-3 font-bold"
+                  className="btn-ghost min-h-[52px] w-full rounded-lg px-5 py-3 font-bold transition active:scale-[0.99]"
                 >
                   {isConnected
                     ? "Manage Wallet"
@@ -1884,7 +1905,7 @@ export default function EarlyAccessSection() {
                   <button
                     type="button"
                     onClick={handleSwitchNetwork}
-                    className="btn-gold rounded-lg px-5 py-3 font-bold"
+                    className="btn-gold min-h-[52px] w-full rounded-lg px-5 py-3 font-bold transition active:scale-[0.99]"
                   >
                     Switch to Polygon
                   </button>
@@ -1893,10 +1914,10 @@ export default function EarlyAccessSection() {
                     type="button"
                     onClick={handlePurchase}
                     disabled={purchaseDisabled}
-                    className="btn-gold rounded-lg px-5 py-3 font-bold disabled:cursor-not-allowed disabled:opacity-40"
+                    className="btn-gold min-h-[52px] w-full rounded-lg px-5 py-3 font-bold transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {isPurchasing
-                      ? "Confirming Purchase..."
+                      ? "Waiting for Wallet..."
                       : saleOpen
                         ? "Purchase WTC"
                         : "Purchases Paused"}
@@ -1916,7 +1937,7 @@ export default function EarlyAccessSection() {
                 Public Verification
               </p>
 
-              <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+              <h3 className="mt-1.5 break-words font-display text-xl text-[#D4AF37]">
                 Verified Contracts
               </h3>
 
@@ -1953,8 +1974,16 @@ export default function EarlyAccessSection() {
                       </span>
                     </div>
 
-                    <p className="mt-3 break-all font-mono text-xs leading-5 text-white/65">
-                      {contract.address}
+                    <p
+                      className="mt-3 font-mono text-xs leading-5 text-white/65"
+                      title={contract.address}
+                    >
+                      <span className="sm:hidden">
+                        {shortenAddress(contract.address)}
+                      </span>
+                      <span className="hidden break-all sm:inline">
+                        {contract.address}
+                      </span>
                     </p>
 
                     <div className="mt-3 grid grid-cols-2 gap-2.5">
