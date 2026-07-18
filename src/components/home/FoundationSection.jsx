@@ -65,18 +65,17 @@ export default function FoundationSection() {
   }, [activeDocument]);
 
   function openDocument(resource) {
-    const isSmallScreen =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 767px)").matches;
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 1024px)").matches;
 
-    if (isSmallScreen) {
-      window.open(resource.href, "_blank", "noopener,noreferrer");
-      return;
-    }
-
-    setActiveDocument(resource);
+  if (isMobile) {
+    window.open(resource.href, "_blank");
+    return;
   }
 
+  setActiveDocument(resource);
+}
   const scrollToLibrary = () => {
     document.getElementById("library")?.scrollIntoView({
       behavior: "smooth",
@@ -147,12 +146,12 @@ export default function FoundationSection() {
                   {resource.available ? (
                     <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
                       <button
-                        type="button"
-                        onClick={() => openDocument(resource)}
-                        className="btn-gold min-h-[50px] w-full rounded-xl px-4 py-3 text-sm font-bold"
-                      >
-                        {resource.previewLabel}
-                      </button>
+  type="button"
+  onClick={() => openDocument(resource)}
+  className="btn-gold min-h-[50px] w-full rounded-xl px-4 py-3 text-sm font-bold"
+>
+  {resource.previewLabel}
+</button>
 
                       <a
                         href={resource.href}
