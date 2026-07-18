@@ -9,7 +9,7 @@ const links = [
   { label: "Foundation", href: "#foundation" },
   { label: "Community", href: "#community" },
   { label: "Marketplace", href: "#marketplace" },
-  { label: "Library", href: "#foundation" },
+  { label: "Library", href: "#library" },
   { label: "Early Access", href: "#early-access" },
 ];
 

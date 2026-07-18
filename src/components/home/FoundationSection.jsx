@@ -18,22 +18,6 @@ const resources = [
     href: "/documents/WealthCoin_Ecosystem_Overview.pdf",
     action: "View Ecosystem",
   },
-  {
-    icon: "👛",
-    title: "Wallet Guide — English",
-    description:
-      "Prepare your wallet, obtain POL, switch to Polygon, and get ready for WealthCoin.",
-    href: "/documents/Wallet_Guide_EN.pdf",
-    action: "Open Guide",
-  },
-  {
-    icon: "🌐",
-    title: "Wallet Guide — Español",
-    description:
-      "Prepara tu wallet, obtén POL, cambia a Polygon y prepárate para WealthCoin.",
-    href: "/documents/Wallet_Guide_ES.pdf",
-    action: "Abrir Guía",
-  },
 ];
 
 export default function FoundationSection() {

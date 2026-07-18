@@ -287,8 +287,10 @@ export default function EarlyAccessSection() {
 
   const numericPolAmount =
     Number(polAmount);
-const showMobileWalletNotice =
-  isIosSafariBrowser();
+
+  const showMobileWalletNotice =
+    isIosSafariBrowser();
+
   const estimatedWtc = useMemo(() => {
     if (
       !Number.isFinite(numericPolAmount) ||
@@ -390,18 +392,13 @@ const showMobileWalletNotice =
       walletProvider,
     ]);
 
-    const loadSaleStatus =
+  const loadSaleStatus =
     useCallback(async () => {
       setSaleLoading(true);
       setSaleError("");
 
       try {
-        const provider =
-          walletProvider && isPolygon
-            ? new BrowserProvider(
-                walletProvider
-              )
-            : publicPolygonProvider;
+        const provider = publicPolygonProvider;
 
         const genesis =
           new Contract(
@@ -434,6 +431,17 @@ const showMobileWalletNotice =
           Boolean(openStatus) &&
           !Boolean(pausedStatus) &&
           !Boolean(finalizedStatus);
+
+        if (import.meta.env.DEV) {
+          console.log("Genesis contract status:", {
+            contract: CONTRACTS.genesis,
+            opened: Boolean(openedStatus),
+            open: Boolean(openStatus),
+            paused: Boolean(pausedStatus),
+            finalized: Boolean(finalizedStatus),
+            live: liveSale,
+          });
+        }
 
         setHasOpened(
           Boolean(openedStatus)
@@ -531,10 +539,7 @@ const showMobileWalletNotice =
       } finally {
         setSaleLoading(false);
       }
-    }, [
-      isPolygon,
-      walletProvider,
-    ]);
+    }, []);
 
   useEffect(() => {
     loadBalance();
@@ -587,7 +592,7 @@ const showMobileWalletNotice =
     stageEndTime,
   ]);
 
-    useEffect(() => {
+  useEffect(() => {
     const refreshTimer =
       window.setInterval(() => {
         loadSaleStatus();
@@ -599,7 +604,7 @@ const showMobileWalletNotice =
       );
     };
   }, [loadSaleStatus]);
-    function openWallet() {
+  function openWallet() {
     open({
       view: isConnected
         ? "Account"
@@ -772,7 +777,6 @@ const showMobileWalletNotice =
           parseEther(polAmount)
         ),
       ]);
-
       if (
         !openStatus ||
         pausedStatus ||
@@ -783,7 +787,7 @@ const showMobileWalletNotice =
         );
       }
 
-            const confirmedEstimate =
+      const confirmedEstimate =
         Number(
           formatUnits(
             tokenEstimate,
@@ -851,30 +855,29 @@ const showMobileWalletNotice =
     ) ||
     numericPolAmount <
       MINIMUM_PURCHASE_POL;
-
   const saleStatusText = (() => {
-    if (!isConnected) {
-      return "Connect to Check";
-    }
-
     if (saleLoading) {
       return "Checking Genesis";
     }
 
-    if (saleFinalized) {
+    if (saleError) {
+  return "Reconnecting";
+}
+
+    if (saleFinalized === true) {
       return "Genesis Finalized";
     }
 
-    if (!hasOpened) {
+    if (hasOpened !== true) {
       return "Genesis Not Open";
     }
 
-    if (saleOpen) {
-      return "Genesis Live";
+    if (salePaused === true) {
+      return "Genesis Paused";
     }
 
-    if (salePaused) {
-      return "Genesis Paused";
+    if (saleOpen === true) {
+      return "Genesis Live";
     }
 
     return "Genesis Closed";
@@ -883,7 +886,7 @@ const showMobileWalletNotice =
   return (
     <section
       id="early-access"
-      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-4 py-20 text-white sm:px-6 sm:py-24"
+      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#020403] px-4 py-16 text-white sm:px-5 sm:py-20"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(212,175,55,0.10),transparent_35%),radial-gradient(circle_at_50%_75%,rgba(28,90,48,0.18),transparent_45%)]" />
 
@@ -893,11 +896,11 @@ const showMobileWalletNotice =
             WealthCoin Genesis Early Access
           </p>
 
-          <h2 className="gold-text mt-5 font-display text-4xl font-bold sm:text-5xl md:text-6xl">
+          <h2 className="gold-text mt-4 font-display text-3xl font-bold sm:text-4xl md:text-5xl">
             Begin Your Journey
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/65 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/60 sm:text-base">
             Connect securely, confirm
             Polygon Mainnet, review the live
             Genesis stage, and purchase WTC
@@ -905,15 +908,15 @@ const showMobileWalletNotice =
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:mt-14 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="min-w-0 rounded-3xl border border-[#D4AF37]/30 bg-black/55 p-5 shadow-[0_0_45px_rgba(212,175,55,0.08)] sm:p-8">
-            <div className="flex flex-col gap-4 border-b border-[#D4AF37]/15 pb-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-9 grid gap-6 lg:mt-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="min-w-0 rounded-2xl border border-[#D4AF37]/30 bg-black/55 p-4 shadow-[0_0_45px_rgba(212,175,55,0.08)] sm:p-6">
+            <div className="flex flex-col gap-3 border-b border-[#D4AF37]/15 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/45 sm:text-sm sm:tracking-[0.25em]">
                   Current Offering
                 </p>
 
-                <h3 className="mt-2 font-display text-2xl text-[#D4AF37]">
+                <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
                   Stage{" "}
                   {currentStage + 1} of{" "}
                   {STAGE_COUNT}
@@ -921,7 +924,7 @@ const showMobileWalletNotice =
               </div>
 
               <div
-                className={`inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm ${
+                className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-xs ${
                   saleOpen
                     ? "border-green-500/30 bg-green-950/25 text-green-200"
                     : "border-amber-500/30 bg-amber-950/25 text-amber-200"
@@ -939,18 +942,18 @@ const showMobileWalletNotice =
               </div>
             </div>
 
-            <div className="mt-7 grid gap-4 sm:grid-cols-2">
-              <div className="min-w-0 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="min-w-0 rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Connected Wallet
                 </p>
 
-                <p className="mt-2 break-all font-mono text-sm text-white/75">
+                <p className="mt-1.5 break-all font-mono text-xs text-white/75">
                   {shortenAddress(address)}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Network
                 </p>
@@ -971,12 +974,12 @@ const showMobileWalletNotice =
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Available POL Balance
                 </p>
 
-                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
                   {balanceLoading
                     ? "Loading..."
                     : `${polBalance} POL`}
@@ -989,12 +992,12 @@ const showMobileWalletNotice =
                 )}
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                   Stage Time Remaining
                 </p>
 
-                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
                   {hasOpened &&
                   !saleFinalized
                     ? countdownText
@@ -1003,13 +1006,13 @@ const showMobileWalletNotice =
               </div>
             </div>
 
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                   Live Rate
                 </p>
 
-                <p className="mt-2 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
                   {currentRate > 0
                     ? formatWtc(
                         currentRate,
@@ -1023,12 +1026,12 @@ const showMobileWalletNotice =
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                   Stage Remaining
                 </p>
 
-                <p className="mt-2 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
                   {formatWtc(
                     stageRemaining,
                     2
@@ -1040,12 +1043,12 @@ const showMobileWalletNotice =
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                   Genesis Remaining
                 </p>
 
-                <p className="mt-2 font-display text-xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
                   {formatWtc(
                     totalRemainingAllocation,
                     2
@@ -1058,7 +1061,7 @@ const showMobileWalletNotice =
               </div>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+            <div className="mt-5 rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-sm uppercase tracking-[0.2em] text-white/45">
                   Stage Progress
@@ -1078,7 +1081,7 @@ const showMobileWalletNotice =
                 </p>
               </div>
 
-              <div className="mt-4 h-3 overflow-hidden rounded-full bg-black/70">
+              <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-black/70">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-[#8f6e16] via-[#D4AF37] to-[#f5df88] transition-all duration-500"
                   style={{
@@ -1096,13 +1099,13 @@ const showMobileWalletNotice =
               </p>
             </div>
 
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-black/45 p-5">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-black/45 p-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                   Total POL Raised
                 </p>
 
-                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
                   {totalPolRaised.toLocaleString(
                     undefined,
                     {
@@ -1114,12 +1117,12 @@ const showMobileWalletNotice =
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#D4AF37]/15 bg-black/45 p-5">
+              <div className="rounded-xl border border-[#D4AF37]/15 bg-black/45 p-4">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                   Total WTC Distributed
                 </p>
 
-                <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+                <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
                   {formatWtc(
                     totalWtcSold,
                     2
@@ -1128,12 +1131,12 @@ const showMobileWalletNotice =
                 </p>
               </div>
             </div>
-                        <div className="mt-7 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5">
+            <div className="mt-5 rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
               <p className="text-sm uppercase tracking-[0.2em] text-white/45">
                 Current Genesis Rate
               </p>
 
-              <p className="mt-2 font-display text-2xl text-[#D4AF37]">
+              <p className="mt-1.5 font-display text-xl text-[#D4AF37]">
                 1 POL ={" "}
                 {currentRate > 0
                   ? formatWtc(currentRate, 6)
@@ -1141,7 +1144,7 @@ const showMobileWalletNotice =
                 WTC
               </p>
 
-              <p className="mt-2 text-sm leading-6 text-white/45">
+              <p className="mt-2 text-xs leading-5 text-white/45">
                 Minimum purchase: 1 POL.
                 WTC is delivered directly to
                 the connected wallet after
@@ -1149,98 +1152,13 @@ const showMobileWalletNotice =
               </p>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-[#D4AF37]/20 bg-black/45 p-5">
-              <p className="text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
-                Verified Polygon Contracts
-              </p>
-
-              <div className="mt-5 rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/40">
-                  WealthCoin Token Contract
-                </p>
-
-                <p className="mt-2 break-all font-mono text-sm text-white/75">
-                  {CONTRACTS.token}
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      copyAddress(
-                        CONTRACTS.token,
-                        "WTC token address copied."
-                      )
-                    }
-                    className="btn-ghost rounded-lg px-4 py-2 text-sm font-bold"
-                  >
-                    Copy WTC Address
-                  </button>
-
-                  <a
-                    href={`https://polygonscan.com/token/${CONTRACTS.token}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-ghost rounded-lg px-4 py-2 text-sm font-bold"
-                  >
-                    View WTC
-                  </a>
-                </div>
-              </div>
-
-              <div className="mt-4 rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/40">
-                  Genesis Early Access Contract
-                </p>
-
-                <p className="mt-2 break-all font-mono text-sm text-white/75">
-                  {CONTRACTS.genesis}
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      copyAddress(
-                        CONTRACTS.genesis,
-                        "Genesis address copied."
-                      )
-                    }
-                    className="btn-ghost rounded-lg px-4 py-2 text-sm font-bold"
-                  >
-                    Copy Genesis Address
-                  </button>
-
-                  <a
-                    href={`https://polygonscan.com/address/${CONTRACTS.genesis}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-ghost rounded-lg px-4 py-2 text-sm font-bold"
-                  >
-                    View Genesis
-                  </a>
-                </div>
-              </div>
-
-              {copiedLabel && (
-                <p className="mt-4 text-sm text-green-300">
-                  {copiedLabel}
-                </p>
-              )}
-
-              <p className="mt-4 text-xs leading-5 text-white/40">
-                Always verify both contract
-                addresses before approving a
-                transaction.
-              </p>
-            </div>
 {showMobileWalletNotice && (
-  <div className="mt-7 rounded-2xl border border-amber-400/30 bg-amber-950/20 p-5">
+  <div className="mt-5 rounded-xl border border-amber-400/30 bg-amber-950/20 p-4">
     <p className="font-semibold text-amber-200">
       📱 iPhone Safari Users
     </p>
 
-    <p className="mt-2 text-sm leading-6 text-white/70">
+    <p className="mt-2 text-xs leading-5 text-white/70">
       For the most reliable purchasing
       experience, open OfficialWealthCoin.com
       inside your wallet's built-in dApp
@@ -1250,7 +1168,7 @@ const showMobileWalletNotice =
     </p>
   </div>
 )}
-            <div className="mt-7">
+            <div className="mt-5">
               <label
                 htmlFor="polAmount"
                 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60"
@@ -1258,7 +1176,7 @@ const showMobileWalletNotice =
                 Amount in POL
               </label>
 
-              <div className="mt-3 flex items-center rounded-2xl border border-[#D4AF37]/30 bg-black/60 px-4 sm:px-5">
+              <div className="mt-3 flex items-center rounded-xl border border-[#D4AF37]/30 bg-black/60 px-4">
                 <input
                   id="polAmount"
                   type="number"
@@ -1276,7 +1194,7 @@ const showMobileWalletNotice =
                     setTransactionHash("");
                   }}
                   placeholder="1.00"
-                  className="min-w-0 w-full bg-transparent py-5 text-xl text-white outline-none placeholder:text-white/20 disabled:opacity-50 sm:text-2xl"
+                  className="min-w-0 w-full bg-transparent py-4 text-lg text-white outline-none placeholder:text-white/20 disabled:opacity-50 sm:text-xl"
                 />
 
                 <span className="font-display text-lg text-[#D4AF37]">
@@ -1285,12 +1203,12 @@ const showMobileWalletNotice =
               </div>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-5">
+            <div className="mt-4 rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-4">
               <p className="text-sm uppercase tracking-[0.2em] text-white/45">
                 Estimated WealthCoin
               </p>
 
-              <p className="mt-2 break-words font-display text-3xl text-[#D4AF37]">
+              <p className="mt-2 break-words font-display text-xl text-[#D4AF37]">
                 {formatWtc(
                   estimatedWtc,
                   6
@@ -1336,11 +1254,11 @@ const showMobileWalletNotice =
               </div>
             )}
 
-            <div className="mt-7 grid gap-4 md:grid-cols-2">
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
               <button
                 type="button"
                 onClick={openWallet}
-                className="btn-ghost rounded-xl px-6 py-4 font-bold"
+                className="btn-ghost rounded-lg px-5 py-3 font-bold"
               >
                 {isConnected
                   ? "Manage Wallet"
@@ -1352,7 +1270,7 @@ const showMobileWalletNotice =
                 <button
                   type="button"
                   onClick={handleSwitchNetwork}
-                  className="btn-gold rounded-xl px-6 py-4 font-bold"
+                  className="btn-gold rounded-lg px-5 py-3 font-bold"
                 >
                   Switch to Polygon
                 </button>
@@ -1361,7 +1279,7 @@ const showMobileWalletNotice =
                   type="button"
                   onClick={handlePurchase}
                   disabled={purchaseDisabled}
-                  className="btn-gold rounded-xl px-6 py-4 font-bold disabled:cursor-not-allowed disabled:opacity-40"
+                  className="btn-gold rounded-lg px-5 py-3 font-bold disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {isPurchasing
                     ? "Confirming Purchase..."
@@ -1372,7 +1290,7 @@ const showMobileWalletNotice =
               )}
             </div>
 
-            <p className="mt-5 text-center text-sm leading-6 text-white/40">
+            <p className="mt-4 text-center text-xs leading-5 text-white/40">
               Cryptocurrency transactions are
               irreversible. Confirm the network,
               amount, and verified contract before
@@ -1380,100 +1298,117 @@ const showMobileWalletNotice =
             </p>
           </div>
 
-          <aside className="min-w-0 space-y-6">
-            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
-              <p className="font-display text-xl text-[#D4AF37]">
-                Ten Automatic Stages
-              </p>
+          <aside className="min-w-0 space-y-5 lg:sticky lg:top-24 lg:self-start">
+            <div className="overflow-hidden rounded-2xl border border-[#D4AF37]/25 bg-black/55 shadow-[0_0_40px_rgba(212,175,55,0.06)]">
+              <div className="border-b border-[#D4AF37]/15 px-5 py-4">
+                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+                  Genesis Structure
+                </p>
 
-              <p className="mt-3 leading-7 text-white/60">
-                Each stage lasts up to seven days
-                or closes early when its fixed
-                allocation sells out. The contract
-                automatically advances when the
-                next transaction is processed.
-              </p>
+                <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                  Genesis Overview
+                </h3>
+              </div>
+
+              <div className="divide-y divide-[#D4AF37]/10 px-5">
+                {[
+                  {
+                    title: "10 Automatic Stages",
+                    description:
+                      "Each stage runs for up to seven days or closes early when its fixed allocation sells out.",
+                  },
+                  {
+                    title: "No Stage Rollover",
+                    description:
+                      "Unsold WTC remains within the public allocation and does not move into the following stage.",
+                  },
+                  {
+                    title: "Direct Wallet Delivery",
+                    description:
+                      "WTC is delivered directly to the purchasing wallet after Polygon confirms the transaction.",
+                  },
+                  {
+                    title: "On-Chain Transparency",
+                    description:
+                      "Rates, allocations, sales totals, and stage timing are read directly from the verified Genesis contract.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="flex gap-3 py-4"
+                  >
+                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-sm text-[#D4AF37]">
+                      ✓
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-white/85">
+                        {item.title}
+                      </p>
+
+                      <p className="mt-1 text-xs leading-5 text-white/50">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
-              <p className="font-display text-xl text-[#D4AF37]">
-                No Stage Rollover
-              </p>
-
-              <p className="mt-3 leading-7 text-white/60">
-                Unsold WTC from an expired stage
-                does not move into the next stage.
-                It remains part of the public
-                allocation for future community
-                governance.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
-              <p className="font-display text-xl text-[#D4AF37]">
-                Direct Wallet Delivery
-              </p>
-
-              <p className="mt-3 leading-7 text-white/60">
-                The verified Genesis contract
-                delivers WTC directly to the
-                purchasing wallet in the confirmed
-                transaction.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
-              <p className="font-display text-xl text-[#D4AF37]">
-                Contract Transparency
-              </p>
-
-              <p className="mt-3 leading-7 text-white/60">
-                The WealthCoin token and Genesis
-                contracts are publicly inspectable
-                on PolygonScan.
-              </p>
-
-              <a
-                href={`https://polygonscan.com/address/${CONTRACTS.genesis}`}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-5 block break-all rounded-xl border border-[#D4AF37]/15 bg-black/60 p-4 font-mono text-sm text-[#D4AF37] underline"
-              >
-                {CONTRACTS.genesis}
-              </a>
-            </div>
-
-            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/45 p-6">
-              <p className="font-display text-xl text-[#D4AF37]">
-                Stage Schedule
-              </p>
-
-              <p className="mt-3 text-sm leading-7 text-white/60">
-                Stage 1 begins when Genesis is
-                officially opened. The displayed
-                rate, remaining allocation, and
-                countdown are read directly from
-                the Polygon contract.
-              </p>
-
-              <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-black/50 p-3">
-                  <p className="text-white/40">
-                    Current stage
+            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/55 p-5 shadow-[0_0_40px_rgba(212,175,55,0.05)]">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+                    Live Contract Data
                   </p>
 
-                  <p className="mt-1 font-semibold text-[#D4AF37]">
-                    {currentStage + 1} /{" "}
-                    {STAGE_COUNT}
+                  <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                    Stage Information
+                  </h3>
+                </div>
+
+                <div
+                  className={`mt-1 h-3 w-3 shrink-0 rounded-full ${
+                    saleOpen
+                      ? "bg-green-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]"
+                      : "bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.55)]"
+                  }`}
+                />
+              </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2.5">
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+                    Current Stage
+                  </p>
+
+                  <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
+                    {currentStage + 1} / {STAGE_COUNT}
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-[#D4AF37]/15 bg-black/50 p-3">
-                  <p className="text-white/40">
-                    Stage begins
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+                    Current Rate
                   </p>
 
-                  <p className="mt-1 font-semibold text-[#D4AF37]">
+                  <p className="mt-1.5 font-display text-lg text-[#D4AF37]">
+                    {currentRate > 0
+                      ? formatWtc(currentRate, 4)
+                      : "—"}
+                  </p>
+
+                  <p className="mt-1 text-[11px] text-white/35">
+                    WTC per POL
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+                    Stage Begins
+                  </p>
+
+                  <p className="mt-2 text-sm font-semibold text-white/80">
                     {stageStartTime > 0
                       ? new Date(
                           stageStartTime * 1000
@@ -1481,17 +1416,145 @@ const showMobileWalletNotice =
                       : "Not started"}
                   </p>
                 </div>
+
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/35">
+                    Time Remaining
+                  </p>
+
+                  <p className="mt-2 text-sm font-semibold text-white/80">
+                    {hasOpened && !saleFinalized
+                      ? countdownText
+                      : "Not started"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-3 rounded-xl border border-[#D4AF37]/15 bg-black/45 p-3.5">
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="text-white/45">
+                    Stage allocation remaining
+                  </span>
+
+                  <span className="font-semibold text-[#D4AF37]">
+                    {formatWtc(stageRemaining, 2)} WTC
+                  </span>
+                </div>
+
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-black/80">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-[#8f6e16] via-[#D4AF37] to-[#f5df88] transition-all duration-500"
+                    style={{
+                      width: `${stageProgress}%`,
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
-            <a
-              href="/documents/Wallet_Guide_EN.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="btn-ghost block w-full rounded-xl px-6 py-4 text-center font-bold"
-            >
-              Open Wallet Guide
-            </a>
+            <div className="rounded-2xl border border-[#D4AF37]/25 bg-black/55 p-5 shadow-[0_0_40px_rgba(212,175,55,0.05)]">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+                  Public Verification
+                </p>
+
+                <h3 className="mt-1.5 font-display text-xl text-[#D4AF37]">
+                  Verified Contracts
+                </h3>
+
+                <p className="mt-3 text-xs leading-5 text-white/45">
+                  Confirm these addresses before approving any transaction.
+                </p>
+              </div>
+
+              <div className="mt-4 space-y-3">
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs uppercase tracking-[0.16em] text-white/40">
+                      WTC Token
+                    </p>
+
+                    <span className="rounded-full border border-green-500/20 bg-green-950/20 px-2 py-1 text-[10px] uppercase tracking-wider text-green-300">
+                      Polygon
+                    </span>
+                  </div>
+
+                  <p className="mt-3 break-all font-mono text-xs leading-5 text-white/65">
+                    {CONTRACTS.token}
+                  </p>
+
+                  <div className="mt-3 grid grid-cols-2 gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        copyAddress(
+                          CONTRACTS.token,
+                          "WTC token address copied."
+                        )
+                      }
+                      className="btn-ghost rounded-md px-3 py-2 text-xs font-bold"
+                    >
+                      Copy
+                    </button>
+
+                    <a
+                      href={`https://polygonscan.com/token/${CONTRACTS.token}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-ghost rounded-lg px-3 py-2 text-center text-sm font-bold"
+                    >
+                      View
+                    </a>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 p-3.5">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs uppercase tracking-[0.16em] text-white/40">
+                      Genesis Early Access
+                    </p>
+
+                    <span className="rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/10 px-2 py-1 text-[10px] uppercase tracking-wider text-[#D4AF37]">
+                      Verified
+                    </span>
+                  </div>
+
+                  <p className="mt-3 break-all font-mono text-xs leading-5 text-white/65">
+                    {CONTRACTS.genesis}
+                  </p>
+
+                  <div className="mt-3 grid grid-cols-2 gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        copyAddress(
+                          CONTRACTS.genesis,
+                          "Genesis address copied."
+                        )
+                      }
+                      className="btn-ghost rounded-md px-3 py-2 text-xs font-bold"
+                    >
+                      Copy
+                    </button>
+
+                    <a
+                      href={`https://polygonscan.com/address/${CONTRACTS.genesis}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-ghost rounded-lg px-3 py-2 text-center text-sm font-bold"
+                    >
+                      View
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {copiedLabel && (
+                <p className="mt-4 rounded-xl border border-green-500/20 bg-green-950/20 p-3 text-sm text-green-300">
+                  {copiedLabel}
+                </p>
+              )}
+            </div>
           </aside>
         </div>
       </div>

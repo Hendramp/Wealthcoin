@@ -1,6 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+const scriptures = [
+  {
+    verse:
+      "“And the Lord God took the man, and put him into the garden of Eden to dress it and to keep it.”",
+    reference: "Genesis 2:15 — JUB",
+  },
+  {
+    verse:
+      "“Except the Lord build the house, they labour in vain that build it.”",
+    reference: "Psalm 127:1",
+  },
+  {
+    verse:
+      "“And whatsoever ye do, do it heartily, as to the Lord, and not unto men.”",
+    reference: "Colossians 3:23 — JUB",
+  },
+  {
+    verse:
+      "“And we know that all things work together for good to those who love God.”",
+    reference: "Romans 8:28",
+  },
+];
 
 export default function Hero() {
+  const [scriptureIndex, setScriptureIndex] = useState(0);
+  const [scriptureVisible, setScriptureVisible] = useState(true);
+
+  useEffect(() => {
+    const rotationInterval = window.setInterval(() => {
+      setScriptureVisible(false);
+
+      const transitionTimeout = window.setTimeout(() => {
+        setScriptureIndex(
+          (currentIndex) => (currentIndex + 1) % scriptures.length
+        );
+
+        setScriptureVisible(true);
+      }, 500);
+
+      return () => window.clearTimeout(transitionTimeout);
+    }, 9000);
+
+    return () => window.clearInterval(rotationInterval);
+  }, []);
+
+  const activeScripture = scriptures[scriptureIndex];
+
   return (
     <section
       id="home"
@@ -17,7 +63,7 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-7rem)] max-w-7xl items-center justify-center">
         <div className="w-full text-center">
-          {/* Cropped premium coin */}
+          {/* WealthCoin logo */}
           <div className="hero-coin-wrap mx-auto mb-7">
             <div className="hero-coin-frame">
               <img
@@ -30,23 +76,16 @@ export default function Hero() {
 
           {/* Polygon badge */}
           <div className="polygon-badge mx-auto inline-flex items-center gap-3 rounded-full px-5 py-2.5">
-            <span className="polygon-dot" />
+  <img
+    src="/assets/logos/polygon-logo-white.png"
+    alt="Polygon"
+    className="h-5 w-5 object-contain"
+  />
 
-            <svg
-              viewBox="0 0 38 33"
-              aria-hidden="true"
-              className="h-5 w-5 shrink-0"
-            >
-              <path
-                d="M28.3 7.5a5.1 5.1 0 0 0-5.1 0l-3.6 2.1-3.6-2.1a5.1 5.1 0 0 0-5.1 0L3.5 11.8A5.1 5.1 0 0 0 1 16.2v8.5a5.1 5.1 0 0 0 2.5 4.4l7.4 4.3a5.1 5.1 0 0 0 5.1 0l7.4-4.3a5.1 5.1 0 0 0 2.5-4.4v-4.2l3.6 2.1v4.2l-7.4 4.3-3.6-2.1v-4.2l3.6-2.1v-4.2l-3.6-2.1-7.4 4.3v8.5l7.4 4.3 7.4-4.3a5.1 5.1 0 0 0 2.5-4.4v-8.5a5.1 5.1 0 0 0-2.5-4.4l-7.4-4.3Z"
-                fill="currentColor"
-              />
-            </svg>
-
-            <span className="text-xs font-semibold uppercase tracking-[0.24em] sm:text-sm">
-              Live on Polygon Network
-            </span>
-          </div>
+  <span className="text-xs font-semibold uppercase tracking-[0.24em] sm:text-sm">
+    Live on Polygon Network
+  </span>
+</div>
 
           {/* Main headline */}
           <h1 className="mt-8 font-display text-5xl font-bold uppercase leading-[0.95] sm:text-6xl md:text-7xl lg:text-[5.25rem]">
@@ -64,16 +103,50 @@ export default function Hero() {
             create lasting opportunity across generations.
           </p>
 
-          <blockquote className="mx-auto mt-9 max-w-3xl">
+          {/* Rotating Scripture */}
+          <blockquote
+            className={`mx-auto mt-9 flex min-h-[118px] max-w-3xl flex-col items-center justify-center transition-all duration-500 ${
+              scriptureVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-2 opacity-0"
+            }`}
+            aria-live="polite"
+          >
             <p className="text-lg italic leading-8 text-white/75 sm:text-xl">
-              “And we know that all things work together for good to those who
-              love God.”
+              {activeScripture.verse}
             </p>
 
             <cite className="mt-3 block font-display text-sm not-italic uppercase tracking-[0.22em] text-[#D4AF37]/70">
-              Romans 8:28
+              {activeScripture.reference}
             </cite>
           </blockquote>
+
+          {/* Scripture progress indicators */}
+          <div
+            className="mt-2 flex items-center justify-center gap-2"
+            aria-label="Scripture rotation"
+          >
+            {scriptures.map((scripture, index) => (
+              <button
+                key={scripture.reference}
+                type="button"
+                onClick={() => {
+                  setScriptureVisible(false);
+
+                  window.setTimeout(() => {
+                    setScriptureIndex(index);
+                    setScriptureVisible(true);
+                  }, 300);
+                }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  index === scriptureIndex
+                    ? "w-7 bg-[#D4AF37]"
+                    : "w-1.5 bg-white/20 hover:bg-white/40"
+                }`}
+                aria-label={`Show ${scripture.reference}`}
+              />
+            ))}
+          </div>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
