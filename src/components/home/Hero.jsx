@@ -26,6 +26,11 @@ const scriptures = [
       "“And we now know that unto those who love God, all things help them unto good, to those who according to the purpose are called to be saints.”",
     reference: "Romans 8:28 — JUB",
   },
+  {
+    verse:
+      "“For God so loved the world that he gave his only begotten Son, that whosoever believes in him should not perish, but have everlasting life.”",
+    reference: "John 3:16 — JUB",
+  },
 ];
 
 export default function Hero() {
