@@ -23,11 +23,14 @@ const resources = [
   },
   {
     icon: "📖",
-    title: "WealthCoin Whitepaper",
+    title: "Executive Whitepaper",
     description:
-      "A comprehensive presentation of WealthCoin’s biblical foundation, technical architecture, tokenomics, treasury philosophy, governance framework, security considerations, and long-term roadmap.",
-    status: "Currently in development",
-    available: false,
+      "The official founding document of WealthCoin outlining our mission, governance framework, treasury philosophy, biblical stewardship, tokenomics, roadmap, and long-term organizational vision.",
+    href: "https://1drv.ms/w/c/57767ff08af6e049/IQACoBD45nrwTIdTFM5pXGqOAZDhUtu9yirMwBbneRL-GHY?e=65bYW9",
+    buttonLabel: "Read Whitepaper",
+    edition: "Version 1.0 • Living Document",
+    available: true,
+    external: true,
   },
 ];
 
@@ -65,17 +68,22 @@ export default function FoundationSection() {
   }, [activeDocument]);
 
   function openDocument(resource) {
-  const isMobile =
-    typeof window !== "undefined" &&
-    window.matchMedia("(max-width: 1024px)").matches;
+    if (resource.external) {
+      window.open(resource.href, "_blank", "noopener,noreferrer");
+      return;
+    }
 
-  if (isMobile) {
-    window.open(resource.href, "_blank");
-    return;
+    const isMobile =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 1024px)").matches;
+
+    if (isMobile) {
+      window.open(resource.href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    setActiveDocument(resource);
   }
-
-  setActiveDocument(resource);
-}
   const scrollToLibrary = () => {
     document.getElementById("library")?.scrollIntoView({
       behavior: "smooth",
@@ -144,22 +152,40 @@ export default function FoundationSection() {
                   </p>
 
                   {resource.available ? (
-                    <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      <button
-  type="button"
-  onClick={() => openDocument(resource)}
-  className="btn-gold min-h-[50px] w-full rounded-xl px-4 py-3 text-sm font-bold"
->
-  {resource.previewLabel}
-</button>
+                    <div className="mt-7">
+                      {resource.edition && (
+                        <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-[#D4AF37]">
+                          {resource.edition}
+                        </p>
+                      )}
 
-                      <a
-                        href={resource.href}
-                        download
-                        className="btn-ghost flex min-h-[50px] w-full items-center justify-center rounded-xl px-4 py-3 text-center text-sm font-bold"
-                      >
-                        {resource.downloadLabel}
-                      </a>
+                      {resource.external ? (
+                        <button
+                          type="button"
+                          onClick={() => openDocument(resource)}
+                          className="btn-gold min-h-[50px] w-full rounded-xl px-4 py-3 text-sm font-bold"
+                        >
+                          {resource.buttonLabel}
+                        </button>
+                      ) : (
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                          <button
+                            type="button"
+                            onClick={() => openDocument(resource)}
+                            className="btn-gold min-h-[50px] w-full rounded-xl px-4 py-3 text-sm font-bold"
+                          >
+                            {resource.previewLabel}
+                          </button>
+
+                          <a
+                            href={resource.href}
+                            download
+                            className="btn-ghost flex min-h-[50px] w-full items-center justify-center rounded-xl px-4 py-3 text-center text-sm font-bold"
+                          >
+                            {resource.downloadLabel}
+                          </a>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="mt-7">
