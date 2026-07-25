@@ -172,21 +172,30 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4">
-            <a
-              href="#early-access"
-              className="btn-gold min-h-[54px] w-full rounded-xl px-8 py-4 text-base font-bold transition active:scale-[0.99] sm:w-auto sm:min-w-[225px]"
-            >
-              Join Early Access
-            </a>
+         <div className="mt-8 flex flex-wrap items-stretch justify-center gap-3">
+  <a
+    href="#early-access"
+    className="btn-primary min-h-[54px] w-full sm:w-auto"
+  >
+    Join Early Access
+  </a>
 
-            <a
-              href="#foundation"
-              className="btn-ghost min-h-[54px] w-full rounded-xl px-8 py-4 text-base font-bold transition active:scale-[0.99] sm:w-auto sm:min-w-[225px]"
-            >
-              Explore the Foundation
-            </a>
-          </div>
+  <a
+    href="#foundation"
+    className="btn-ghost min-h-[54px] w-full sm:w-auto"
+  >
+    Explore the Foundation
+  </a>
+
+  <div className="flex w-full justify-center">
+    <a
+      href="#risk-section"
+      className="btn-ghost min-h-[48px] w-full px-6 text-sm sm:w-auto"
+    >
+      Risk Section
+    </a>
+  </div>
+</div>
 
           <div className="mt-10 sm:mt-12">
             <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
