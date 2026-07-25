@@ -21,17 +21,17 @@ const resources = [
     downloadLabel: "Download",
     available: true,
   },
-  {
-    icon: "📖",
-    title: "Executive Whitepaper",
-    description:
-      "The official founding document of WealthCoin outlining our mission, governance framework, treasury philosophy, biblical stewardship, tokenomics, roadmap, and long-term organizational vision.",
-    href: "https://1drv.ms/w/c/57767ff08af6e049/IQACoBD45nrwTIdTFM5pXGqOAZDhUtu9yirMwBbneRL-GHY?e=65bYW9",
-    buttonLabel: "Read Whitepaper",
-    edition: "Version 1.0 • Living Document",
-    available: true,
-    external: true,
-  },
+{
+  icon: "📖",
+  title: "Executive Whitepaper",
+  description:
+    "Explore WealthCoin’s mission, ecosystem, token structure, governance, and long-term vision.",
+  href: "/documents/WealthCoin_Executive_Whitepaper_V1.0.pdf",
+  buttonLabel: "Read Whitepaper",
+  edition: "Version 1.0",
+  available: true,
+  external: false,
+},
 ];
 
 const riskFactors = [
