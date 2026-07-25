@@ -173,11 +173,11 @@ export default function Hero() {
           </div>
 <div className="mt-8 grid grid-cols-2 gap-3">
   <a
-    href="#early-access"
-    className="btn-primary min-h-[54px] w-full"
-  >
-    Join Early Access
-  </a>
+  href="#early-access"
+  className="btn-primary min-h-[54px] w-full"
+>
+  Join Early Access
+</a>
 
   <a
     href="#foundation"
@@ -185,13 +185,12 @@ export default function Hero() {
   >
     Explore the Foundation
   </a>
-
-  <a
-    href="#risk-section"
-    className="btn-ghost col-span-2 min-h-[48px] justify-self-center px-8 text-sm"
-  >
-    Risk Section
-  </a>
+<a
+  href="#risk-section"
+  className="btn-ghost col-span-2 min-h-[48px] justify-self-center px-8 text-sm"
+>
+  Risk Section
+</a>
 </div>
 
           <div className="mt-10 sm:mt-12">
