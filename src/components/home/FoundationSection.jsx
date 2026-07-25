@@ -27,7 +27,8 @@ const resources = [
   description:
     "Explore WealthCoin’s mission, ecosystem, token structure, governance, and long-term vision.",
   href: "/documents/WealthCoin_Executive_Whitepaper_V1.0.pdf",
-  buttonLabel: "Read Whitepaper",
+  previewLabel: "Preview",
+downloadLabel: "Download",
   edition: "Version 1.0",
   available: true,
   external: false,
