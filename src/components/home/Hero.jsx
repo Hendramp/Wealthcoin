@@ -171,30 +171,27 @@ export default function Hero() {
               />
             ))}
           </div>
-
-         <div className="mt-8 flex flex-wrap items-stretch justify-center gap-3">
+<div className="mt-8 grid grid-cols-2 gap-3">
   <a
     href="#early-access"
-    className="btn-primary min-h-[54px] w-full sm:w-auto"
+    className="btn-primary min-h-[54px] w-full"
   >
     Join Early Access
   </a>
 
   <a
     href="#foundation"
-    className="btn-ghost min-h-[54px] w-full sm:w-auto"
+    className="btn-ghost min-h-[54px] w-full"
   >
     Explore the Foundation
   </a>
 
-  <div className="flex w-full justify-center">
-    <a
-      href="#risk-section"
-      className="btn-ghost min-h-[48px] w-full px-6 text-sm sm:w-auto"
-    >
-      Risk Section
-    </a>
-  </div>
+  <a
+    href="#risk-section"
+    className="btn-ghost col-span-2 min-h-[48px] justify-self-center px-8 text-sm"
+  >
+    Risk Section
+  </a>
 </div>
 
           <div className="mt-10 sm:mt-12">
