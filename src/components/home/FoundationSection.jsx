@@ -34,7 +34,7 @@ downloadLabel: "Download",
   external: false,
 },
 {
-  icon: "🗺️",
+  icon: "🧭",
   title: "Development Roadmap",
   description:
     "Explore WealthCoin's planned development phases, ecosystem milestones, and long-term implementation strategy.",
