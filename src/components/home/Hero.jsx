@@ -113,8 +113,8 @@ export default function Hero() {
 
           {/* Main headline */}
           <h1 className="mt-6 font-display text-[2.65rem] font-bold uppercase leading-[0.95] sm:mt-8 sm:text-6xl md:text-7xl lg:text-[5.25rem]">
-            <span className="gold-text block">Build Generational</span>
-            <span className="mt-2 block text-white">Wealth</span>
+            <span className="gold-text block">Faith Driven</span>
+            <span className="mt-2 block text-white">Fintech</span>
           </h1>
 
           <p className="mt-6 font-display text-base tracking-wide text-[#D4AF37]/80 sm:mt-7 sm:text-xl md:text-2xl">
