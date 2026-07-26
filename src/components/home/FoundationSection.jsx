@@ -33,6 +33,18 @@ downloadLabel: "Download",
   available: true,
   external: false,
 },
+{
+  icon: "🗺️",
+  title: "Development Roadmap",
+  description:
+    "Explore WealthCoin's planned development phases, ecosystem milestones, and long-term implementation strategy.",
+  href: "/documents/WTC_Development_Roadmap.pdf",
+  previewLabel: "Preview",
+  downloadLabel: "Download",
+  edition: "Current Vision",
+  available: true,
+  external: false,
+},
 ];
 
 const riskFactors = [
