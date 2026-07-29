@@ -122,9 +122,7 @@ export default function Hero() {
           </p>
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
-            WealthCoin is a stewardship-driven digital economy built on
-            Polygon—designed to empower builders, strengthen communities, and
-            create lasting opportunity across generations.
+          A community driven ecosystem empowering individuals, entrepreneurs, and businesses through education, practical implementation, and WTC. Our mission is to make digital finance simple and useful for everyone.
           </p>
 
           {/* Rotating Scripture */}
