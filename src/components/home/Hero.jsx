@@ -189,16 +189,18 @@ export default function Hero() {
 >
   Risk Section
 </a>
+</div>
 <div className="mt-8 text-center">
   <p className="text-sm text-gray-400">
     Business owner, ministry, or organization?
   </p>
+
   <Link
-  to="/wtcs"
-  className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
->
-  Explore WealthCoin Solutions →
-</Link>
+    to="/wtcs"
+    className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
+  >
+    Explore WealthCoin Solutions →
+  </Link>
 </div>
 
           <div className="mt-10 sm:mt-12">
