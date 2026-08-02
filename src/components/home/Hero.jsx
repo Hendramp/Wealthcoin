@@ -198,7 +198,7 @@ export default function Hero() {
     href="/wtcs"
     className="mt-1 inline-block text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
   >
-    explore WealthCoin Solutions →
+    Explore WealthCoin Solutions →
   </a>
 </div>
 </div>
