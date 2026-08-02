@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 const scriptures = [
   {
     verse:
@@ -193,14 +193,12 @@ export default function Hero() {
   <p className="text-sm text-gray-400">
     Business owner, ministry, or organization?
   </p>
-
-  <a
-    href="/wtcs"
-    className="mt-1 inline-block text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
-  >
-    Explore WealthCoin Solutions →
-  </a>
-</div>
+  <Link
+  to="/wtcs"
+  className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
+>
+  Explore WealthCoin Solutions →
+</Link>
 </div>
 
           <div className="mt-10 sm:mt-12">
