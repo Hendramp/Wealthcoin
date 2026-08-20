@@ -211,8 +211,7 @@ export default function Hero() {
             </p>
 
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
-              Community membership begins with holding WTC—not with status,
-              staking level, or wallet size.
+              You don’t have to share our faith to belong. All are welcome to participate with respect and integrity.
             </p>
           </div>
         </div>
