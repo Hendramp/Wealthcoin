@@ -29,7 +29,7 @@ export default function WTCSPage() {
           >
             Schedule a Complimentary Consultation
           </a>
-
+<a href="WTCS_Menu.pdf" target="_blank" class="menu-button">📄 View WTCS Menu</a>
         </section>
 
         {/* Divider */}
