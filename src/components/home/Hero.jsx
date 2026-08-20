@@ -207,7 +207,7 @@ export default function Hero() {
             <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
 
             <p className="mt-6 font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
-              Every Holder Belongs
+              You can belong before you believe.
             </p>
 
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
