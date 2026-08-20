@@ -29,9 +29,15 @@ export default function WTCSPage() {
           >
             Schedule a Complimentary Consultation
           </a>
-<a href="WTCS_Menu.pdf" target="_blank" class="menu-button">📄 View WTCS Menu</a>
-        </section>
-
+<a
+  href="/documents/WTCS_Menu.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="menu-button"
+>
+  📄 View WTCS Menu
+</a>
+        </ section>
         {/* Divider */}
 
         <div className="my-20 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent"></div>
