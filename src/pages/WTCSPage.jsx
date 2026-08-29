@@ -58,9 +58,7 @@ export default function WTCSPage() {
               </h3>
 
               <p className="mt-3 leading-7 text-gray-400">
-                Personalized guidance to understand your goals and
-                determine the most appropriate blockchain payment
-                solution for your organization.
+                Personalized guidance to understand your goals and decide whether blockchain is helpful or not to you individually or as an organization. 
               </p>
             </div>
 
@@ -70,8 +68,7 @@ export default function WTCSPage() {
               </h3>
 
               <p className="mt-3 leading-7 text-gray-400">
-                Professional implementation of digital asset payment
-                systems, wallet configuration, and operational setup.
+                We direct organizations through wallet setup, staff training, signage, and security best practices.
               </p>
             </div>
 
@@ -81,21 +78,17 @@ export default function WTCSPage() {
               </h3>
 
               <p className="mt-3 leading-7 text-gray-400">
-                Staff training, educational resources, and practical
-                instruction designed to build confidence using
-                blockchain technology.
+                Staff training, education tools for customers & staff, and practical security guidance. 
               </p>
             </div>
 
             <div className="rounded-xl border border-yellow-500/20 bg-zinc-900/40 p-6">
               <h3 className="text-xl font-semibold text-white">
-                Ongoing Support
+                Wealthcoin Support
               </h3>
 
               <p className="mt-3 leading-7 text-gray-400">
-                Continued guidance following implementation to help
-                ensure a smooth transition into blockchain payment
-                operations.
+              Email us with any questions regarding your implementation and we will be happy to assist you.
               </p>
             </div>
 
