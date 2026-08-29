@@ -13,21 +13,21 @@ export default function WTCSPage() {
           </h1>
 
           <p className="mt-4 text-2xl text-gray-300">
-            Professional Blockchain Payment Implementation
+            Professional education & setup for responsibly accepting cryptocurrency.
           </p>
 
           <p className="mt-10 max-w-3xl mx-auto text-lg leading-8 text-gray-400">
-            WealthCoin Solutions (WTCS) helps individuals, businesses,
-            ministries, and organizations confidently adopt blockchain
+            WealthCoin Solutions helps individuals, businesses,
+            and ministries confidently adopt blockchain
             technology through professional implementation, education,
-            and ongoing support.
+            and email support.
           </p>
 
           <a
             href="mailto:WTCteam@outlook.com"
             className="mt-10 inline-flex rounded-lg bg-yellow-400 px-6 py-3 text-black font-semibold transition hover:bg-yellow-300"
           >
-            Schedule a Complimentary Consultation
+            Schedule a Complimentary virtual Consultation
           </a>
 <a
   href="/documents/WTCS_Menu.pdf"
@@ -35,7 +35,7 @@ export default function WTCSPage() {
   rel="noopener noreferrer"
   className="menu-button"
 >
-  📄 View WTCS Menu
+   View WTCS Menu
 </a>
         </ section>
         {/* Divider */}
@@ -78,7 +78,7 @@ export default function WTCSPage() {
               </h3>
 
               <p className="mt-3 leading-7 text-gray-400">
-                Staff training, education tools for customers & staff, and practical security guidance. 
+                Staff training, educational tools for customers & staff guides, and practical security guidance. 
               </p>
             </div>
 
@@ -101,7 +101,7 @@ export default function WTCSPage() {
         <section className="mt-20 rounded-2xl border border-yellow-500/20 bg-zinc-900/40 p-10">
 
           <h2 className="text-3xl font-semibold text-yellow-400">
-            Schedule a Complimentary Consultation
+            Schedule a Complimentary virtual Consultation
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-gray-300">
@@ -111,9 +111,7 @@ export default function WTCSPage() {
           <p className="mt-5 leading-8 text-gray-400">
             Contact us by email to schedule a complimentary consultation.
             During our meeting, we'll discuss your goals, answer your
-            questions, and, if appropriate, provide a meeting link
-            through Zoom or another applicable platform to begin
-            planning your implementation.
+            questions, and see if implementation is a good decision for you.
           </p>
 
           <div className="mt-10 rounded-xl border border-yellow-500/20 bg-black/40 p-6">
