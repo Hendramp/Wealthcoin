@@ -15,7 +15,6 @@ export default function HomePage()
         <FoundationSection />
         <LibrarySection />
         <TokenomicsSection />
-        <EarlyAccessSection />
       </main>
 
       <Footer />
