@@ -169,14 +169,6 @@ export default function Hero() {
               />
             ))}
           </div>
-<div className="mt-8 grid grid-cols-2 gap-3">
-  <a
-  href="#early-access"
-  className="btn-primary min-h-[54px] w-full"
->
-  Join Early Access
-</a>
-
   <a
     href="#foundation"
     className="btn-ghost min-h-[54px] w-full"
