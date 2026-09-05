@@ -5,7 +5,7 @@ import Hero from "../components/home/Hero";
 import FoundationSection from "../components/home/FoundationSection";
 import LibrarySection from "../components/home/LibrarySection";
 import TokenomicsSection from "../components/home/TokenomicsSection";
-export default function HomePage() {
+export default function HomePage() 
   return (
     <>
       <Navbar />
@@ -21,4 +21,3 @@ export default function HomePage() {
       <Footer />
     </>
   );
-}
