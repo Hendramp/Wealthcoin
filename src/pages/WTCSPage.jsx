@@ -1,9 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function WTCSPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-5xl px-6 py-24">
+
+        {/* Back to ecosystem */}
+        <div className="mb-8 text-center sm:text-left">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#D4AF37]/80 transition hover:text-[#D4AF37]"
+          >
+            <span aria-hidden="true">←</span>
+            Back to WealthCoin
+          </Link>
+        </div>
 
         {/* Hero */}
         <section className="text-center">
@@ -13,12 +25,14 @@ export default function WTCSPage() {
 
           <h1 className="mt-4 font-display text-4xl text-white sm:text-5xl">
             Professional education &amp; setup for responsibly accepting cryptocurrency.
+
  
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-7 text-white/60">
             WealthCoin Solutions helps individuals, businesses, and ministries confidently adopt
             blockchain technology through professional implementation, education, and email support.
+
 
  
           </p>
@@ -70,6 +84,7 @@ export default function WTCSPage() {
               </h3>
               <p className="mt-3 leading-7 text-white/60">
                 Personalized guidance to understand your goals and decide whether blockchain is helpful or not to you individually or as an organization.
+
  
               </p>
             </div>
