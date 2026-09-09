@@ -7,145 +7,147 @@ export default function WTCSPage() {
 
         {/* Hero */}
         <section className="text-center">
-
-          <h1 className="text-5xl md:text-6xl font-bold text-yellow-400">
+          <p className="text-2xl font-bold uppercase tracking-[0.22em] text-[#D4AF37] sm:text-3xl">
             WealthCoin Solutions
+          </p>
+
+          <h1 className="mt-4 font-display text-4xl text-white sm:text-5xl">
+            Professional education &amp; setup for responsibly accepting cryptocurrency.
+ 
           </h1>
 
-          <p className="mt-4 text-2xl text-gray-300">
-            Professional education & setup for responsibly accepting cryptocurrency.
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-7 text-white/60">
+            WealthCoin Solutions helps individuals, businesses, and ministries confidently adopt
+            blockchain technology through professional implementation, education, and email support.
+
+ 
           </p>
 
-          <p className="mt-10 max-w-3xl mx-auto text-lg leading-8 text-gray-400">
-            WealthCoin Solutions helps individuals, businesses,
-            and ministries confidently adopt blockchain
-            technology through professional implementation, education,
-            and email support.
-          </p>
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href="mailto:WTCteam@outlook.com"
+              className="inline-flex rounded-lg bg-[#D4AF37] px-6 py-3 font-semibold text-black transition hover:bg-[#c19e2f]"
+            >
+              Schedule a Complimentary Virtual Consultation
+            </a>
+            <a
+              href="/documents/WTCS_Menu.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex rounded-lg border border-[#D4AF37]/40 px-6 py-3 font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37]/10"
+            >
+              View WTCS Menu
+            </a>
+          </div>
+        </section>
 
-          <a
-            href="mailto:WTCteam@outlook.com"
-            className="mt-10 inline-flex rounded-lg bg-yellow-400 px-6 py-3 text-black font-semibold transition hover:bg-yellow-300"
-          >
-            Schedule a Complimentary virtual Consultation
-          </a>
-<a
-  href="/documents/WTCS_Menu.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="menu-button"
->
-   View WTCS Menu
-</a>
-        </ section>
         {/* Divider */}
+        <div className="my-20 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
 
-        <div className="my-20 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent"></div>
+        {/* Scripture anchor */}
+        <section className="mx-auto max-w-3xl text-center">
+          <p className="font-display text-2xl leading-9 text-white/80">
+            "And the LORD God took the man and put him into the garden of Eden to dress itand to keep it."
+          </p>
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+            Genesis  ‎2:15 — JUB
+          </p>
+        </section>
+
+        {/* Divider */}
+        <div className="my-20 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
 
         {/* Services */}
-
         <section>
-
-          <h2 className="text-3xl font-semibold text-yellow-400 text-center">
+          <h2 className="text-center font-display text-3xl text-white">
             Our Services
           </h2>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2">
-
-            <div className="rounded-xl border border-yellow-500/20 bg-zinc-900/40 p-6">
-              <h3 className="text-xl font-semibold text-white">
+            <div className="rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-6">
+              <h3 className="font-display text-xl text-[#D4AF37]">
                 Consultation
               </h3>
-
-              <p className="mt-3 leading-7 text-gray-400">
-                Personalized guidance to understand your goals and decide whether blockchain is helpful or not to you individually or as an organization. 
+              <p className="mt-3 leading-7 text-white/60">
+                Personalized guidance to understand your goals and decide whether blockchain is helpful or not to you individually or as an organization.
+ 
               </p>
             </div>
 
-            <div className="rounded-xl border border-yellow-500/20 bg-zinc-900/40 p-6">
-              <h3 className="text-xl font-semibold text-white">
+            <div className="rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-6">
+              <h3 className="font-display text-xl text-[#D4AF37]">
                 Implementation
               </h3>
+              <p className="mt-3 leading-7 text-white/60">
+                We direct organizations through wallet setup, staff training, signage, and security best practices. 
 
-              <p className="mt-3 leading-7 text-gray-400">
-                We direct organizations through wallet setup, staff training, signage, and security best practices.
               </p>
             </div>
 
-            <div className="rounded-xl border border-yellow-500/20 bg-zinc-900/40 p-6">
-              <h3 className="text-xl font-semibold text-white">
+            <div className="rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-6">
+              <h3 className="font-display text-xl text-[#D4AF37]">
                 Education
               </h3>
+              <p className="mt-3 leading-7 text-white/60">
+                Staff training, educational tools for customers &amp; staff guides, and practical security guidance. 
 
-              <p className="mt-3 leading-7 text-gray-400">
-                Staff training, educational tools for customers & staff guides, and practical security guidance. 
               </p>
             </div>
 
-            <div className="rounded-xl border border-yellow-500/20 bg-zinc-900/40 p-6">
-              <h3 className="text-xl font-semibold text-white">
+            <div className="rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-6">
+              <h3 className="font-display text-xl text-[#D4AF37]">
                 Wealthcoin Support
               </h3>
+              <p className="mt-3 leading-7 text-white/60">
+                Email us with any questions regarding your implementation and we will be happy to assist you. 
 
-              <p className="mt-3 leading-7 text-gray-400">
-              Email us with any questions regarding your implementation and we will be happy to assist you.
               </p>
             </div>
-
           </div>
-
         </section>
 
         {/* Consultation */}
-
-        <section className="mt-20 rounded-2xl border border-yellow-500/20 bg-zinc-900/40 p-10">
-
-          <h2 className="text-3xl font-semibold text-yellow-400">
-            Schedule a Complimentary virtual Consultation
+        <section className="mt-20 rounded-2xl border border-[#D4AF37]/15 bg-white/[0.03] p-10">
+          <h2 className="font-display text-3xl text-white">
+            Schedule a Complimentary Virtual Consultation
           </h2>
 
-          <p className="mt-6 text-lg leading-8 text-gray-300">
+          <p className="mt-6 text-lg leading-8 text-white/60">
             Every implementation begins with a conversation.
+ 
+
           </p>
 
-          <p className="mt-5 leading-8 text-gray-400">
-            Contact us by email to schedule a complimentary consultation.
-            During our meeting, we'll discuss your goals, answer your
-            questions, and see if implementation is a good decision for you.
+          <p className="mt-5 leading-8 text-white/60">
+            Contact us by email to schedule a complimentary consultation. 
+
+            During our meeting, we'll discuss your goals, answer your questions, and see if implementation is a good decision for you. 
+
           </p>
 
-          <div className="mt-10 rounded-xl border border-yellow-500/20 bg-black/40 p-6">
-
-            <p className="text-sm uppercase tracking-[0.3em] text-gray-500">
+          <div className="mt-10 rounded-xl border border-[#D4AF37]/15 bg-black/40 p-6">
+            <p className="text-sm uppercase tracking-[0.3em] text-white/40">
               Contact
             </p>
-
             <a
               href="mailto:WTCteam@outlook.com"
-              className="mt-3 inline-block text-2xl font-semibold text-yellow-400 hover:text-yellow-300 transition-colors"
+              className="mt-3 inline-block text-2xl font-semibold text-[#D4AF37] transition-colors hover:text-[#c19e2f]"
             >
               WTCteam@outlook.com
             </a>
-
           </div>
-
         </section>
 
         {/* Footer */}
-
-        <footer className="mt-20 border-t border-zinc-800 pt-10 text-center">
-
-          <p className="text-lg text-gray-400">
-            Professional Blockchain Consulting & Education
+        <footer className="mt-20 border-t border-white/10 pt-10 text-center">
+          <p className="text-lg text-white/70">
+            Professional Blockchain Consulting &amp; Education
           </p>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/40">
+            WealthCoin Solutions is committed to helping individuals, businesses, ministries, and organizations confidently
+            implement blockchain payment solutions through education, transparency, and practical support. 
 
-          <p className="mt-4 text-sm leading-7 text-gray-600 max-w-2xl mx-auto">
-            WealthCoin Solutions is committed to helping individuals,
-            businesses, ministries, and organizations confidently
-            implement blockchain payment solutions through education,
-            transparency, and practical support.
           </p>
-
         </footer>
 
       </div>

@@ -197,19 +197,27 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* WealthCoin Solutions link */}
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-400">
-              Business owner, ministry, or organization?
-            </p>
+          {/* WealthCoin Solutions — ecosystem + services callout */}
+<Link
+  to="/wtcs"
+  className="group mx-auto mt-6 block max-w-2xl rounded-2xl border border-[#D4AF37]/25 bg-white/[0.04] px-6 py-4 text-left transition hover:border-[#D4AF37]/50 hover:bg-white/[0.06]"
+>
+  <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+    <div className="text-center sm:text-left">
+      <p className="font-display text-base text-white sm:text-lg">
+        This is our ecosystem, but we do a lot more at WTC Solutions.
+      </p>
+      <p className="mt-1 text-sm text-white/60">
+        We help businesses, ministries &amp; individuals actually accept crypto.
+      </p>
+    </div>
+    <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D4AF37] px-4 py-2 font-semibold text-black transition group-hover:bg-[#e8c65a]">
+      Explore WealthCoin Solutions
+      <span aria-hidden="true">→</span>
+    </span>
+  </div>
+</Link>
 
-            <Link
-              to="/wtcs"
-              className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
-            >
-              Explore WealthCoin Solutions →
-            </Link>
-          </div>
 
           <div className="mt-10 sm:mt-12">
             <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
