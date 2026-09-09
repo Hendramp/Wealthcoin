@@ -19,15 +19,16 @@ export default function Footer() {
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-white/55">
             Built on Faith. Driven by Integrity. Committed to Stewardship.
+
           </p>
         </div>
 
         <div className="mx-auto mt-6 grid max-w-xl gap-3 sm:grid-cols-2">
           <a
-            href="#early-access"
+            href="#purchase"
             className="btn-gold flex min-h-[48px] items-center justify-center rounded-xl px-5 py-3 text-sm font-bold"
           >
-            Join Early Access
+            Purchase WTC
           </a>
 
           <a
@@ -40,7 +41,7 @@ export default function Footer() {
 
         <div className="mx-auto mt-7 max-w-xl border-t border-white/10 pt-5">
           <p className="text-[10px] uppercase tracking-[0.22em] text-[#D4AF37]/75">
-            Early Access Support
+            Support
           </p>
 
           <a
@@ -53,6 +54,7 @@ export default function Footer() {
 
         <p className="mt-5 text-xs leading-5 text-white/30">
           © {new Date().getFullYear()} WealthCoin. All rights reserved.
+
         </p>
       </div>
     </footer>

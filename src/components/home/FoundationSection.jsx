@@ -21,30 +21,30 @@ const resources = [
     downloadLabel: "Download",
     available: true,
   },
-{
-  icon: "📖",
-  title: "Executive Whitepaper",
-  description:
-    "Explore WealthCoin’s mission, ecosystem, token structure, governance, and long-term vision.",
-  href: "/documents/WealthCoin_Executive_Whitepaper_V1.0.pdf",
-  previewLabel: "Preview",
-downloadLabel: "Download",
-  edition: "Version 1.0",
-  available: true,
-  external: false,
-},
-{
-  icon: "🧭",
-  title: "Development Roadmap",
-  description:
-    "Explore WealthCoin's planned development phases, ecosystem milestones, and long-term implementation strategy.",
-  href: "/documents/WTC_Development_Roadmap.pdf",
-  previewLabel: "Preview",
-  downloadLabel: "Download",
-  edition: "Current Vision",
-  available: true,
-  external: false,
-},
+  {
+    icon: "📖",
+    title: "Executive Whitepaper",
+    description:
+      "Explore WealthCoin’s mission, ecosystem, token structure, governance, and long-term vision.",
+    href: "/documents/WealthCoin_Executive_Whitepaper_V1.0.pdf",
+    previewLabel: "Preview",
+    downloadLabel: "Download",
+    edition: "Version 1.0",
+    available: true,
+    external: false,
+  },
+  {
+    icon: "🧭",
+    title: "Development Roadmap",
+    description:
+      "Explore WealthCoin's planned development phases, ecosystem milestones, and long-term implementation strategy.",
+    href: "/documents/WTC_Development_Roadmap.pdf",
+    previewLabel: "Preview",
+    downloadLabel: "Download",
+    edition:"Current Vision",
+    available:true,
+    external:false,
+  },
 ];
 
 const riskFactors = [
@@ -97,6 +97,7 @@ export default function FoundationSection() {
 
     setActiveDocument(resource);
   }
+
   const scrollToLibrary = () => {
     document.getElementById("library")?.scrollIntoView({
       behavior: "smooth",
@@ -126,6 +127,7 @@ export default function FoundationSection() {
               Explore the foundational documents that define WealthCoin,
               communicate its vision, and establish the principles guiding its
               continued development.
+
             </p>
           </div>
 
@@ -210,6 +212,7 @@ export default function FoundationSection() {
                         <p className="mt-2 text-sm leading-6 text-white/50">
                           The whitepaper will be released after its research,
                           review, and stewardship process is complete.
+
                         </p>
                       </div>
                     </div>
@@ -218,7 +221,8 @@ export default function FoundationSection() {
               </article>
             ))}
           </div>
-                    <div className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-black/45 shadow-[0_0_35px_rgba(212,175,55,0.05)]">
+
+          <div className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-black/45 shadow-[0_0_35px_rgba(212,175,55,0.05)]">
             <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
@@ -233,6 +237,9 @@ export default function FoundationSection() {
                   Our beginner-friendly guides explain how to choose a
                   compatible wallet, use the Polygon network, connect to
                   WealthCoin, and purchase WTC responsibly.
+
+
+
                 </p>
 
                 <div className="mt-5 grid gap-2 text-sm text-white/55 sm:grid-cols-2">
@@ -260,11 +267,14 @@ export default function FoundationSection() {
             </p>
 
             <p className="mt-3 text-xs font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
-              Luke 14:28
+              Luke  ️14:28
             </p>
           </div>
 
-          <div className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-[#D4AF37]/20 bg-black/45 shadow-[0_0_35px_rgba(212,175,55,0.05)]">
+          <div
+            id="risk-section"
+            className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-[#D4AF37]/20 bg-black/45 shadow-[0_0_35px_rgba(212,175,55,0.05)]"
+          >
             <div className="border-b border-[#D4AF37]/15 px-6 py-6 sm:px-8">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">
@@ -288,6 +298,7 @@ export default function FoundationSection() {
                 constraints, technological vulnerabilities, and evolving
                 regulations. Token utility, market value, platform development,
                 liquidity, and governance outcomes are not guaranteed.
+
               </p>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -312,24 +323,25 @@ export default function FoundationSection() {
                   Participation should be based on independent research,
                   responsible financial stewardship, and careful consideration
                   of personal circumstances. Never commit funds you cannot
-                  afford to lose.
+                  afford to lose. 
                 </p>
               </div>
 
               <p className="mt-6 text-xs leading-6 text-white/35">
                 This disclosure is provided for transparency and education only
                 and should not be interpreted as financial, legal, tax, or
-                investment advice.
+                investment advice. 
               </p>
             </div>
           </div>
-                    <div className="mx-auto mt-16 max-w-4xl text-center">
+
+          <div className="mx-auto mt-16 max-w-4xl text-center">
             <p className="text-base leading-8 text-white/65 sm:text-lg">
               WealthCoin seeks to honor God through responsible stewardship,
               transparency, education, and service. Every feature, partnership,
               and future initiative is intended to be developed with
               accountability, wisdom, and a long-term commitment to serving the
-              community faithfully.
+              community faithfully. 
             </p>
           </div>
         </div>

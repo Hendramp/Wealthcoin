@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 const scriptures = [
   {
     verse:
@@ -14,22 +15,22 @@ const scriptures = [
   {
     verse:
       "“And whatever ye do, do it heartily, as to the Lord, and not unto men.”",
-    reference: "Colossians 3:23 — JUB",
+    reference:"Colossians 3:23 — JUB",
   },
   {
     verse:
       "“He that is faithful with little is faithful also with much, and he that is unjust with little is unjust also with much.”",
-    reference: "Luke 16:10 — JUB",
+    reference:"Luke  ️16:10 — JUB",
   },
   {
     verse:
       "“And we now know that unto those who love God, all things help them unto good, to those who according to the purpose are called to be saints.”",
-    reference: "Romans 8:28 — JUB",
+    reference:"Romans  ️8:28 — JUB",
   },
   {
     verse:
       "“For God so loved the world that he gave his only begotten Son, that whosoever believes in him should not perish, but have everlasting life.”",
-    reference: "John 3:16 — JUB",
+    reference:"John  ️3:16 — JUB",
   },
 ];
 
@@ -83,33 +84,34 @@ export default function Hero() {
               />
             </div>
           </div>
-{/* Polygon Network */}
-<div className="mt-4 flex flex-col items-center sm:mt-7">
-  <svg
-    width="56"
-    height="32"
-    viewBox="0 0 56 32"
-    className="-rotate-12"
-    aria-hidden="true"
-  >
-    <path
-      d="M14 16
-         C14 8,22 8,28 16
-         C34 24,42 24,42 16
-         C42 8,34 8,28 16
-         C22 24,14 24,14 16Z"
-      fill="none"
-      stroke="#A970FF"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
 
-  <span className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#C8A6FF] sm:text-sm sm:tracking-[0.32em]">
-    Live on Polygon Network
-  </span>
-</div>
+          {/* Polygon Network */}
+          <div className="mt-4 flex flex-col items-center sm:mt-7">
+            <svg
+              width="56"
+              height="32"
+              viewBox="0 0 56 32"
+              className="-rotate-12"
+              aria-hidden="true"
+            >
+              <path
+                d="M14 16
+                   C14 8,22 8,28 16
+                   C34 24,42 24,42 16
+                   C42 8,34 8,28 16
+                   C22 24,14 24,14 16Z"
+                fill="none"
+                stroke="#A970FF"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <span className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#C8A6FF] sm:text-sm sm:tracking-[0.32em]">
+              Live on Polygon Network
+            </span>
+          </div>
 
           {/* Main headline */}
           <h1 className="mt-6 font-display text-[2.65rem] font-bold uppercase leading-[0.95] sm:mt-8 sm:text-6xl md:text-7xl lg:text-[5.25rem]">
@@ -122,7 +124,7 @@ export default function Hero() {
           </p>
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
-          A community driven ecosystem empowering individuals, entrepreneurs, and businesses through education, practical implementation, and WTC. Our mission is to make digital finance simple and useful for everyone.
+            A community driven ecosystem empowering individuals, entrepreneurs, and businesses through education, practical implementation, and WTC. Our mission is to make digital finance simple and useful for everyone.
           </p>
 
           {/* Rotating Scripture */}
@@ -169,31 +171,45 @@ export default function Hero() {
               />
             ))}
           </div>
-  <a
-    href="#foundation"
-    className="btn-ghost min-h-[54px] w-full"
-  >
-    Explore the Foundation
-  </a>
-<a
-  href="#risk-section"
-  className="btn-ghost col-span-2 min-h-[48px] justify-self-center px-8 text-sm"
->
-  Risk Section
-</a>
-</div>
-<div className="mt-8 text-center">
-  <p className="text-sm text-gray-400">
-    Business owner, ministry, or organization?
-  </p>
 
-  <Link
-    to="/wtcs"
-    className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
-  >
-    Explore WealthCoin Solutions →
-  </Link>
-</div>
+          {/* CTA buttons */}
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
+            <a
+              href="#foundation"
+              className="btn-ghost min-h-[54px] w-full sm:w-auto"
+            >
+              Explore the Foundation
+            </a>
+
+            <a
+              href="#risk-section"
+              className="btn-ghost min-h-[48px] px-8 text-sm"
+            >
+              Risk Section
+            </a>
+
+            {/* New: Purchase WTC — scrolls to the purchase section */}
+            <a
+              href="#purchase"
+              className="min-h-[54px] rounded-xl bg-[#D4AF37] px-8 py-3 font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
+            >
+              Purchase WTC
+            </a>
+          </div>
+
+          {/* WealthCoin Solutions link */}
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-400">
+              Business owner, ministry, or organization?
+            </p>
+
+            <Link
+              to="/wtcs"
+              className="text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
+            >
+              Explore WealthCoin Solutions →
+            </Link>
+          </div>
 
           <div className="mt-10 sm:mt-12">
             <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />

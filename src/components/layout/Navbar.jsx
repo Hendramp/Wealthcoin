@@ -3,6 +3,7 @@ import {
   useAppKit,
   useAppKitAccount,
 } from "@reown/appkit/react";
+import AnnouncementBar from "./AnnouncementBar";
 
 const links = [
   { label: "Home", href: "#home" },
@@ -62,6 +63,8 @@ export default function Navbar() {
 
   return (
     <header className="fixed left-0 top-0 z-50 w-full border-b border-[#D4AF37]/20 bg-black/90 backdrop-blur-md">
+      <AnnouncementBar />
+
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
         <a
           href="#home"

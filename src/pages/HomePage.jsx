@@ -5,7 +5,9 @@ import Hero from "../components/home/Hero";
 import FoundationSection from "../components/home/FoundationSection";
 import LibrarySection from "../components/home/LibrarySection";
 import TokenomicsSection from "../components/home/TokenomicsSection";
-export default function HomePage() 
+import PurchaseSection from "../components/home/PurchaseSection";
+
+export default function HomePage() {
   return (
     <>
       <Navbar />
@@ -15,8 +17,10 @@ export default function HomePage()
         <FoundationSection />
         <LibrarySection />
         <TokenomicsSection />
+        <PurchaseSection />
       </main>
 
       <Footer />
     </>
   );
+}
