@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const ANNOUNCEMENTS = [
   {
     id: "liquidity-live",
-    text: "Liquidity is now live on Polygon — swap POL for WTC.",
+    text: "Liquidity is now live on Polygon — swap USDC for WTC.",
     href: "#purchase",
     cta: "Buy WTC",
   },
