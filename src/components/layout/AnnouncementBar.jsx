@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 
 const ANNOUNCEMENTS = [
   {
+    id: "academy-live",
+    text: "WealthCoin Academy Lesson 1 is live — learn wallet safety & creation for free.",
+    href: "/academy",
+    cta: "Enter the Academy",
+  },
+  {
+    id: "socials-linked",
+    text: "We're now connected across all our socials — YouTube is on the way.",
+  },
+  {
     id: "liquidity-live",
     text: "Liquidity is now live on Polygon — swap USDC for WTC.",
     href: "#purchase",
