@@ -1,14 +1,15 @@
 // src/components/home/PurchaseSection.jsx
 import React, { useEffect, useState } from "react";
-import { useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
-import { BrowserProvider, Contract, parseUnits, formatUnits } from "ethers";
+import { useAppKitAccount } from "@reown/appkit/react";
+import { BrowserProvider, Contract, formatUnits } from "ethers";
 
 const WTC_CONTRACT = "0x394b57F4a40ff31530d66f904e1Db2C6516c018F";
 const USDC_CONTRACT = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
 const WTC_DECIMALS = 18;
 const USDC_DECIMALS = 6;
-const FALLBACK_PRICE_USD = 0.00401;
-const UNISWAP_ROUTER = "0xE592427A0AEce92De3Edee1F18E5587C3606A6E";
+const FALLBACK_PRICE_USD = 0.00025;
+const POOL_URL =
+  "https://app.uniswap.org/explore/pools/polygon/0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 
 const WTC_ABI = [
   "function balanceOf(address account) view returns (uint256)",
@@ -16,26 +17,15 @@ const WTC_ABI = [
 
 const USDC_ABI = [
   "function balanceOf(address account) view returns (uint256)",
-  "function approve(address spender, uint256 amount) returns (bool)",
-];
-
-const ROUTER_ABI = [
-  "function exactInputSingle(tuple(address tokenIn, address tokenOut, uint24 fee, address recipient, uint256 deadline, uint256 amountIn, uint256 amountOutMinimum, uint160 sqrtPriceLimitX96) params) payable returns (uint256)",
 ];
 
 export default function PurchaseSection() {
   const { address, isConnected } = useAppKitAccount();
-  const { walletProvider } = useAppKitProvider("eip155");
   const [price, setPrice] = useState(null);
   const [change24h, setChange24h] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [usdcAmount, setUsdcAmount] = useState("");
-  const [swapError, setSwapError] = useState(null);
   const [wtcBalance, setWtcBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
-  const [isSwapping, setIsSwapping] = useState(false);
-  const [isSwapConfirmed, setIsSwapConfirmed] = useState(false);
-  const [slippage, setSlippage] = useState(1); // percent
 
   useEffect(() => {
     async function fetchPrice() {
@@ -65,13 +55,13 @@ export default function PurchaseSection() {
 
   useEffect(() => {
     async function loadBalances() {
-      if (!isConnected || !address || !walletProvider) {
+      if (!isConnected || !address) {
         setWtcBalance(0);
         setUsdcBalance(0);
         return;
       }
       try {
-        const provider = new BrowserProvider(walletProvider);
+        const provider = new BrowserProvider(window.ethereum);
         const wtc = new Contract(WTC_CONTRACT, WTC_ABI, provider);
         const usdc = new Contract(USDC_CONTRACT, USDC_ABI, provider);
         const [wtcRaw, usdcRaw] = await Promise.all([
@@ -85,89 +75,9 @@ export default function PurchaseSection() {
       }
     }
     loadBalances();
-  }, [isConnected, address, walletProvider]);
+  }, [isConnected, address]);
 
   const wtcValueUsd = wtcBalance * (price ?? FALLBACK_PRICE_USD);
-
-  async function handleSwap() {
-    setSwapError(null);
-    setIsSwapConfirmed(false);
-
-    if (!isConnected || !address || !walletProvider) {
-      setSwapError("Connect your wallet first.");
-      return;
-    }
-    if (!usdcAmount || parseFloat(usdcAmount) <= 0) {
-      setSwapError("Enter an amount of USDC to swap.");
-      return;
-    }
-    if (parseFloat(usdcAmount) > (usdcBalance)) {
-      setSwapError("Insufficient USDC balance.");
-      return;
-    }
-
-    try {
-      setIsSwapping(true);
-      const provider = new BrowserProvider(walletProvider);
-      const signer = await provider.getSigner();
-      const usdc = new Contract(USDC_CONTRACT, USDC_ABI, signer);
-      const router = new Contract(UNISWAP_ROUTER, ROUTER_ABI, signer);
-
-      const amountIn = parseUnits(usdcAmount, USDC_DECIMALS);
-      const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
-      const fee = 3000;
-
-      // Approve the router to spend USDC
-      const approveTx = await usdc.approve(UNISWAP_ROUTER, amountIn);
-      await approveTx.wait();
-
-      // Fetch current price from the pool to compute a real minimum output
-      const poolAddress = await router.callStatic.exactInputSingle(
-        {
-          tokenIn: USDC_CONTRACT,
-          tokenOut: WTC_CONTRACT,
-          fee,
-          recipient: address,
-          deadline,
-          amountIn,
-          amountOutMinimum: 0n,
-          sqrtPriceLimitX96: 0n,
-        }
-      );
-      const slippageBps = Math.round(slippage * 100);
-      const amountOutMinimum = (poolAddress * BigInt(10000 - slippageBps)) / BigInt(10000);
-
-      const tx = await router.exactInputSingle(
-        {
-          tokenIn: USDC_CONTRACT,
-          tokenOut: WTC_CONTRACT,
-          fee,
-          recipient: address,
-          deadline,
-          amountIn,
-          amountOutMinimum,
-          sqrtPriceLimitX96: 0n,
-        }
-      );
-      await tx.wait();
-      setIsSwapConfirmed(true);
-      setUsdcAmount("");
-
-      const wtc = new Contract(WTC_CONTRACT, WTC_ABI, provider);
-      const usdcRefresh = new Contract(USDC_CONTRACT, USDC_ABI, provider);
-      const [wtcRaw, usdcRaw] = await Promise.all([
-        wtc.balanceOf(address),
-        usdcRefresh.balanceOf(address),
-      ]);
-      setWtcBalance(parseFloat(formatUnits(wtcRaw, WTC_DECIMALS)));
-      setUsdcBalance(parseFloat(formatUnits(usdcRaw, USDC_DECIMALS)));
-    } catch (err) {
-      console.error("Swap failed:", err);
-      setSwapError(err?.shortMessage || "Swap failed. Please try again.");
-    } finally {
-      setIsSwapping(false);
-    }
-  }
 
   return (
     <section
@@ -187,8 +97,9 @@ export default function PurchaseSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            Swap directly on the Polygon network. Connect your wallet, enter an
-            amount, and trade peer-to-peer with no middleman.
+            Live price tracking for WTC on the Polygon network. Connect your
+            wallet, then swap securely through Uniswap — peer-to-peer with no
+            middleman.
           </p>
         </div>
 
@@ -235,72 +146,24 @@ export default function PurchaseSection() {
               </div>
             ) : (
               <p className="mb-6 text-center text-sm text-white/40">
-                Connect your wallet to see your balances and swap.
+                Connect your wallet to see your balances.
               </p>
             )}
 
-            <div className="rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-5 text-left">
-              <label className="block text-sm text-white/50 mb-2">
-                Amount of USDC to swap
-              </label>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={usdcAmount}
-                onChange={(e) => setUsdcAmount(e.target.value)}
-                placeholder="0.0"
-                className="w-full rounded-xl border border-[#D4AF37]/20 bg-black/40 px-4 py-3 text-white placeholder-white/30 focus:border-[#D4AF37]/60 focus:outline-none"
-              />
-              {isConnected && (
-                <button
-                  type="button"
-                  onClick={() => setUsdcAmount(usdcBalance.toFixed(2))}
-                  className="mt-2 text-xs text-[#D4AF37] hover:underline"
-                >
-                  Max: {usdcBalance.toFixed(2)} USDC
-                </button>
-              )}
-
-              <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-white/50">Slippage tolerance</span>
-                <div className="flex gap-1">
-                  {[0.5, 1, 2, 3].map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => setSlippage(s)}
-                      className={`rounded-lg px-3 py-1 text-xs transition ${
-                        slippage === s
-                          ? "bg-[#D4AF37] text-black"
-                          : "bg-white/10 text-white/60 hover:bg-white/20"
-                      }`}
-                    >
-                      {s}%
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {swapError && (
-              <p className="mt-4 text-center text-sm text-red-400">{swapError}</p>
-            )}
-
-            <button
-              type="button"
-              onClick={handleSwap}
-              disabled={!isConnected || isSwapping}
-              className="mt-6 w-full rounded-xl bg-[#D4AF37] px-10 py-4 text-lg font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a] disabled:opacity-50 disabled:cursor-not-allowed"
+            <a
+              href={POOL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 block w-full rounded-xl bg-[#D4AF37] px-10 py-4 text-center text-lg font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
             >
-              {isSwapping
-                ? "Swapping…"
-                : isSwapConfirmed
-                  ? "Swap Complete ✓"
-                  : isConnected
-                    ? "Swap USDC for WTC"
-                    : "Connect Wallet to Swap"}
-            </button>
+              Buy WTC on Uniswap
+            </a>
+
+            <p className="mt-4 text-center text-xs leading-5 text-white/40">
+              Your swap is completed on Uniswap, the decentralized exchange
+              hosting the WTC / USDC pool. This keeps every trade secure,
+              transparent, and peer-to-peer — no middleman.
+            </p>
           </div>
         </div>
 
