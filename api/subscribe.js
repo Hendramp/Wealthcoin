@@ -9,7 +9,8 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Change this to your verified sender address
-const FROM_EMAIL = "WealthCoin Academy <academy@officialwealthcoin.com>";
+const FROM_EMAIL = "WealthCoin Academy <onboarding@resend.dev>";
+
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
