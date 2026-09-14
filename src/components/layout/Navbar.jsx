@@ -6,12 +6,11 @@ import {
 import AnnouncementBar from "./AnnouncementBar";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "Foundation", href: "#foundation" },
-  { label: "Community", href: "#community" },
-  { label: "Marketplace", href: "#marketplace" },
-  { label: "Library", href: "#library" },
-  { label: "Tokenomics", href: "#tokenomics" },
+  { label: "Home", href: "/#home" },
+  { label: "Foundation", href: "/#foundation" },
+  { label: "Academy", href: "/academy" },
+  { label: "Library", href: "/#library" },
+  { label: "Tokenomics", href: "/tokenomics" },
 ];
 
 function shortenAddress(address) {
@@ -67,7 +66,7 @@ export default function Navbar() {
 
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
         <a
-          href="#home"
+          href="/#home"
           onClick={closeMenu}
           className="flex min-w-0 items-center gap-2.5 sm:gap-3"
         >

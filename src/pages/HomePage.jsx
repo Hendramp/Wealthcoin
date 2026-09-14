@@ -4,7 +4,6 @@ import Footer from "../components/layout/Footer";
 import Hero from "../components/home/Hero";
 import FoundationSection from "../components/home/FoundationSection";
 import LibrarySection from "../components/home/LibrarySection";
-import TokenomicsSection from "../components/home/TokenomicsSection";
 import PurchaseSection from "../components/home/PurchaseSection";
 
 export default function HomePage() {
@@ -16,7 +15,6 @@ export default function HomePage() {
         <Hero />
         <FoundationSection />
         <LibrarySection />
-        <TokenomicsSection />
         <PurchaseSection />
       </main>
 

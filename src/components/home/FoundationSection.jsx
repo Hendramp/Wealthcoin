@@ -98,13 +98,6 @@ export default function FoundationSection() {
     setActiveDocument(resource);
   }
 
-  const scrollToLibrary = () => {
-    document.getElementById("library")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
   return (
     <>
       <section
@@ -220,44 +213,6 @@ export default function FoundationSection() {
                 </div>
               </article>
             ))}
-          </div>
-
-          <div className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-black/45 shadow-[0_0_35px_rgba(212,175,55,0.05)]">
-            <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
-                  New to Cryptocurrency?
-                </p>
-
-                <h3 className="mt-3 font-display text-2xl text-white sm:text-3xl">
-                  Begin With the Wallet Guide
-                </h3>
-
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-white/60 sm:text-base">
-                  Our beginner-friendly guides explain how to choose a
-                  compatible wallet, use the Polygon network, connect to
-                  WealthCoin, and purchase WTC responsibly.
-
-
-
-                </p>
-
-                <div className="mt-5 grid gap-2 text-sm text-white/55 sm:grid-cols-2">
-                  <p>✓ Choose and set up a compatible wallet</p>
-                  <p>✓ Add or use the Polygon network</p>
-                  <p>✓ Connect your wallet to WealthCoin</p>
-                  <p>✓ Follow the purchase steps safely</p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={scrollToLibrary}
-                className="btn-gold w-full rounded-xl px-6 py-4 text-sm font-bold lg:w-auto"
-              >
-                Begin With the Wallet Guide →
-              </button>
-            </div>
           </div>
 
           <div className="mx-auto mt-10 max-w-4xl border-y border-[#D4AF37]/20 py-8 text-center">

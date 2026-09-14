@@ -188,36 +188,49 @@ export default function Hero() {
               Risk Section
             </a>
 
-            {/* New: Purchase WTC — scrolls to the purchase section */}
+            {/* Purchase WTC — scrolls to the purchase section */}
             <a
               href="#purchase"
               className="min-h-[54px] rounded-xl bg-[#D4AF37] px-8 py-3 font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
             >
               Purchase WTC
             </a>
+
+            {/* Enter the Academy — navigates to the Academy page */}
+            <Link
+              to="/academy"
+              className="group flex min-h-[54px] flex-col items-center justify-center rounded-xl border border-[#D4AF37]/40 px-8 py-2.5 text-center transition hover:bg-[#D4AF37]/10"
+            >
+              <span className="flex items-center gap-2 font-semibold text-[#D4AF37]">
+                Enter the Academy
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+              </span>
+              <span className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-white/50">
+                Lesson 1 · Wallet Safety is live
+              </span>
+            </Link>
           </div>
 
           {/* WealthCoin Solutions — ecosystem + services callout */}
-<Link
-  to="/wtcs"
-  className="group mx-auto mt-6 block max-w-2xl rounded-2xl border border-[#D4AF37]/25 bg-white/[0.04] px-6 py-4 text-left transition hover:border-[#D4AF37]/50 hover:bg-white/[0.06]"
->
-  <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-    <div className="text-center sm:text-left">
-      <p className="font-display text-base text-white sm:text-lg">
-        This is our ecosystem, but we do a lot more at WTC Solutions.
-      </p>
-      <p className="mt-1 text-sm text-white/60">
-        We help businesses, ministries &amp; individuals actually accept crypto.
-      </p>
-    </div>
-    <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D4AF37] px-4 py-2 font-semibold text-black transition group-hover:bg-[#e8c65a]">
-      Explore WealthCoin Solutions
-      <span aria-hidden="true">→</span>
-    </span>
-  </div>
-</Link>
-
+          <Link
+            to="/wtcs"
+            className="group mx-auto mt-6 block max-w-2xl rounded-2xl border border-[#D4AF37]/25 bg-white/[0.04] px-6 py-4 text-left transition hover:border-[#D4AF37]/50 hover:bg-white/[0.06]"
+          >
+            <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+              <div className="text-center sm:text-left">
+                <p className="font-display text-base text-white sm:text-lg">
+                  This is our ecosystem, but we do a lot more at WTC Solutions.
+                </p>
+                <p className="mt-1 text-sm text-white/60">
+                  We help businesses, ministries &amp; individuals actually accept crypto.
+                </p>
+              </div>
+              <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D4AF37] px-4 py-2 font-semibold text-black transition group-hover:bg-[#e8c65a]">
+                Explore WealthCoin Solutions
+                <span aria-hidden="true">→</span>
+              </span>
+            </div>
+          </Link>
 
           <div className="mt-10 sm:mt-12">
             <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />

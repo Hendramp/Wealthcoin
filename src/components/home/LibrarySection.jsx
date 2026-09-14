@@ -40,6 +40,33 @@ const socialLinks = [
     action: "Join the Discord",
     icon: "💬",
   },
+  {
+    name: "X",
+    handle: "@wealthcointeam",
+    description:
+      "Follow official WealthCoin announcements, educational posts, launch updates, and community highlights.",
+    href: "https://x.com/wealthcointeam",
+    action: "Follow on X",
+    icon: "𝕏",
+  },
+  {
+    name: "Telegram",
+    handle: "Official WealthCoin",
+    description:
+      "Join the official Telegram for presale updates, community discussion, support, and early-access announcements.",
+    href: "https://t.me/Officialwealthcoin",
+    action: "Join the Telegram",
+    icon: "✈️",
+  },
+  {
+    name: "Reddit",
+    handle: "u/WealthcoinTeam",
+    description:
+      "Follow official WealthCoin discussions, community updates, and educational content on Reddit.",
+    href: "https://www.reddit.com/u/WealthcoinTeam/",
+    action: "Follow on Reddit",
+    icon: "👽",
+  },
 ];
 
 export default function LibrarySection() {
@@ -154,7 +181,7 @@ export default function LibrarySection() {
             </p>
           </div>
 
-          <div className="grid gap-px bg-[#D4AF37]/15 md:grid-cols-2">
+          <div className="grid gap-px bg-[#D4AF37]/15 md:grid-cols-3">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
