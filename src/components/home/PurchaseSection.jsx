@@ -9,7 +9,7 @@ const WTC_DECIMALS = 18;
 const USDC_DECIMALS = 6;
 const FALLBACK_PRICE_USD = 0.00025;
 const POOL_URL =
-  "https://app.uniswap.org/explore/pools/polygon/0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
+  "https://app.uniswap.org/swap?chain=polygon&outputCurrency=0x394b57F4a40ff31530d66f904e1Db2C6516c018F&inputCurrency=0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
 
 const WTC_ABI = [
   "function balanceOf(address account) view returns (uint256)",
