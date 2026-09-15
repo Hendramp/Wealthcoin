@@ -15,14 +15,14 @@ export default function Lesson1OkxIntro({ onBack, onNext }) {
             Lesson 1 · Wallet Safety & Creation
           </p>
           <h1 className="mt-4 font-display text-3xl font-bold uppercase leading-tight sm:text-4xl">
-            Let's set up your OKX Wallet, this is the wallet with the green logo!
+            Let's set up your OKX Wallet.
           </h1>
         </header>
 
         <div className="mt-8 space-y-4">
           <div className="rounded-3xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-6 sm:p-7">
             <p className="text-sm leading-7 text-white/70">
-              OKX Wallet is our recommended starting wallet because it's <span className="text-white">self-custodial</span> — you hold your own keys, no KYC required, and no withdrawal holds. 
+              OKX Wallet is our recommended starting wallet because it's <span className="text-white">self-custodial</span> — you hold your own keys, no KYC required, and no withdrawal holds. This is the wallet with the green logo!
             </p>
           </div>
 
