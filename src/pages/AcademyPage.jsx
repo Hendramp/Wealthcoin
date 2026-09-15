@@ -1,5 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// src/pages/AcademyPage.jsx
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import EmailGateModal from "../components/academy/EmailGateModal";
+
+const STORAGE_KEY = "wtc_academy_email";
 
 const lessons = [
   {
@@ -7,7 +11,6 @@ const lessons = [
     number: 1,
     title: "Wallet Safety & Creation",
     description: "What a wallet is, protecting your recovery phrase, and the habits that keep your assets safe.",
-    minutes: 5,
     status: "ready",
   },
   {
@@ -15,12 +18,23 @@ const lessons = [
     number: 2,
     title: "Blockchain Basics",
     description: "What a blockchain is, how transactions work, and why networks and gas fees matter.",
-    minutes: 6,
-    status: "soon",
+    status: "ready",
   },
 ];
 
 export default function AcademyPage() {
+  const navigate = useNavigate();
+  const [showGate, setShowGate] = useState(false);
+
+  const handleLesson2Click = () => {
+    const unlocked = typeof window !== "undefined" && !!localStorage.getItem(STORAGE_KEY);
+    if (unlocked) {
+      navigate("/academy/lesson/blockchain-basics");
+    } else {
+      setShowGate(true);
+    }
+  };
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
       {/* Background atmosphere */}
@@ -48,6 +62,10 @@ export default function AcademyPage() {
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
             Free, practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with, and participate responsibly.
           </p>
+          <p className="mx-auto mt-6 max-w-2xl font-display text-2xl font-bold leading-snug text-white sm:text-3xl">
+            Everyone learns differently.
+            <span className="gold-text block">Go at your own pace.</span>
+          </p>
           <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
         </header>
 
@@ -55,6 +73,35 @@ export default function AcademyPage() {
         <div className="mt-10 space-y-4">
           {lessons.map((lesson) => {
             const ready = lesson.status === "ready";
+            const isLesson2 = lesson.slug === "blockchain-basics";
+
+            // Lesson 2 is a button (gate-controlled), everything else is a Link
+            if (isLesson2) {
+              return (
+                <button
+                  key={lesson.slug}
+                  onClick={handleLesson2Click}
+                  className="group block w-full rounded-3xl border border-white/10 bg-white/5 p-6 text-left transition hover:border-[#D4AF37]/50 hover:bg-white/[0.06] sm:p-7"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+                          Lesson {lesson.number}
+                        </p>
+                      </div>
+                      <h2 className="mt-2 font-display text-xl text-white sm:text-2xl">
+                        {lesson.title}
+                      </h2>
+                      <p className="mt-2 text-sm leading-7 text-white/60">
+                        {lesson.description}
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              );
+            }
+
             return (
               <Link
                 key={lesson.slug}
@@ -85,9 +132,6 @@ export default function AcademyPage() {
                       {lesson.description}
                     </p>
                   </div>
-                  <span className="mt-1 shrink-0 rounded-full border border-white/15 px-3 py-1 text-xs text-white/50">
-                    {lesson.minutes} min
-                  </span>
                 </div>
               </Link>
             );
@@ -105,8 +149,19 @@ export default function AcademyPage() {
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/50">
             Everything we're entrusted with is meant to be cared for and kept. The Academy exists to help you do exactly that.
           </p>
+          <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-white/50">
+            Need a hand? Reach out anytime — we're happy to help you along the way.{" "}
+            <a
+              href="mailto:WTCteam@outlook.com"
+              className="font-semibold text-[#D4AF37] underline underline-offset-2 hover:text-white"
+            >
+              WTCteam@outlook.com
+            </a>
+          </p>
         </footer>
       </div>
+
+      {showGate && <EmailGateModal onClose={() => setShowGate(false)} />}
     </main>
   );
 }

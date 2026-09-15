@@ -1,14 +1,16 @@
 // src/pages/LessonPage.jsx
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Lesson1Fork from "../components/academy/Lesson1Fork";
 import Lesson1OkxIntro from "../components/academy/Lesson1OkxIntro";
 import Lesson1CexIntro from "../components/academy/Lesson1CexIntro";
 import Lesson1OkxGuide from "../components/academy/Lesson1OkxGuide";
 import Lesson1WrapUp from "../components/academy/Lesson1WrapUp";
+import Lesson2BlockchainBasics from "../components/academy/Lesson2BlockchainBasics";
 
 export default function LessonPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [step, setStep] = useState("fork");
 
   if (slug === "wallet-safety") {
@@ -57,14 +59,17 @@ export default function LessonPage() {
       return (
         <Lesson1WrapUp
           onBack={() => setStep("guide")}
-          onComplete={() => {}}
+          onComplete={() => navigate("/academy/lesson/blockchain-basics")}
         />
       );
     }
   }
 
+  if (slug === "blockchain-basics") {
+    return <Lesson2BlockchainBasics />;
+  }
 
-  // Lesson 2 placeholder
+  // Fallback
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />

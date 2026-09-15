@@ -1,3 +1,4 @@
+// api/subscribe.js
 import { createClient } from "@supabase/supabase-js";
 import nodemailer from "nodemailer";
 
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
 
     if (supabaseError) throw supabaseError;
 
-    // Send welcome email
+    // Send general welcome email
     await transporter.sendMail({
       from: "WealthCoin Academy <officialwealthcoin@gmail.com>",
       to: email,
@@ -51,11 +52,11 @@ export default async function handler(req, res) {
 
           <p>Thank you for joining the WealthCoin Academy community. We're glad you're here.</p>
 
-          <p>You'll be the first to know when new lessons drop — starting with <strong>Lesson 2: Blockchain Basics</strong>.</p>
+          <p>As new lessons and resources become available, you'll be among the first to know.</p>
 
-          <p style="margin-top: 24px; font-style: italic; color: #555; border-left: 3px solid #D4AF37; padding-left: 16px;">
-            "No servant can serve two masters... Ye cannot serve God and mammon."<br/>
-            <span style="font-style: normal; font-size: 13px; color: #888;">— Luke 16:13 (JUB)</span>
+          <p style="font-style: italic; color: #555; border-left: 3px solid #D4AF37; padding-left: 16px;">
+            "Moreover it is required of stewards, that a man be found faithful."<br/>
+            <span style="font-style: normal; font-size: 13px; color: #888;">— 1 Corinthians 4:2 (JUB)</span>
           </p>
 
           <p style="margin-top: 24px;">We believe blockchain technology should be used as a tool for responsible stewardship — and we're building education to help you do exactly that.</p>

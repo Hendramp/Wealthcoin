@@ -1,44 +1,18 @@
+// src/components/academy/Lesson1WrapUp.jsx
 import React, { useState } from "react";
+import EmailGateModal from "./EmailGateModal";
 
-const SUBSCRIBE_ENDPOINT = "/api/subscribe"; // ← point this at your backend
+const STORAGE_KEY = "wtc_academy_email";
 
 export default function Lesson1WrapUp({ onBack, onComplete }) {
-  const [email, setEmail] = useState("");
-  const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
-  const [error, setError] = useState("");
+  const [showGate, setShowGate] = useState(false);
+  const alreadyUnlocked = typeof window !== "undefined" && !!localStorage.getItem(STORAGE_KEY);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (!email.trim()) {
-      setError("Please enter your email address.");
-      return;
-    }
-    if (!consent) {
-      setError("Please agree to receive lesson updates.");
-      return;
-    }
-
-    setStatus("loading");
-    try {
-      const res = await fetch(SUBSCRIBE_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim() }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data?.message || "Something went wrong. Please try again.");
-      }
-
-      setStatus("success");
-    } catch (err) {
-      console.error("Subscribe failed:", err);
-      setStatus("error");
-      setError(err?.message || "Something went wrong. Please try again.");
+  const handleUnlock = () => {
+    if (alreadyUnlocked) {
+      onComplete();
+    } else {
+      setShowGate(true);
     }
   };
 
@@ -87,70 +61,22 @@ export default function Lesson1WrapUp({ onBack, onComplete }) {
           </p>
         </div>
 
-        {/* Email gate — announcement subscription */}
-        {status !== "success" ? (
-          <form onSubmit={handleSubmit} className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-7">
-            <h2 className="font-display text-lg text-white">Get Notified When Lesson 2 Drops</h2>
-            <p className="mt-2 text-sm leading-7 text-white/60">
-              Lesson 2 — Blockchain Basics — is in the works. Leave your email and we'll
-              let you know the moment it's live. You can unsubscribe anytime.
-            </p>
-
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                className="flex-1 rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-[#D4AF37]"
-              />
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="rounded-full bg-[#D4AF37] px-8 py-3.5 font-semibold text-black transition hover:bg-[#e0c04d] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {status === "loading" ? "Subscribing…" : "Notify Me →"}
-              </button>
-            </div>
-
-            {/* Consent checkbox */}
-            <label className="mt-4 flex items-start gap-3 text-xs leading-5 text-white/50">
-              <input
-                type="checkbox"
-                checked={consent}
-                onChange={(e) => setConsent(e.target.checked)}
-                className="mt-0.5 h-4 w-4 shrink-0 accent-[#D4AF37]"
-              />
-              <span>
-                Yes, email me when new WealthCoin Academy lessons are released.
-                You can unsubscribe at any time.
-              </span>
-            </label>
-
-            {error && (
-              <p className="mt-3 text-sm text-red-400">{error}</p>
-            )}
-          </form>
-        ) : (
-          <div className="mt-8 rounded-3xl border border-[#D4AF37]/25 bg-[#D4AF37]/5 p-6 text-center sm:p-8">
-            <p className="font-display text-xl text-white">You're on the list 🎉</p>
-            <p className="mt-2 text-sm leading-7 text-white/60">
-              We'll email you the moment Lesson 2 — Blockchain Basics — goes live.
-              Keep an eye on your inbox.
-            </p>
-            <p className="mt-4 text-xs text-white/40">
-              You can unsubscribe anytime using the link in any email we send.
-            </p>
-            <button
-              onClick={onComplete}
-              className="mt-6 rounded-full bg-[#D4AF37] px-8 py-3.5 font-semibold text-black transition hover:bg-[#e0c04d]"
-            >
-              Back to Academy →
-            </button>
-          </div>
-        )}
+        {/* Unlock Lesson 2 */}
+        <div className="mt-8 rounded-3xl border border-[#D4AF37]/25 bg-[#D4AF37]/5 p-6 text-center sm:p-8">
+          <h2 className="font-display text-xl text-white">Ready for Lesson 2?</h2>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-white/60">
+            Blockchain Basics — how transactions work, what networks and gas fees are, and why it all matters. Unlock it free.
+          </p>
+          <button
+            onClick={handleUnlock}
+            className="mt-6 rounded-full bg-[#D4AF37] px-8 py-3.5 font-semibold text-black transition hover:bg-[#e0c04d]"
+          >
+            Unlock Lesson 2 →
+          </button>
+        </div>
       </div>
+
+      {showGate && <EmailGateModal onClose={() => setShowGate(false)} />}
     </main>
   );
 }
