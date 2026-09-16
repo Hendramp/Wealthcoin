@@ -41,7 +41,7 @@ export default function Lesson1OkxGuide({ onBack, onComplete, initialStep = 1 })
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">Step 1</p>
               <h1 className="mt-2 font-display text-2xl text-white sm:text-3xl">Choose Your Wallet</h1>
               <p className="mt-3 text-sm leading-7 text-white/60">
-                OKX offers two wallet options. For this lesson, we'll use the self-custodial Web3 wallet.
+                OKX offers two wallet options. For this lesson, we'll use the self-custodial Web3 wallet app. (wallet with the green logo).
               </p>
               <div className="mt-6 space-y-3">
                 <div className="rounded-2xl border border-[#D4AF37]/40 bg-[#D4AF37]/5 p-5">

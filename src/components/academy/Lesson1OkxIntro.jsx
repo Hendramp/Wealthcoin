@@ -22,7 +22,7 @@ export default function Lesson1OkxIntro({ onBack, onNext }) {
         <div className="mt-8 space-y-4">
           <div className="rounded-3xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-6 sm:p-7">
             <p className="text-sm leading-7 text-white/70">
-              OKX Wallet is our recommended starting wallet because it's <span className="text-white">self-custodial</span> — you hold your own keys, no KYC required, and no withdrawal holds. This is the wallet with the green logo!
+              OKX Wallet is our recommended starting wallet because it's <span className="text-white">self-custodial</span> — you hold your own keys, no KYC required, and no withdrawal holds. This is the wallet with the green logo! Have your app store opened and ready to download the OKX Wallet (Web3 Wallet) app.
             </p>
           </div>
 
