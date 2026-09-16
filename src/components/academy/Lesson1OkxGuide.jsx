@@ -53,8 +53,8 @@ export default function Lesson1OkxGuide({ onBack, onComplete, initialStep = 1 })
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
                   <p className="font-semibold text-white">OKX App Wallet (Hybrid)</p>
                   <p className="mt-1 text-sm leading-6 text-white/60">
-                    Includes exchange features like buying & selling. Be advised it places holds on funds. Not needed for this lesson.
-                  </p>
+                    Includes exchange features like buying & selling. Be advised it places holds on funds.This is the black logo wallet
+                  </p> Not needed for this lesson. 
                 </div>
               </div>
             </>
