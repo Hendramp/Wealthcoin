@@ -6,6 +6,7 @@ import WTCSPage from "./pages/WTCSPage";
 import AcademyPage from "./pages/AcademyPage";
 import LessonPage from "./pages/LessonPage";
 import TokenomicsPage from "./pages/TokenomicsPage";
+import PrivacyNotice from "./pages/PrivacyNotice";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/academy" element={<AcademyPage />} />
         <Route path="/academy/lesson/:slug" element={<LessonPage />} />
         <Route path="/tokenomics" element={<TokenomicsPage />} />
+        <Route path="/privacy-notice" element={<PrivacyNotice />} />
       </Routes>
     </BrowserRouter>
   );

@@ -30,18 +30,32 @@ export default function PurchaseSection() {
   useEffect(() => {
     async function fetchPrice() {
       try {
-        const res = await fetch(
+        // 1) GeckoTerminal (CoinGecko) — indexes the WTC contract on Polygon
+        const gt = await fetch(
+          `https://api.geckoterminal.com/api/v2/networks/polygon_pos/tokens/${WTC_CONTRACT}`
+        );
+        const gtData = await gt.json();
+        const gtPrice = gtData?.data?.attributes?.price_usd;
+        if (gtPrice) {
+          setPrice(parseFloat(gtPrice));
+          const gtChange = gtData?.data?.attributes?.price_change_percentage;
+          setChange24h(gtChange?.h24 ?? null);
+          setLoading(false);
+          return;
+        }
+        // 2) Fallback: DexScreener
+        const ds = await fetch(
           `https://api.dexscreener.com/latest/dex/tokens/${WTC_CONTRACT}`
         );
-        const data = await res.json();
-        const pair = data?.pairs?.[0];
+        const dsData = await ds.json();
+        const pair = dsData?.pairs?.[0];
         if (pair && pair.priceUsd) {
           setPrice(parseFloat(pair.priceUsd));
           setChange24h(pair.priceChange?.h24 ?? null);
-        } else {
-          setPrice(FALLBACK_PRICE_USD);
-          setChange24h(null);
+          setLoading(false);
+          return;
         }
+        throw new Error("no indexed price");
       } catch (err) {
         console.error("Price fetch failed:", err);
         setPrice(FALLBACK_PRICE_USD);
@@ -51,6 +65,8 @@ export default function PurchaseSection() {
       }
     }
     fetchPrice();
+    const id = setInterval(fetchPrice, 30000);
+    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -105,8 +121,8 @@ export default function PurchaseSection() {
 
         <div className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-black/50 shadow-[0_0_35px_rgba(212,175,55,0.05)]">
           <div className="border-b border-[#D4AF37]/15 px-6 py-5 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#D4AF37]">
-              <span className="h-2 w-2 rounded-full bg-[#D4AF37] animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#8247E5]/50 bg-[#8247E5]/15 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#8247E5]">
+              <span className="h-2 w-2 rounded-full bg-[#8247E5] animate-pulse" />
               Live on Polygon Network
             </div>
 
