@@ -15,22 +15,22 @@ const scriptures = [
   {
     verse:
       "“And whatever ye do, do it heartily, as to the Lord, and not unto men.”",
-    reference:"Colossians 3:23 — JUB",
+    reference: "Colossians 3:23 — JUB",
   },
   {
     verse:
       "“He that is faithful with little is faithful also with much, and he that is unjust with little is unjust also with much.”",
-    reference:"Luke  ️16:10 — JUB",
+    reference: "Luke 16:10 — JUB",
   },
   {
     verse:
       "“And we now know that unto those who love God, all things help them unto good, to those who according to the purpose are called to be saints.”",
-    reference:"Romans  ️8:28 — JUB",
+    reference: "Romans 8:28 — JUB",
   },
   {
     verse:
       "“For God so loved the world that he gave his only begotten Son, that whosoever believes in him should not perish, but have everlasting life.”",
-    reference:"John  ️3:16 — JUB",
+    reference: "John 3:16 — JUB",
   },
 ];
 
@@ -124,12 +124,79 @@ export default function Hero() {
           </p>
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
-            A community driven ecosystem empowering individuals, entrepreneurs, and businesses through education, practical implementation, and WTC. Our mission is to make digital finance simple and useful for everyone.
+            Free education. Real implementation. A community that stewards wisely.
           </p>
+
+          {/* Two pillars — Academy (free) + WTC Solutions (implementation) */}
+          <div className="mx-auto mt-9 grid max-w-4xl gap-4 sm:grid-cols-2 sm:gap-5">
+            {/* Academy */}
+            <Link
+              to="/academy"
+              className="group flex flex-col items-start rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/[0.06] p-6 text-left transition hover:border-[#D4AF37]/80 hover:bg-[#D4AF37]/[0.1] sm:p-7"
+            >
+              <span className="rounded-full border border-[#D4AF37]/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+                100% Free Education
+              </span>
+              <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
+                WealthCoin Academy
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-white/60">
+                Learn to steward digital assets wisely — free forever, at your own pace.
+              </p>
+              <span className="mt-4 inline-flex items-center gap-2 font-semibold text-[#D4AF37]">
+                Start Learning
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+              </span>
+            </Link>
+
+            {/* WTC Solutions */}
+            <Link
+              to="/wtcs"
+              className="group flex flex-col items-start rounded-3xl border border-white/15 bg-white/[0.04] p-6 text-left transition hover:border-white/35 hover:bg-white/[0.06] sm:p-7"
+            >
+              <span className="rounded-full border border-white/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/70">
+                Real Implementation
+              </span>
+              <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
+                WTC Solutions
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-white/60">
+                We help businesses, ministries &amp; individuals actually accept crypto.
+              </p>
+              <span className="mt-4 inline-flex items-center gap-2 font-semibold text-white">
+                Explore Solutions
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+              </span>
+            </Link>
+          </div>
+
+          {/* Purchase WTC — primary action */}
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
+            <a
+              href="#purchase"
+              className="min-h-[54px] rounded-xl bg-[#D4AF37] px-10 py-3 font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
+            >
+              Purchase WTC
+            </a>
+
+            <a
+              href="#foundation"
+              className="btn-ghost min-h-[54px] w-full sm:w-auto"
+            >
+              Explore the Foundation
+            </a>
+
+            <a
+              href="#risk-section"
+              className="btn-ghost min-h-[48px] px-8 text-sm"
+            >
+              Risk Section
+            </a>
+          </div>
 
           {/* Rotating Scripture */}
           <blockquote
-            className={`mx-auto mt-7 flex min-h-[138px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:mt-9 sm:min-h-[118px] ${
+            className={`mx-auto mt-10 flex min-h-[138px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:min-h-[118px] ${
               scriptureVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-2 opacity-0"
@@ -172,74 +239,14 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* CTA buttons */}
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
-            <a
-              href="#foundation"
-              className="btn-ghost min-h-[54px] w-full sm:w-auto"
-            >
-              Explore the Foundation
-            </a>
+          <div className="mt-14 sm:mt-16">
+            <div className="mx-auto h-px max-w-lg bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
 
-            <a
-              href="#risk-section"
-              className="btn-ghost min-h-[48px] px-8 text-sm"
-            >
-              Risk Section
-            </a>
-
-            {/* Purchase WTC — scrolls to the purchase section */}
-            <a
-              href="#purchase"
-              className="min-h-[54px] rounded-xl bg-[#D4AF37] px-8 py-3 font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
-            >
-              Purchase WTC
-            </a>
-
-            {/* Enter the Academy — navigates to the Academy page */}
-            <Link
-              to="/academy"
-              className="group flex min-h-[54px] flex-col items-center justify-center rounded-xl border border-[#D4AF37]/40 px-8 py-2.5 text-center transition hover:bg-[#D4AF37]/10"
-            >
-              <span className="flex items-center gap-2 font-semibold text-[#D4AF37]">
-                Enter the Academy
-                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-              </span>
-              <span className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-white/50">
-                Lesson 2 · Blockchain Basics is live
-              </span>
-            </Link>
-          </div>
-
-          {/* WealthCoin Solutions — ecosystem + services callout */}
-          <Link
-            to="/wtcs"
-            className="group mx-auto mt-6 block max-w-2xl rounded-2xl border border-[#D4AF37]/25 bg-white/[0.04] px-6 py-4 text-left transition hover:border-[#D4AF37]/50 hover:bg-white/[0.06]"
-          >
-            <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-              <div className="text-center sm:text-left">
-                <p className="font-display text-base text-white sm:text-lg">
-                  This is our ecosystem, but we do a lot more at WTC Solutions.
-                </p>
-                <p className="mt-1 text-sm text-white/60">
-                  We help businesses, ministries &amp; individuals actually accept crypto.
-                </p>
-              </div>
-              <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D4AF37] px-4 py-2 font-semibold text-black transition group-hover:bg-[#e8c65a]">
-                Explore WealthCoin Solutions
-                <span aria-hidden="true">→</span>
-              </span>
-            </div>
-          </Link>
-
-          <div className="mt-10 sm:mt-12">
-            <div className="mx-auto h-px max-w-md bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
-
-            <p className="mt-6 font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
+            <p className="mt-8 font-display text-lg uppercase tracking-[0.35em] text-[#D4AF37] sm:text-xl">
               You can belong before you believe.
             </p>
 
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/55 sm:text-base">
               You don’t have to share our faith to belong. All are welcome to participate with respect and integrity.
             </p>
           </div>

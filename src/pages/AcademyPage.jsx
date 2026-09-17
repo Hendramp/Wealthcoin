@@ -50,7 +50,7 @@ export default function AcademyPage() {
           Back to WealthCoin
         </Link>
 
-        {/* Academy header */}
+                {/* Academy header */}
         <header className="mt-10 border-b border-[#D4AF37]/15 pb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
             WealthCoin Academy
@@ -60,7 +60,7 @@ export default function AcademyPage() {
             <span className="gold-text block">Digital Assets Wisely</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-            Free, practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with, and participate responsibly.
+            The Academy is <span className="font-semibold text-[#D4AF37]">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with, and participate with confidence.
           </p>
           <p className="mx-auto mt-6 max-w-2xl font-display text-2xl font-bold leading-snug text-white sm:text-3xl">
             Everyone learns differently.
@@ -68,6 +68,7 @@ export default function AcademyPage() {
           </p>
           <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
         </header>
+
 
         {/* Lesson list */}
         <div className="mt-10 space-y-4">
