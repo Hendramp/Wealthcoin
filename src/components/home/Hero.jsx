@@ -206,7 +206,7 @@ export default function Hero() {
                 <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
               </span>
               <span className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-white/50">
-                Lesson 1 · Wallet Safety is live
+                Lesson 2 · Blockchain Basics is live
               </span>
             </Link>
           </div>
