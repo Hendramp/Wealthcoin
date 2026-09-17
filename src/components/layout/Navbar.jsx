@@ -11,8 +11,10 @@ const links = [
   { label: "Academy", href: "/academy" },
   { label: "Library", href: "/#library" },
   { label: "Tokenomics", href: "/tokenomics" },
+  { label: "WTCS", href: "/wtcs" },
   { label: "Privacy", href: "/privacy-notice" },
 ];
+
 
 function shortenAddress(address) {
   if (!address) {
