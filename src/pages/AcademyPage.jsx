@@ -36,12 +36,19 @@ const lessons = [
   },
 ];
 
+// Lessons that require the email gate (Lesson 1 stays open as a free sample)
+const GATED_SLUGS = new Set(["blockchain-basics", "faithful-stewardship", "keys-and-transactions"]);
+
 export default function AcademyPage() {
   const navigate = useNavigate();
   const [showGate, setShowGate] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
 
   const handleLessonClick = (lesson) => {
+    if (!GATED_SLUGS.has(lesson.slug)) {
+      navigate(`/academy/lesson/${lesson.slug}`);
+      return;
+    }
     const unlocked = typeof window !== "undefined" && !!localStorage.getItem(STORAGE_KEY);
     if (unlocked) {
       navigate(`/academy/lesson/${lesson.slug}`);
@@ -89,6 +96,7 @@ export default function AcademyPage() {
         <div className="mt-10 space-y-4">
           {lessons.map((lesson) => {
             const ready = lesson.status === "ready";
+            const gated = GATED_SLUGS.has(lesson.slug);
 
             return (
               <button
@@ -111,6 +119,11 @@ export default function AcademyPage() {
                       {!ready && (
                         <span className="rounded-full border border-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/50">
                           Coming Soon
+                        </span>
+                      )}
+                      {gated && (
+                        <span className="rounded-full border border-[#D4AF37]/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF37]">
+                          Free with Email
                         </span>
                       )}
                     </div>
