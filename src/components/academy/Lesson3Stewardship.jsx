@@ -6,24 +6,24 @@ const paths = [
     door: "DOOR A",
     title: "You Trade Boldly",
     action:
-      "You take the mina and put it to work. You risk it for return. You don't wait for perfect conditions — you act.",
+      "You take the mina and put it to work — but not recklessly. You steward it into good ground, you put it to use, you don't bury it. You act with purpose, not with fear.",
     verdict: "WELL DONE, THOU GOOD SERVANT.",
     verse: "Because thou hast been faithful in a very little, have thou authority over ten cities.",
     ref: "LUKE 19:17 — JUB",
     outcome:
-      "The bold steward multiplied the mina tenfold — and the reward wasn't comfort, it was more responsibility. Faithfulness that produces gets entrusted with more.",
+      "The bold steward put the mina to work and it multiplied tenfold. But notice — the master's reward wasn't for gambling. It was for being faithful: he took what was given and actually used it. The ten cities aren't a prize for risk — they're the reward for faithful action.",
   },
   {
     id: "cautious",
     door: "DOOR B",
     title: "You Trade Cautiously",
     action:
-      "You take the mina and use it wisely. You're careful, measured, deliberate. You don't gamble — you steward.",
+      "You take the mina and put it to work — carefully, deliberately, with wisdom. You don't gamble it away, but you don't bury it either. You steward it into safe ground that still bears fruit.",
     verdict: "WELL DONE, THOU GOOD SERVANT.",
     verse: "Because thou hast been faithful in a very little, have thou authority over five cities.",
     ref: "LUKE 19:19 — JUB",
     outcome:
-      "The cautious steward gained five — half of the first. And the master's reward was the same. Faithfulness is not measured by the size of the result, but by whether you put it to work. Five is enough, if you were faithful with it.",
+      "The cautious steward gained five — half of the first. And the master's reward was the same. Faithfulness is not measured by the size of the result, but by whether you put it to work. Five is enough, if you were faithful with it. The point was never to risk everything — it was to do something.",
   },
   {
     id: "bury",
@@ -38,6 +38,7 @@ const paths = [
       "He didn't steal the mina. He didn't lose it. He returned exactly what he was given — and that was the condemnation. The sin wasn't losing it. The sin was doing nothing with it.",
   },
 ];
+
 
 export default function Lesson3() {
   const [open, setOpen] = useState("bold");
