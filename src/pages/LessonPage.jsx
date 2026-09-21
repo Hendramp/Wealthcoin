@@ -7,6 +7,7 @@ import Lesson1CexIntro from "../components/academy/Lesson1CexIntro";
 import Lesson1OkxGuide from "../components/academy/Lesson1OkxGuide";
 import Lesson1WrapUp from "../components/academy/Lesson1WrapUp";
 import Lesson2BlockchainBasics from "../components/academy/Lesson2BlockchainBasics";
+import Lesson3Stewardship from "../components/academy/Lesson3Stewardship";
 
 export default function LessonPage() {
   const { slug } = useParams();
@@ -67,6 +68,10 @@ export default function LessonPage() {
 
   if (slug === "blockchain-basics") {
     return <Lesson2BlockchainBasics />;
+  }
+
+  if (slug === "faithful-stewardship") {
+    return <Lesson3Stewardship />;
   }
 
   // Fallback

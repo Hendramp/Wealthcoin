@@ -17,7 +17,14 @@ const lessons = [
     slug: "blockchain-basics",
     number: 2,
     title: "Blockchain Basics",
-    description: "What a blockchain is, how transactions work, and why networks and gas fees matter.",
+    description: "What a blockchain is, how transactions work,and why networks and gas fees matter.",
+    status: "ready",
+  },
+  {
+    slug: "faithful-stewardship",
+    number: 3,
+    title: "Faithful Stewardship",
+    description: "The journey of the stewards — what you do with what's entrusted to you. Luke 19.",
     status: "ready",
   },
 ];
@@ -50,7 +57,7 @@ export default function AcademyPage() {
           Back to WealthCoin
         </Link>
 
-                {/* Academy header */}
+        {/* Academy header */}
         <header className="mt-10 border-b border-[#D4AF37]/15 pb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
             WealthCoin Academy
@@ -60,7 +67,7 @@ export default function AcademyPage() {
             <span className="gold-text block">Digital Assets Wisely</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-            The Academy is <span className="font-semibold text-[#D4AF37]">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with, and participate with confidence.
+            The Academy is <span className="font-semibold text-[#D4AF37]">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with,and participate with confidence.
           </p>
           <p className="mx-auto mt-6 max-w-2xl font-display text-2xl font-bold leading-snug text-white sm:text-3xl">
             Everyone learns differently.
@@ -68,7 +75,6 @@ export default function AcademyPage() {
           </p>
           <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
         </header>
-
 
         {/* Lesson list */}
         <div className="mt-10 space-y-4">
@@ -145,7 +151,7 @@ export default function AcademyPage() {
             "And the LORD God took the man and put him into the garden of Eden to dress it and to keep it."
           </p>
           <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-            Genesis 2:15 — JUB
+            Genesis  ‎2:15 — JUB
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/50">
             Everything we're entrusted with is meant to be cared for and kept. The Academy exists to help you do exactly that.
