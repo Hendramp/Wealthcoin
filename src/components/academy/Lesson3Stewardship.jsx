@@ -144,8 +144,7 @@ export default function Lesson3() {
         </div>
 
         <p className="mt-10 text-center text-lg italic text-white/50">
-          The napkin is the real warning. Not corruption — paralysis. Not greed —
-          fear.
+          The napkin is the real warning. We do not walk in fear, but we do walk in faithfulness. The question is not whether you will be judged — the question is whether you will be found faithful.
         </p>
       </div>
 
