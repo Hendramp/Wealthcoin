@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const paths = [
+  
   {
     id: "bold",
     door: "DOOR A",

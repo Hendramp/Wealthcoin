@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 const STORAGE_KEY = "wtc_academy_email";
 
-export default function EmailGateModal({ onClose }) {
+export default function EmailGateModal({ onClose, lesson }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
+
+  // Fallback in case no lesson is passed
+  const title = lesson?.title || "Lesson 2";
+  const slug = lesson?.slug || "blockchain-basics";
 
   function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -42,7 +46,7 @@ export default function EmailGateModal({ onClose }) {
       }
 
       localStorage.setItem(STORAGE_KEY, trimmed);
-      navigate("/academy/blockchain-basics");
+      navigate(`/academy/lesson/${slug}`);
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
@@ -69,7 +73,7 @@ export default function EmailGateModal({ onClose }) {
           WealthCoin Academy
         </p>
         <h2 className="mt-2 font-display text-2xl text-white">
-          Unlock Lesson 2
+          Unlock {title}
         </h2>
         <p className="mt-3 text-sm leading-7 text-white/60">
           Enter your email to continue learning to steward your digital assets
@@ -97,7 +101,7 @@ export default function EmailGateModal({ onClose }) {
             disabled={saving}
             className="w-full rounded-2xl bg-[#D4AF37] px-4 py-3 text-sm font-bold text-black transition hover:bg-[#e6c55a] disabled:opacity-60"
           >
-            {saving ? "Unlocking…" : "Unlock Lesson 2 →"}
+            {saving ? "Unlocking…" : `Unlock ${title} →`}
           </button>
         </form>
 

@@ -9,11 +9,6 @@ const scriptures = [
   },
   {
     verse:
-      "“Unless the LORD builds the house, they labour in vain that build it; unless the LORD keeps the city, the watchmen watch in vain.”",
-    reference: "Psalm 127:1 — JUB",
-  },
-  {
-    verse:
       "“And whatever ye do, do it heartily, as to the Lord, and not unto men.”",
     reference: "Colossians 3:23 — JUB",
   },
@@ -24,13 +19,18 @@ const scriptures = [
   },
   {
     verse:
-      "“And we now know that unto those who love God, all things help them unto good, to those who according to the purpose are called to be saints.”",
-    reference: "Romans 8:28 — JUB",
+      "“Be ye therefore wise as serpents, and harmless as doves.”",
+    reference: "Matthew 10:16 — JUB",
   },
   {
     verse:
-      "“For God so loved the world that he gave his only begotten Son, that whosoever believes in him should not perish, but have everlasting life.”",
-    reference: "John 3:16 — JUB",
+      "“The prudent man foresees the evil and hides himself, but the simple pass on and are punished.”",
+    reference: "Proverbs 22:3 — JUB",
+  },
+  {
+    verse:
+      "“Moreover it is required of stewards, that a man be found faithful.”",
+    reference: "1 Corinthians 4:2 — JUB",
   },
 ];
 
@@ -113,10 +113,10 @@ export default function Hero() {
             </span>
           </div>
 
-          {/* Main headline */}
+          {/* Main headline — repositioned for search */}
           <h1 className="mt-6 font-display text-[2.65rem] font-bold uppercase leading-[0.95] sm:mt-8 sm:text-6xl md:text-7xl lg:text-[5.25rem]">
             <span className="gold-text block">Faith Driven</span>
-            <span className="mt-2 block text-white">Fintech</span>
+            <span className="mt-2 block text-white">FinTech</span>
           </h1>
 
           <p className="mt-6 font-display text-base tracking-wide text-[#D4AF37]/80 sm:mt-7 sm:text-xl md:text-2xl">
@@ -125,26 +125,27 @@ export default function Hero() {
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
             Free education. Real implementation. A community that stewards wisely.
+
           </p>
 
-          {/* Two pillars — Academy (free) + WTC Solutions (implementation) */}
+          {/* Two pillars — Free Courses (Academy) + Real Implementation (WTC Solutions) */}
           <div className="mx-auto mt-9 grid max-w-4xl gap-4 sm:grid-cols-2 sm:gap-5">
-            {/* Academy */}
+            {/* Free Courses — relabeled for search */}
             <Link
               to="/academy"
               className="group flex flex-col items-start rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/[0.06] p-6 text-left transition hover:border-[#D4AF37]/80 hover:bg-[#D4AF37]/[0.1] sm:p-7"
             >
               <span className="rounded-full border border-[#D4AF37]/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-                100% Free Education
+                Crpto Education
               </span>
               <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
-                WealthCoin Academy
+               Free Crypto Courses
               </h2>
               <p className="mt-2 text-sm leading-6 text-white/60">
-                Learn to steward digital assets wisely — free forever, at your own pace.
+                Wallets, safety, stewardship &amp; more — at your own pace, free forever.
               </p>
               <span className="mt-4 inline-flex items-center gap-2 font-semibold text-[#D4AF37]">
-                Start Learning
+                Start Learning cryptocurrency today
                 <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
               </span>
             </Link>
@@ -158,7 +159,7 @@ export default function Hero() {
                 Real Implementation
               </span>
               <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
-                WTC Solutions
+                Accept Crypto Payments
               </h2>
               <p className="mt-2 text-sm leading-6 text-white/60">
                 We help businesses, ministries &amp; individuals actually accept crypto.
