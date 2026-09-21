@@ -39,12 +39,14 @@ const lessons = [
 export default function AcademyPage() {
   const navigate = useNavigate();
   const [showGate, setShowGate] = useState(false);
+  const [activeLesson, setActiveLesson] = useState(null);
 
-  const handleLesson2Click = () => {
+  const handleLessonClick = (lesson) => {
     const unlocked = typeof window !== "undefined" && !!localStorage.getItem(STORAGE_KEY);
     if (unlocked) {
-      navigate("/academy/lesson/blockchain-basics");
+      navigate(`/academy/lesson/${lesson.slug}`);
     } else {
+      setActiveLesson(lesson);
       setShowGate(true);
     }
   };
@@ -87,41 +89,14 @@ export default function AcademyPage() {
         <div className="mt-10 space-y-4">
           {lessons.map((lesson) => {
             const ready = lesson.status === "ready";
-            const isLesson2 = lesson.slug === "blockchain-basics";
-
-            // Lesson 2 is a button (gate-controlled), everything else is a Link
-            if (isLesson2) {
-              return (
-                <button
-                  key={lesson.slug}
-                  onClick={handleLesson2Click}
-                  className="group block w-full rounded-3xl border border-white/10 bg-white/5 p-6 text-left transition hover:border-[#D4AF37]/50 hover:bg-white/[0.06] sm:p-7"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-3">
-                        <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-                          Lesson {lesson.number}
-                        </p>
-                      </div>
-                      <h2 className="mt-2 font-display text-xl text-white sm:text-2xl">
-                        {lesson.title}
-                      </h2>
-                      <p className="mt-2 text-sm leading-7 text-white/60">
-                        {lesson.description}
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              );
-            }
 
             return (
-              <Link
+              <button
                 key={lesson.slug}
-                to={ready ? `/academy/lesson/${lesson.slug}` : "#"}
+                onClick={() => handleLessonClick(lesson)}
+                disabled={!ready}
                 aria-disabled={!ready}
-                className={`group block rounded-3xl border border-white/10 bg-white/5 p-6 transition sm:p-7 ${
+                className={`group block w-full rounded-3xl border border-white/10 bg-white/5 p-6 text-left transition sm:p-7 ${
                   ready
                     ? "hover:border-[#D4AF37]/50 hover:bg-white/[0.06]"
                     : "cursor-not-allowed opacity-60"
@@ -147,7 +122,7 @@ export default function AcademyPage() {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </button>
             );
           })}
         </div>
@@ -175,7 +150,9 @@ export default function AcademyPage() {
         </footer>
       </div>
 
-      {showGate && <EmailGateModal onClose={() => setShowGate(false)} />}
+      {showGate && activeLesson && (
+        <EmailGateModal lesson={activeLesson} onClose={() => setShowGate(false)} />
+      )}
     </main>
   );
 }
