@@ -2,24 +2,14 @@ import React, { useEffect, useState } from "react";
 
 const ANNOUNCEMENTS = [
   {
-    id: "academy-live",
-    text: "WealthCoin Academy Lesson 1 is live — learn wallet safety & creation for free.",
+    id: "lessons-3-4-live",
+    text: "Lessons 3 & 4 are live — Faithful Stewardship and Keys & Transactions are now live in the Academy.",
     href: "/academy",
     cta: "Enter the Academy",
   },
   {
-    id: "socials-linked",
-    text: "We're now connected across all our socials — YouTube is on the way.",
-  },
-  {
-    id: "liquidity-live",
-    text: "Liquidity is now live on Polygon — swap USDC for WTC.",
-    href: "#purchase",
-    cta: "Buy WTC",
-  },
-  {
-    id: "staking-soon",
-    text: "Staking is coming soon. Stay tuned.",
+    id: "staking-deferred",
+    text: "Staking is deferred until further notice. We'll announce when it's ready.",
   },
 ];
 
@@ -62,7 +52,7 @@ export default function AnnouncementBar() {
 
   return (
     <div className="relative">
-      <div className="absolute left-4 top-24 z-40 w-[520px] rounded-2xl border-2 border-[#D4AF37]/40 bg-[#071009]/95 p-6 shadow-2xl backdrop-blur">
+      <div className="absolute left-4 top-24 z-40 w-[520px] max-w-[calc(100vw-2rem)] rounded-2xl border-2 border-[#D4AF37]/40 bg-[#071009]/95 p-6 pr-12 shadow-2xl backdrop-blur">
         <p className="text-base font-medium leading-7 text-white/90">
           {active.text}
         </p>
@@ -78,11 +68,11 @@ export default function AnnouncementBar() {
         <button
           type="button"
           onClick={dismiss}
-          className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-black/40 text-white/60 transition hover:text-white"
+          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white/60 transition hover:text-white"
           aria-label="Dismiss announcement"
         >
           <svg
-            className="h-4 w-4"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
