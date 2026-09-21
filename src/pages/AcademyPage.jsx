@@ -121,11 +121,17 @@ export default function AcademyPage() {
                           Coming Soon
                         </span>
                       )}
-                      {gated && (
-                        <span className="rounded-full border border-[#D4AF37]/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF37]">
-                          Free with Email
-                        </span>
-                      )}
+                     {gated && (
+  <span className="rounded-full border border-[#D4AF37]/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF37]">
+    Free with Email
+  </span>
+)}
+{lesson.slug === "wallet-safety" && (
+  <span className="rounded-full border border-purple-400/60 bg-purple-500/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-purple-300">
+    Begin Here
+  </span>
+)}
+
                     </div>
                     <h2 className="mt-2 font-display text-xl text-white sm:text-2xl">
                       {lesson.title}
