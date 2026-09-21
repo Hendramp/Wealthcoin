@@ -17,7 +17,7 @@ const lessons = [
     slug: "blockchain-basics",
     number: 2,
     title: "Blockchain Basics",
-    description: "What a blockchain is, how transactions work, and why networks and gas fees matter.",
+    description: "What a blockchain is, how transactions work,and why networks and gas fees matter.",
     status: "ready",
   },
   {
@@ -83,10 +83,11 @@ export default function AcademyPage() {
             <span className="gold-text block">Digital Assets Wisely</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-            The Academy is <span className="font-semibold text-[#D4AF37]">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with, and participate with confidence.
+            The Academy is <span className="font-semibold text-[#D4AF37]">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with,and participate with confidence.
           </p>
           <p className="mx-auto mt-6 max-w-2xl font-display text-2xl font-bold leading-snug text-white sm:text-3xl">
             Everyone learns differently.
+
             <span className="gold-text block">Go at your own pace.</span>
           </p>
           <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
@@ -121,17 +122,16 @@ export default function AcademyPage() {
                           Coming Soon
                         </span>
                       )}
-                     {gated && (
-  <span className="rounded-full border border-[#D4AF37]/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF37]">
-    Free with Email
-  </span>
-)}
-{lesson.slug === "wallet-safety" && (
-  <span className="rounded-full border border-purple-400/60 bg-purple-500/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-purple-300">
-    Begin Here
-  </span>
-)}
-
+                      {gated && (
+                        <span className="rounded-full border border-[#D4AF37]/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF37]">
+                          Free with Email
+                        </span>
+                      )}
+                      {lesson.slug === "wallet-safety" && (
+                        <span className="rounded-full border border-purple-400/60 bg-purple-500/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-purple-300">
+                          Begin Here
+                        </span>
+                      )}
                     </div>
                     <h2 className="mt-2 font-display text-xl text-white sm:text-2xl">
                       {lesson.title}
@@ -149,10 +149,10 @@ export default function AcademyPage() {
         {/* Stewardship footer */}
         <footer className="mt-16 rounded-3xl border border-[#D4AF37]/15 bg-[#D4AF37]/5 p-8 text-center">
           <p className="text-sm italic leading-7 text-white/70">
-            "And the LORD God took the man and put him into the garden of Eden to dress it and to keep it."
+            "For God hath not given us the spirit of fear; but of power,and of love,and of a sound mind."
           </p>
           <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-            Genesis 2:15 — JUB
+            2 Timothy 1:7 — JUB
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/50">
             Everything we're entrusted with is meant to be cared for and kept. The Academy exists to help you do exactly that.
@@ -167,11 +167,11 @@ export default function AcademyPage() {
             </a>
           </p>
         </footer>
-      </div>
 
-      {showGate && activeLesson && (
-        <EmailGateModal lesson={activeLesson} onClose={() => setShowGate(false)} />
-      )}
+        {showGate && activeLesson && (
+          <EmailGateModal lesson={activeLesson} onClose={() => setShowGate(false)} />
+        )}
+      </div>
     </main>
   );
 }
