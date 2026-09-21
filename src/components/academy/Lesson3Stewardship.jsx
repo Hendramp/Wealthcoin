@@ -42,7 +42,7 @@ const paths = [
 
 
 export default function Lesson3() {
-  const [open, setOpen] = useState("bold");
+  const [open, setOpen] = useState("null");
 
   const toggle = (id) => setOpen(open === id ? null : id);
 
