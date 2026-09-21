@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const paths = [
-  
   {
     id: "bold",
     door: "DOOR A",
@@ -40,7 +39,6 @@ const paths = [
   },
 ];
 
-
 export default function Lesson3() {
   const [open, setOpen] = useState("null");
 
@@ -48,6 +46,14 @@ export default function Lesson3() {
 
   return (
     <section className="relative mx-auto w-full max-w-4xl px-6 py-20 sm:px-8 sm:py-28">
+      {/* Back to Academy */}
+      <a
+        href="/academy"
+        className="mb-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-[#D4AF37] transition-colors hover:text-white"
+      >
+        ← Back to Academy
+      </a>
+
       {/* Header */}
       <header className="mb-16 text-center sm:mb-20">
         <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
