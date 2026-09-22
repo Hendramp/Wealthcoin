@@ -149,10 +149,10 @@ export default function AcademyPage() {
         {/* Stewardship footer */}
         <footer className="mt-16 rounded-3xl border border-[#D4AF37]/15 bg-[#D4AF37]/5 p-8 text-center">
           <p className="text-sm italic leading-7 text-white/70">
-            "For God hath not given us the spirit of fear; but of power,and of love,and of a sound mind."
+            "Certainly there is a spirit in man, and the inspiration of the Almighty gives them understanding."
           </p>
           <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-            2 Timothy 1:7 — JUB
+            Job 32:8 — JUB
           </p>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/50">
             Everything we're entrusted with is meant to be cared for and kept. The Academy exists to help you do exactly that.

@@ -124,7 +124,7 @@ export default function Hero() {
           </p>
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
-            Free education. Real implementation. A community that stewards wisely.
+            Free education. Real implementation. A crypto community that stewards wisely.
 
           </p>
 

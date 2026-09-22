@@ -64,10 +64,10 @@ export default function Lesson4() {
           {/* The Address */}
           <div className="rounded-3xl border border-[#D4AF37]/25 bg-[#D4AF37]/5 p-8 sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#D4AF37]">
-              The Receiving Address
+              Safe to Share
             </p>
             <h4 className="mt-3 font-display text-2xl text-white sm:text-3xl">
-              Safe to Share
+               The Receiving Address
             </h4>
             <p className="mt-5 text-lg leading-8 text-white/70">
               Like a mailing address or an account number. It's how people send
@@ -86,15 +86,15 @@ export default function Lesson4() {
           {/* The Keys */}
           <div className="rounded-3xl border border-red-500/25 bg-red-500/5 p-8 sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-red-400">
-              The Private Key & Seed Phrase
+              Never Share 
             </p>
             <h4 className="mt-3 font-display text-2xl text-white sm:text-3xl">
-              Never Share
+              The Private Key & Seed Phrase
             </h4>
             <p className="mt-5 text-lg leading-8 text-white/70">
               The password to your wallet — and the master key that restores it.
               Anyone who holds these controls your assets. They are the mina
-              itself. Guard them like the treasure they are.
+              itself. NEVER share them.
             </p>
             <p className="mt-6 text-xl italic text-[#D4AF37]">
               “Keep thy heart with all diligence; for out of it are the issues of

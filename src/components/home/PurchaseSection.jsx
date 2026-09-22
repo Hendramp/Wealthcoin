@@ -8,8 +8,9 @@ const USDC_CONTRACT = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
 const WTC_DECIMALS = 18;
 const USDC_DECIMALS = 6;
 const FALLBACK_PRICE_USD = 0.00025;
+const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 const POOL_URL =
-  "https://app.uniswap.org/swap?chain=polygon&outputCurrency=0x394b57F4a40ff31530d66f904e1Db2C6516c018F&inputCurrency=0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
+  `https://app.uniswap.org/explore/pools/polygon/${POOL_ADDRESS}`;
 
 const WTC_ABI = [
   "function balanceOf(address account) view returns (uint256)",
@@ -30,28 +31,16 @@ export default function PurchaseSection() {
   useEffect(() => {
     async function fetchPrice() {
       try {
-        // 1) GeckoTerminal (CoinGecko) — indexes the WTC contract on Polygon
+        // Use the same WTC/USDC pool as the Uniswap purchase link.
         const gt = await fetch(
-          `https://api.geckoterminal.com/api/v2/networks/polygon_pos/tokens/${WTC_CONTRACT}`
+          `https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/${POOL_ADDRESS}`
         );
         const gtData = await gt.json();
-        const gtPrice = gtData?.data?.attributes?.price_usd;
+        const gtPrice = gtData?.data?.attributes?.base_token_price_usd;
         if (gtPrice) {
           setPrice(parseFloat(gtPrice));
           const gtChange = gtData?.data?.attributes?.price_change_percentage;
           setChange24h(gtChange?.h24 ?? null);
-          setLoading(false);
-          return;
-        }
-        // 2) Fallback: DexScreener
-        const ds = await fetch(
-          `https://api.dexscreener.com/latest/dex/tokens/${WTC_CONTRACT}`
-        );
-        const dsData = await ds.json();
-        const pair = dsData?.pairs?.[0];
-        if (pair && pair.priceUsd) {
-          setPrice(parseFloat(pair.priceUsd));
-          setChange24h(pair.priceChange?.h24 ?? null);
           setLoading(false);
           return;
         }
