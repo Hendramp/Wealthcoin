@@ -125,7 +125,6 @@ export default function Hero() {
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
             Free education. Real implementation. A crypto community that stewards wisely.
-
           </p>
 
           {/* Two pillars — Free Courses (Academy) + Real Implementation (WTC Solutions) */}
@@ -136,7 +135,7 @@ export default function Hero() {
               className="group flex flex-col items-start rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/[0.06] p-6 text-left transition hover:border-[#D4AF37]/80 hover:bg-[#D4AF37]/[0.1] sm:p-7"
             >
               <span className="rounded-full border border-[#D4AF37]/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-                Crpto Education
+                Crypto Education
               </span>
               <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
                Free Crypto Courses
@@ -171,47 +170,55 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* Purchase WTC — primary action */}
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
-            <a
-              href="#purchase"
-              className="min-h-[54px] rounded-xl bg-[#D4AF37] px-10 py-3 font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
-            >
-              Purchase WTC
-            </a>
+          {/* Primary action + quiet links */}
+<div className="mt-10 flex flex-col items-center gap-6">
+  <a
+    href="#risk-section"
+    className="group inline-flex min-h-[68px] items-center gap-3 rounded-xl bg-[#D4AF37] px-14 py-5 text-lg font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
+  >
+    Risk Section
+    <span aria-hidden="true" className="transition-transform group-hover:translate-y-1">↓</span>
+  </a>
 
-            <a
-              href="#foundation"
-              className="btn-ghost min-h-[54px] w-full sm:w-auto"
-            >
-              Explore the Foundation
-            </a>
+  <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-lg font-semibold text-white/60">
+    <a href="#purchase" className="group inline-flex items-center gap-1.5 transition hover:text-[#D4AF37]">
+      Purchase WTC
+      <span aria-hidden="true" className="text-[#D4AF37] transition-transform group-hover:translate-y-0.5">↓</span>
+    </a>
+    <span aria-hidden="true" className="text-white/25">•</span>
+    <Link to="/founder" className="group inline-flex items-center gap-1.5 transition hover:text-[#D4AF37]">
+      Learn about the founder
+      <span aria-hidden="true" className="text-[#D4AF37] transition-transform group-hover:translate-x-0.5">→</span>
+    </Link>
+    <span aria-hidden="true" className="text-white/25">•</span>
+    <a href="#foundation" className="group inline-flex items-center gap-1.5 transition hover:text-[#D4AF37]">
+      Explore the Foundation
+      <span aria-hidden="true" className="text-[#D4AF37] transition-transform group-hover:translate-y-0.5">↓</span>
+    </a>
+  </div>
+</div>
 
-            <a
-              href="#risk-section"
-              className="btn-ghost min-h-[48px] px-8 text-sm"
-            >
-              Risk Section
-            </a>
-          </div>
+
+
 
           {/* Rotating Scripture */}
-          <blockquote
-            className={`mx-auto mt-10 flex min-h-[138px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:min-h-[118px] ${
-              scriptureVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-2 opacity-0"
-            }`}
-            aria-live="polite"
-          >
-            <p className="text-base italic leading-7 text-white/75 sm:text-xl sm:leading-8">
-              {activeScripture.verse}
-            </p>
+<blockquote
+  className={`mx-auto mt-12 flex min-h-[150px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:min-h-[130px] ${
+    scriptureVisible
+      ? "translate-y-0 opacity-100"
+      : "translate-y-2 opacity-0"
+  }`}
+  aria-live="polite"
+>
+  <p className="text-xl italic leading-8 text-white/80 sm:text-2xl sm:leading-9">
+    {activeScripture.verse}
+  </p>
 
-            <cite className="mt-3 block font-display text-sm not-italic uppercase tracking-[0.22em] text-[#D4AF37]/70">
-              {activeScripture.reference}
-            </cite>
-          </blockquote>
+  <cite className="mt-4 block font-display text-base not-italic uppercase tracking-[0.22em] text-[#D4AF37]/80">
+    {activeScripture.reference}
+  </cite>
+</blockquote>
+
 
           {/* Scripture progress indicators */}
           <div

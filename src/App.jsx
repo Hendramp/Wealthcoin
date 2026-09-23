@@ -7,6 +7,7 @@ import AcademyPage from "./pages/AcademyPage";
 import LessonPage from "./pages/LessonPage";
 import TokenomicsPage from "./pages/TokenomicsPage";
 import PrivacyNotice from "./pages/PrivacyNotice";
+import FounderPage from "./pages/FounderPage";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/academy/lesson/:slug" element={<LessonPage />} />
         <Route path="/tokenomics" element={<TokenomicsPage />} />
         <Route path="/privacy-notice" element={<PrivacyNotice />} />
+        <Route path="/founder" element={<FounderPage />} />
       </Routes>
     </BrowserRouter>
   );

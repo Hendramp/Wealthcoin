@@ -9,11 +9,13 @@ const links = [
   { label: "Home", href: "/#home" },
   { label: "Foundation", href: "/#foundation" },
   { label: "Academy", href: "/academy" },
+  { label: "Founder", href: "/founder" },
   { label: "Library", href: "/#library" },
   { label: "Tokenomics", href: "/tokenomics" },
   { label: "WTCS", href: "/wtcs" },
   { label: "Privacy", href: "/privacy-notice" },
 ];
+
 
 
 function shortenAddress(address) {

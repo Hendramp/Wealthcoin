@@ -290,3 +290,8 @@ body {
     text-align: center;
   }
 }
+
+.highlight {
+  color: #d4af37; /* gold */
+  font-weight: 700;
+}
