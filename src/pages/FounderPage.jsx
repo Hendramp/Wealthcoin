@@ -119,7 +119,8 @@ const FounderPage = () => {
           <p className="text-base leading-8 text-white/75 sm:text-lg sm:leading-9">
             So when I built this, I built every aspect of it myself: the
             token, the website, the liquidity pool, the entire Academy
-            curriculum, and most importantly, the foundation.
+            curriculum, and most importantly, the foundation. 
+            Thats just the start, a marketplace, staking yield, community hub and much more is being built towards.
           </p>
 
           <blockquote className="my-8 border-l-2 border-[#D4AF37] py-2 pl-6">
