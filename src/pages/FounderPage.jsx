@@ -49,7 +49,7 @@ const FounderPage = () => {
             can belong before you believe in Christ. Before anything else, Almighty YHWH is my ultimate source. He blessed
           me with the wisdom and opportunity to build something like this — and
           my prayer is to glorify Him through everything I do and reach those
-          who have ears to hear and believe in the Gospel of Christ. Christ has authority over all things in Heaven and on earth
+          who have ears to hear and believe in the Gospel of Christ.
           </p>
 
           <blockquote className="my-8 border-l-2 border-[#D4AF37] py-2 pl-6">
@@ -58,6 +58,7 @@ const FounderPage = () => {
               humankind, resurrected and defeated death on the third day, and
               commissioned not only His 12 disciples but us as well to make
               disciples for Him to the ends of the earth in Matthew 28:19.
+              He has authority over all things in Heaven and on earth.
             </p>
           </blockquote>
         </section>
@@ -87,8 +88,8 @@ const FounderPage = () => {
             never made progress considering my young age. I've seen how the accuser has used this technology to advance darkness through hidden transactions, trafficking, and deception, but because God is all sovereign it was unsuccessful and the technology has been redeemed for His Kingdom.
            {' '}
 
-           
-            <strong className="highlight">
+
+           <strong className="highlight">
               It wasn't until around 2024, when i finally got serious about learning crypto, that I even learned what a network
               was through learning pages on centralized exchanges like
               Coinbase.
