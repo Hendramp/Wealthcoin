@@ -84,9 +84,10 @@ const FounderPage = () => {
             first impression of crypto was through the Silk Road, and after
             seeing a mock crypto in <em>Welcome to the Game</em> at around 10
             years old, I got curious and started doing my own research but
-            never made progress considering my young age.{' '}
+            never made progress considering my young age. I've seen how the accuser has used this technology to advance darkness through hidden transactions, trafficking, and deception, but because God is all sovereign it was unsuccessful and the technology has been redeemed for His Kingdom.
+             Christ has defeated death, Satan, and has authority over all things in Heaven and on earth. {' '}
             <strong className="highlight">
-              It wasn't until around 2024 that I even learned what a network
+              It wasn't until around 2024, when i finally got serious about learning crypto, that I even learned what a network
               was through learning pages on centralized exchanges like
               Coinbase.
             </strong>{' '}
@@ -117,7 +118,7 @@ const FounderPage = () => {
           </h2>
 
           <p className="text-base leading-8 text-white/75 sm:text-lg sm:leading-9">
-            So when I built this, I built every aspect of it myself: the
+            So when I built this, I built every aspect of it myself by God Almighty's grace: the
             token, the website, the liquidity pool, the entire Academy
             curriculum, and most importantly, the foundation. 
             Thats just the start, a marketplace, staking yield, community hub and much more is being built towards.
