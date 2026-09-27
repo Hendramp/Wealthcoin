@@ -86,6 +86,8 @@ const FounderPage = () => {
             years old, I got curious and started doing my own research but
             never made progress considering my young age. I've seen how the accuser has used this technology to advance darkness through hidden transactions, trafficking, and deception, but because God is all sovereign it was unsuccessful and the technology has been redeemed for His Kingdom.
            {' '}
+
+           
             <strong className="highlight">
               It wasn't until around 2024, when i finally got serious about learning crypto, that I even learned what a network
               was through learning pages on centralized exchanges like
