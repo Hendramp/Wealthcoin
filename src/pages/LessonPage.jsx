@@ -9,6 +9,12 @@ import Lesson1WrapUp from "../components/academy/Lesson1WrapUp";
 import Lesson2BlockchainBasics from "../components/academy/Lesson2BlockchainBasics";
 import Lesson3Stewardship from "../components/academy/Lesson3Stewardship";
 import Lesson4Transactions from "../components/academy/Lesson4Transactions";
+import BuyingSellingOpener from "../components/academy/BuyingSellingOpener";
+import BuyingSellingExchange from "../components/academy/BuyingSellingExchange";
+import BuyingSellingPhantom from "../components/academy/BuyingSellingPhantom";
+import BuyingSellingCore from "../components/academy/BuyingSellingCore";
+import BuyingSellingSelling from "../components/academy/BuyingSellingSelling";
+import Lesson6 from "../components/academy/Lesson6";
 
 export default function LessonPage() {
   const { slug } = useParams();
@@ -79,16 +85,40 @@ export default function LessonPage() {
     return <Lesson4Transactions />;
   }
 
+  if (slug === "buying-selling") {
+    return <BuyingSellingOpener />;
+  }
+
+  if (slug === "buying-selling-exchange") {
+    return <BuyingSellingExchange />;
+  }
+
+  if (slug === "buying-selling-phantom") {
+    return <BuyingSellingPhantom />;
+  }
+
+  if (slug === "buying-selling-core") {
+    return <BuyingSellingCore />;
+  }
+
+  if (slug === "buying-selling-selling") {
+    return <BuyingSellingSelling />;
+  }
+
+  if (slug === "stablecoins-volatile") {
+    return <Lesson6 />;
+  }
+
   // Fallback
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
       <div className="relative z-10 mx-auto max-w-3xl">
         <p className="mt-10 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
-          Lesson 2 · Blockchain Basics
+          Lesson 5 · Buying & Selling
         </p>
         <h1 className="mt-2 font-display text-3xl text-white sm:text-4xl">
-          Blockchain Basics
+          Lesson Coming Soon
         </h1>
         <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
           <p className="text-base leading-8 text-white/70">Coming soon.</p>

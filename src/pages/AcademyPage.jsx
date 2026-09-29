@@ -10,7 +10,7 @@ const lessons = [
     slug: "wallet-safety",
     number: 1,
     title: "Wallet Safety & Creation",
-    description: "What a wallet is, protecting your recovery phrase, and the habits that keep your assets safe.",
+    description: "What a wallet is, protecting your recovery phrase,and the habits that keep your assets safe.",
     status: "ready",
   },
   {
@@ -31,13 +31,33 @@ const lessons = [
     slug: "keys-and-transactions",
     number: 4,
     title: "Keys & Transactions",
-    description: "What's safe to share, what's yours to keep, and how to transact wisely in your wallet.",
+    description: "What's safe to share, what's yours to keep,and how to transact wisely in your wallet.",
+    status: "ready",
+  },
+  {
+    slug: "buying-selling",
+    number: 5,
+    title: "Buying & Selling Crypto",
+    description: "Two roads to your first crypto — the exchange route and the self-custody route. Same skills, different keys.",
+    status: "ready",
+  },
+  {
+    slug: "stablecoins-volatile",
+    number: 6,
+    title: "Stablecoins & Volatile Assets",
+    description: "There are countless coins — know what you're holding. Stablecoins, Bitcoin,and the altcoins built for reasons.",
     status: "ready",
   },
 ];
 
 // Lessons that require the email gate (Lesson 1 stays open as a free sample)
-const GATED_SLUGS = new Set(["blockchain-basics", "faithful-stewardship", "keys-and-transactions"]);
+const GATED_SLUGS = new Set([
+  "blockchain-basics",
+  "faithful-stewardship",
+  "keys-and-transactions",
+  "buying-selling",
+  "stablecoins-volatile",
+]);
 
 export default function AcademyPage() {
   const navigate = useNavigate();
@@ -165,6 +185,9 @@ export default function AcademyPage() {
             >
               WTCteam@outlook.com
             </a>
+          </p>
+          <p className="mx-auto mt-6 max-w-2xl border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
+            Disclaimer: The WealthCoin Academy is educational content only — not financial, legal, or tax advice. Crypto regulations vary by country,and it's not just based on where your home is — it's about where the transaction takes place. The responsibility is on you to know the rules where you act. Always do your own research before putting money into anything.{" "}
           </p>
         </footer>
 

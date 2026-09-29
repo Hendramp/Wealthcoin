@@ -23,9 +23,22 @@ export default function PrivacyNotice() {
               When you subscribe to the WealthCoin Academy, we collect your
               email address — and only your email address. We use it strictly
               to send you Academy lesson updates and announcements.
+            </p>
+          </section>
+
+                    <section>
+            <h2 className="text-lg font-semibold text-white">Wallet connections</h2>
+            <p>
+              When you connect a wallet on WealthCoin, the connection is
+              handled through Reown, a third-party wallet provider. We do
+              not store your private keys, seed phrase, or wallet
+              credentials — those stay entirely with you and your wallet
+              provider. Reown's own privacy and security policies apply to the
+              connection itself.
 
             </p>
           </section>
+
 
           <section>
             <h2 className="text-lg font-semibold text-white">What we never do</h2>
@@ -33,7 +46,6 @@ export default function PrivacyNotice() {
               We never sell, rent, or share your information with third
               parties. Your email is used for WealthCoin Academy updates
               only — nothing else.
-
             </p>
           </section>
 
