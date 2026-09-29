@@ -53,6 +53,20 @@ export default function BuyingSellingExchange() {
           Tap a topic to learn it — go at your own pace.
         </p>
 
+        <div className="mt-8 rounded-3xl border border-[#D4AF37]/15 bg-[#D4AF37]/5 p-6 sm:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+            Important — send your assets to OKX or whatever wallet you chose.
+          </p>
+          <p className="mt-3 text-sm leading-7 text-white/70">
+            This road ends sending crypto to your self-custody wallet. After you
+            acquire crypto here, make sure you <strong className="text-white">send
+            your assets to your wallet</strong> (the one you created in Lesson
+            1) before you hold or move them further. Exchanges are fine to{" "}
+            <em>acquire</em> on, but the keys you hold are the ones that matter.{" "}
+            Move what's yours to your own wallet when you're done.
+          </p>
+        </div>
+
         <div className="mt-8 space-y-4">
           <Section title="What a centralized exchange actually is">
             <p>
@@ -108,15 +122,18 @@ export default function BuyingSellingExchange() {
               <strong className="text-white">
                 First, you fund your account — a bank transfer or a card.
 
+
+
               </strong>{" "}
               That money sits on the exchange, in fiat (USD, EUR, etc.). It's
               not crypto yet — it's just money you've given them to hold.{" "}
             </p>
             <p>
               <strong className="text-white">
-                Then you place an order — you say "I want to buy X amount of Bitcoin."
+                Then you place an order — you say "I want to buy X amount of whatever asset."
               </strong>{" "}
               A <strong>market order</strong> buys at the current price, right now.
+
               A <strong>limit order</strong> says "buy when the price hits this number" —
               it might fill in a minute or it might wait for days. For a beginner,
               market orders are simpler; limit orders give you more control.{" "}
@@ -124,8 +141,7 @@ export default function BuyingSellingExchange() {
             <p>
               <strong className="text-white">
                 When it fills, you now "own" crypto — but it's sitting on the
-                exchange, in their wallet.
-
+                exchange, in their wallet
               </strong>{" "}
               You can see it in your balance, but you don't actually hold the keys
               to it. That's the ownership tradeoff: convenient to buy, but you're
@@ -138,9 +154,10 @@ export default function BuyingSellingExchange() {
               <strong className="text-white">
                 Exchanges don't just charge a flat fee — there are a few hidden costs.
 
+
               </strong>{" "}
               <strong>Spread</strong> is the difference between the buy price and the
-              sell price — the exchange quietly takes a little from every trade.{" "}
+              sell price —the exchange quietly takes a little from every trade.{" "}
               <strong>Trading fees</strong> are the per-trade fee they charge.{" "}
               <strong>Withdrawal fees</strong> are what they charge when you move
               crypto off the exchange to your own wallet. These add up — so it's
@@ -151,7 +168,7 @@ export default function BuyingSellingExchange() {
                 Gas fees barely apply on an exchange — they handle the network costs
                 for you.
               </strong>{" "}
-              When you trade on an exchange, you're not paying gas per swap — the
+              When you trade on an exchange, you're not paying gas per swap —the
               exchange covers the network fees internally. That's one of the perks of
               centralized trading: you don't need to hold a native asset just to pay
               gas. You pay their trading fees instead. Gas only shows up when you{" "}
@@ -163,7 +180,7 @@ export default function BuyingSellingExchange() {
           <Section title="Why you'd use one at all">
             <p>
               <strong className="text-white">
-                Convenience, fiat on/off ramps, and liquidity.{" "}
+                Convenience, fiat on/off ramps,and liquidity.{" "}
               </strong>{" "}
               It's the easiest way to get money <em>into</em> crypto — you can use
               a bank transfer or card, things your self-custody wallet can't easily
@@ -191,7 +208,7 @@ export default function BuyingSellingExchange() {
             Back to the fork
           </Link>
           <Link
-            to="/academy/lesson/buying-selling/core"
+            to="/academy/lesson/buying-selling-core"
             className="inline-flex items-center justify-center gap-2 rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-6 py-4 text-sm font-semibold text-[#D4AF37] transition hover:border-[#D4AF37] hover:text-white"
           >
             Continue to the technical core

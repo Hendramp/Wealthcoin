@@ -116,7 +116,6 @@ export default function BuyingSellingPhantom() {
               <strong className="text-white">
                 Every swap and send costs gas — and you pay it in the network's native
                 asset.
-
               </strong>{" "}
               Whatever blockchain you're on, you need its native asset to cover
               gas fees — we mentioned this back in Lesson 2. It varies by
@@ -153,6 +152,7 @@ export default function BuyingSellingPhantom() {
               <strong className="text-white">
                 On OKX, you use the bridge feature to move from Solana to any other
                 blockchain.
+
               </strong>{" "}
               That's how you get from a Solana-native purchase to Polygon, Ethereum,
               or anywhere else. A bridge locks your asset on one chain and issues a
@@ -167,6 +167,7 @@ export default function BuyingSellingPhantom() {
             <p>
               <strong className="text-white">
                 One concept explains all five steps: CASH is native to Solana.
+
               </strong>{" "}
               Because it only lives on Solana, you can't buy other chains directly
               with it. So you buy CASH, convert it to Solana, send it to OKX,
@@ -187,7 +188,7 @@ export default function BuyingSellingPhantom() {
             Back to the fork
           </Link>
           <Link
-            to="/academy/lesson/buying-selling/core"
+            to="/academy/lesson/buying-selling-core"
             className="inline-flex items-center justify-center gap-2 rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-6 py-4 text-sm font-semibold text-[#D4AF37] transition hover:border-[#D4AF37] hover:text-white"
           >
             Continue to the technical core

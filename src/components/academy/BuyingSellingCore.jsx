@@ -61,13 +61,11 @@ export default function BuyingSellingCore() {
             <p>
               <strong className="text-white">
                 A swap isn't "converting coins" — it's trading one asset for another.
-
               </strong>{" "}
               When you swap CASH for Solana on Phantom, you're not magically
               transforming one thing into another. You're selling one asset and
               buying another in a single step. The price you get is based on
-              supply and demand at that exact moment.
-
+              supply and demand at that exact moment and
             </p>
             <p>
               <strong className="text-white">
@@ -100,7 +98,7 @@ export default function BuyingSellingCore() {
               </strong>{" "}
               Reputable bridges have been audited and widely used. But "audited"
               doesn't mean "risk-free." Know what you're using, check the network
-              before you confirm, and don't bridge more than you're comfortable
+              before you confirm,and don't bridge more than you're comfortable
               trusting. That's stewardship, not paranoia.{" "}
             </p>
           </Section>
@@ -117,7 +115,7 @@ export default function BuyingSellingCore() {
               different roads. This is the exact reason you can't just send anything
               anywhere — you have to send the right asset on the right network to the
               right address. That's the whole "check the network" habit from Lesson
-              4, and it's the single most common way people lose money: they send
+              4,and it's the single most common way people lose money: they send
               the right asset on the wrong network,and it's gone.{" "}
             </p>
             <p>
@@ -149,12 +147,13 @@ export default function BuyingSellingCore() {
               <strong className="text-white">
                 That's the whole point of the Academy.
 
+
               </strong>{" "}
               Not to make you a trader or an expert. To make you someone who
               knows what they're doing with what's been entrusted to them. To
               keep you from being deceived by confusion. As it is written:{" "}
               <em>"A prudent man foreseeth the evil, and hideth himself: but the
-              simple pass on,and are punished."</em> — Proverbs  ̈2:3 (JUB). Checking
+              simple pass on,and are punished."</em> — Proverbs  ̈22:3 (JUB). Checking
               isn't paranoia. It's wisdom.{" "}
             </p>
           </Section>
@@ -169,7 +168,7 @@ export default function BuyingSellingCore() {
             Back
           </Link>
           <Link
-            to="/academy/lesson/buying-selling/selling"
+            to="/academy/lesson/buying-selling-selling"
             className="inline-flex items-center justify-center gap-2 rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-6 py-4 text-sm font-semibold text-[#D4AF37] transition hover:border-[#D4AF37] hover:text-white"
           >
             Continue to selling

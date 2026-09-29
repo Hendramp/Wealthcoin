@@ -36,7 +36,7 @@ export default function BuyingSellingSelling() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
       <div className="relative z-10 mx-auto max-w-3xl">
         <Link
-          to="/academy/lesson/buying-selling/core"
+          to="/academy/lesson/buying-selling-core"
           className="inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-[#D4AF37]"
         >
           <span aria-hidden="true">←</span>
@@ -52,6 +52,7 @@ export default function BuyingSellingSelling() {
         <p className="mt-4 text-base leading-7 text-white/60">
           Selling is the same process you already know — just backwards. The
           only real difference is where the money ends up. Tap a topic to learn it.
+
         </p>
 
         <div className="mt-8 space-y-4">
@@ -72,14 +73,12 @@ export default function BuyingSellingSelling() {
               <strong className="text-white">
                 The real difference between the two ways is just where the money
                 ends up.
-
               </strong>{" "}
-              On an exchange, it's one step — sell to fiat, withdraw to your bank.
-              In a wallet, it depends on the wallet. Here's how both actually work.{" "}
+              On an exchange, it's one step — sell to fiat, withdraw to your bank. In a wallet, it depends on the wallet. Here's how both actually work.{" "}
             </p>
           </Section>
 
-          <Section title="Selling in a wallet — third-party providers">
+          <Section title="Selling in a wallet and accessing third-party providers">
             <p>
               <strong className="text-white">
                 Most wallets don't sell directly — they route you to a third-party
@@ -99,36 +98,64 @@ export default function BuyingSellingSelling() {
                 If you chose a wallet from our library guide, you'll likely buy and
                 sell through that same wallet.
 
+
+
               </strong>{" "}
               The library guide's wallets each have their own way of doing it, but
-              the pattern is the same: the wallet connects you to a provider to
+              the pattern is the same:the wallet connects you to a provider to
               get your money out. We'll add the specific steps for each wallet to
               the Phantom code page in a bit.{" "}
             </p>
-          </Section>
-
-          <Section title="The Phantom way — swap, send, sell">
             <p>
               <strong className="text-white">
-                Phantom is the exception — you can swap any asset to Solana, then
-                sell it into CASH.
+                You can also go to these providers directly — you don't need the
+                wallet in the middle.
+
+
 
               </strong>{" "}
-              The flow: swap whatever you hold into <strong>Solana</strong> right
-              in Phantom, send that Solana to your <strong>OKX</strong> wallet (the
-              one from Lesson 1), sell it into <strong>CASH</strong> on OKX, and
-              CASH can be sent to your bank account. Same route as buying, just
-              moving in the other direction.{" "}
+              MoonPay, Transak,and Ramp each let you buy and sell crypto straight
+              from their own sites, sometimes at better rates than going through the
+              wallet. If you want to skip the middleman, look them up directly — a
+              quick online search for the provider's name will get you to their official
+              site. Just make sure you're on the real one before you connect anything.{" "}
+            </p>
+          </Section>
+
+          <Section title="The Phantom way — swap to CASH, spend with the card">
+            <p>
+              <strong className="text-white">
+                Phantom's off-ramp isn't selling to your bank anymore — it's the
+                card.
+
+              </strong>{" "}
+              Once you hold <strong>CASH</strong> in Phantom, you can spend it
+              directly with Phantom's own debit card, loaded into Apple Pay or whatever wallet your device supports
+              and linked right to the account. No sending to an exchange, no bank
+              transfer dance — just swap to CASH and spend it straight from the card.{" "}
             </p>
             <p>
               <strong className="text-white">
-                Why OKX again? Same reason as buying — better bridge rates and an
-                interface you already know.
+                Why CASH? Because that's what Phantom's card spends.
+
+
 
               </strong>{" "}
-              It keeps the whole thing in one familiar place. You're not learning
-              a new platform to sell — you're using the one you already made your
-              wallet in. Same habits, same checks, same confidence.{" "}
+              CASH is Phantom's own stablecoin, so the card is built around it.
+              Swap whatever you hold into CASH in the app,and it's ready to spend.
+              If you'd rather have it in your bank instead, send it to an exchange
+              like Kraken and sell it there — but the card is the quick way out.{" "}
+            </p>
+            <p>
+              <strong className="text-white">
+                One thing to know: identity verification is part of it.
+
+
+
+              </strong>{" "}
+              Setting up the card involves verifying your identity — that's normal for
+              any real off-ramp. It's the tradeoff for spending your crypto directly,
+              and it's worth knowing before you tap that top-right card button.{" "}
             </p>
           </Section>
 
@@ -137,19 +164,24 @@ export default function BuyingSellingSelling() {
               <strong className="text-white">
                 An exchange is simpler because the fiat off-ramp is built in.
 
+
+
               </strong>{" "}
-              You sell your crypto to fiat right there, and withdraw to your bank.
-              No third-party provider, no swap-to-Solana dance — just sell and
-              withdraw. The tradeoff is the same one from buying: you're trusting
-              the exchange to pay you out. If they freeze your account or go under,
-              that's the risk you held the whole time.{" "}
+              The flow: you send your crypto to the exchange, sell it for fiat right
+              there,and then withdraw that fiat to your bank account. No third-party
+              provider, no swap-to-Solana dance — just send, sell,and withdraw. The
+              tradeoff is the same one from buying:you're trusting the exchange to pay
+              you out. If they freeze your account or go under, that's the risk you held
+              the whole time.{" "}
             </p>
             <p>
               <strong className="text-white">
                 Same fees as buying, just in reverse.
 
+
+
               </strong>{" "}
-              Spread on the sell, trading fees, and withdrawal fees when you move
+              Spread on the sell, trading fees,and withdrawal fees when you move
               the fiat out. Knowing them before you sell is the same wisdom as
               knowing them before you buy.{" "}
             </p>
@@ -158,15 +190,17 @@ export default function BuyingSellingSelling() {
           <Section title="We don't give financial or tax advice">
             <p>
               <strong className="text-white">
-                We are not financial or tax advisors, and this lesson is not
+                We are not financial or tax advisors,and this lesson is not
                 financial or tax advice.
 
+
+
               </strong>{" "}
-              Crypto regulations vary by country — and it's not just based on where
-              your <em>home</em> is. It's about where the <em>transaction</em>{" "}
-              takes place. What's legal in one place may not be in another. The
+              Crypto regulations vary by country —and it's not just based on where
+              your <em>home</em> is.It's about where the <em>transaction</em>{" "}
+              takes place.What's legal in one place may not be in another.The
               responsibility is on you to know the rules where you're actually
-              transacting. We're teaching you <em>how</em>; the <em>rules</em> are
+              transacting.We're teaching you <em>how</em>;the <em>rules</em> are
               on you to check.{" "}
             </p>
           </Section>
@@ -176,11 +210,12 @@ export default function BuyingSellingSelling() {
               <strong className="text-white">
                 You now have the full picture: acquire, move, hold, sell.
 
+
+
               </strong>{" "}
-              The whole Academy was leading here. From "what is a wallet" in
-              Lesson 1, to "how you actually use one in the real world" today.
-              You know how to get money in, how to hold it safely, how to move it
-              between chains, and how to get it out when you need to. That's not a
+              The whole Academy was leading here.From "what is a wallet" in
+              Lesson 1, to "how you actually use one in the real world" today. You know how to get money in, how to hold it safely, how to move it
+              between chains,and how to get it out when you need to. That's not a
               trader's skill set. That's a steward's skill set.{" "}
             </p>
             <p>
@@ -188,11 +223,13 @@ export default function BuyingSellingSelling() {
                 God wants his people educated and powerful, not deceived and
                 confused.
 
+
+
               </strong>{" "}
               As it is written:{" "}
-              <em>"Occupy till I come."</em> — Luke 19:13 (JUB). Not "hoard till
+              <em>"Occupy till I come."</em> — Luke  ̈19:13 (JUB). Not "hoard till
               I come." Not "gamble till I come." <em>Occupy</em> — engage with
-              what's been entrusted to you, wisely, soberly, and faithfully. That's
+              what's been entrusted to you, wisely, soberly,and faithfully. That's
               what you're now equipped to do.{" "}
             </p>
           </Section>
@@ -200,7 +237,7 @@ export default function BuyingSellingSelling() {
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
-            to="/academy/lesson/buying-selling/core"
+            to="/academy/lesson/buying-selling-core"
             className="inline-flex items-center justify-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-white/70 transition hover:border-[#D4AF37]/50 hover:text-white"
           >
             <span aria-hidden="true">←</span>
