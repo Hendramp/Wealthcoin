@@ -4,6 +4,7 @@ import { useAppKitAccount } from "@reown/appkit/react";
 import { BrowserProvider, Contract, formatUnits } from "ethers";
 
 const WTC_CONTRACT = "0x394b57F4a40ff31530d66f904e1Db2C6516c018F";
+const WTC_CONTRACT_URL = `https://polygonscan.com/token/${WTC_CONTRACT}`;
 const USDC_CONTRACT = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
 const WTC_DECIMALS = 18;
 const USDC_DECIMALS = 6;
@@ -27,11 +28,13 @@ export default function PurchaseSection() {
   const [loading, setLoading] = useState(true);
   const [wtcBalance, setWtcBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function fetchPrice() {
       try {
         // Use the same WTC/USDC pool as the Uniswap purchase link.
+
         const gt = await fetch(
           `https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/${POOL_ADDRESS}`
         );
@@ -83,6 +86,16 @@ export default function PurchaseSection() {
   }, [isConnected, address]);
 
   const wtcValueUsd = wtcBalance * (price ?? FALLBACK_PRICE_USD);
+
+  const handleCopyContract = async () => {
+    try {
+      await navigator.clipboard.writeText(WTC_CONTRACT);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Copy failed:", err);
+    }
+  };
 
   return (
     <section
@@ -169,6 +182,61 @@ export default function PurchaseSection() {
               hosting the WTC / USDC pool. This keeps every trade secure,
               transparent, and peer-to-peer — no middleman.
             </p>
+
+            <div className="mt-5 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/50">
+                  WTC Contract Address
+                </p>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={WTC_CONTRACT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-white/60 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                    title="View on Polygonscan"
+                  >
+                    Polygonscan
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <path d="M10 14L21 3" />
+                    </svg>
+                  </a>
+                  <button
+                    onClick={handleCopyContract}
+                    className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-white/60 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                    title="Copy contract address"
+                  >
+                    {copied ? (
+                      <>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Copied
+                      </>
+                    ) : (
+                      <>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        Copy
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+              <p className="mt-2 break-all font-mono text-sm text-[#D4AF37]">
+                {WTC_CONTRACT}
+              </p>
+              <p className="mt-2 text-xs leading-5 text-white/45">
+                This is the official WTC token contract on the Polygon network.
+                Always verify this address before transacting — scammers create
+                fake tokens with similar addresses. Check it on Polygonscan any
+                time.
+              </p>
+            </div>
           </div>
         </div>
 
