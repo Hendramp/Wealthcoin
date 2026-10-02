@@ -9,27 +9,27 @@ const scriptures = [
   },
   {
     verse:
-      "“And whatever ye do, do it heartily, as to the Lord, and not unto men.”",
+      "“And whatever ye do, do it heartily, as to the Lord,and not unto men.”",
     reference: "Colossians 3:23 — JUB",
   },
   {
     verse:
-      "“He that is faithful with little is faithful also with much, and he that is unjust with little is unjust also with much.”",
+      "“He that is faithful with little is faithful also with much,and he that is unjust with little is unjust also with much.”",
     reference: "Luke 16:10 — JUB",
   },
   {
     verse:
-      "“Be ye therefore wise as serpents, and harmless as doves.”",
+      "“Be ye therefore wise as serpents,and harmless as doves.”",
     reference: "Matthew 10:16 — JUB",
   },
   {
     verse:
-      "“The prudent man foresees the evil and hides himself, but the simple pass on and are punished.”",
+      "“The prudent man foresees the evil and hides himself,but the simple pass on and are punished.”",
     reference: "Proverbs 22:3 — JUB",
   },
   {
     verse:
-      "“Moreover it is required of stewards, that a man be found faithful.”",
+      "“Moreover it is required of stewards,that a man be found faithful.”",
     reference: "1 Corinthians 4:2 — JUB",
   },
 ];
@@ -124,7 +124,7 @@ export default function Hero() {
           </p>
 
           <p className="mx-auto mt-5 max-w-3xl text-sm leading-7 text-white/65 sm:mt-6 sm:text-lg sm:leading-8 md:text-xl">
-            Free education. Real implementation. A crypto community that stewards wisely.
+            Free education. Real implementation. A crypto community that stewards wisely..
           </p>
 
           {/* Two pillars — Free Courses (Academy) + Real Implementation (WTC Solutions) */}
@@ -138,10 +138,11 @@ export default function Hero() {
                 Crypto Education
               </span>
               <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
-               Free Crypto Courses
+                Free Crypto Courses
               </h2>
               <p className="mt-2 text-sm leading-6 text-white/60">
                 Wallets, safety, stewardship &amp; more — at your own pace, free forever.
+
               </p>
               <span className="mt-4 inline-flex items-center gap-2 font-semibold text-[#D4AF37]">
                 Start Learning cryptocurrency today
@@ -161,7 +162,8 @@ export default function Hero() {
                 Accept Crypto Payments
               </h2>
               <p className="mt-2 text-sm leading-6 text-white/60">
-                We help businesses, ministries &amp; individuals actually accept crypto.
+                We help businesses, ministries &amp; individuals actually accept crypto..
+
               </p>
               <span className="mt-4 inline-flex items-center gap-2 font-semibold text-white">
                 Explore Solutions
@@ -170,55 +172,78 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* Primary action + quiet links */}
-<div className="mt-10 flex flex-col items-center gap-6">
-  <a
-    href="#risk-section"
-    className="group inline-flex min-h-[68px] items-center gap-3 rounded-xl bg-[#D4AF37] px-14 py-5 text-lg font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
-  >
-    Risk Section
-    <span aria-hidden="true" className="transition-transform group-hover:translate-y-1">↓</span>
-  </a>
-
-  <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-lg font-semibold text-white/60">
-    <a href="#purchase" className="group inline-flex items-center gap-1.5 transition hover:text-[#D4AF37]">
-      Purchase WTC
-      <span aria-hidden="true" className="text-[#D4AF37] transition-transform group-hover:translate-y-0.5">↓</span>
-    </a>
-    <span aria-hidden="true" className="text-white/25">•</span>
-    <Link to="/founder" className="group inline-flex items-center gap-1.5 transition hover:text-[#D4AF37]">
-      Learn about the founder
-      <span aria-hidden="true" className="text-[#D4AF37] transition-transform group-hover:translate-x-0.5">→</span>
-    </Link>
-    <span aria-hidden="true" className="text-white/25">•</span>
-    <a href="#foundation" className="group inline-flex items-center gap-1.5 transition hover:text-[#D4AF37]">
-      Explore the Foundation
-      <span aria-hidden="true" className="text-[#D4AF37] transition-transform group-hover:translate-y-0.5">↓</span>
-    </a>
-  </div>
-</div>
+          {/* Two pillars — Library + Risk Section */}
+          <div className="mx-auto mt-9 grid max-w-4xl gap-4 sm:grid-cols-2 sm:gap-5">
+                        {/* Library — pillar card, scrolls to library section */}
+            <a
+              href="#library"
+              className="group flex flex-col items-start rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/[0.06] p-6 text-left transition hover:border-[#D4AF37]/80 hover:bg-[#D4AF37]/[0.1] sm:p-7"
+            >
+              <span className="rounded-full border border-[#D4AF37]/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+                Library
+              </span>
+              <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
+                Learn &amp; Stay Connected
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-white/60">
+                Official wallet guides, verified social channels,and the community hub..
+              </p>
+              <span className="mt-4 inline-flex items-center gap-2 font-semibold text-[#D4AF37]">
+                Explore the Library
+                <span aria-hidden="true" className="transition-transform group-hover:translate-y-0.5">↓</span>
+              </span>
+            </a>
 
 
+            {/* Risk Section — pillar card, scrolls to risk section */}
+            <a
+              href="#risk-section"
+              className="group flex flex-col items-start rounded-3xl border border-white/15 bg-white/[0.04] p-6 text-left transition hover:border-white/35 hover:bg-white/[0.06] sm:p-7"
+            >
+              <span className="rounded-full border border-white/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/70">
+                Risk Section
+              </span>
+              <h2 className="mt-4 font-display text-2xl font-bold text-white sm:text-3xl">
+                Know the Risks
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-white/60">
+                Understand what you're getting into before you buy..
+              </p>
+              <span className="mt-4 inline-flex items-center gap-2 font-semibold text-white">
+                Review the Risks
+                <span aria-hidden="true" className="transition-transform group-hover:translate-y-0.5">↓</span>
+              </span>
+            </a>
+          </div>
 
+          {/* Purchase on Uniswap — centered below the pillars */}
+          <div className="mt-8 flex justify-center">
+            <a
+              href="#purchase"
+              className="group inline-flex min-h-[64px] items-center gap-3 rounded-xl bg-[#D4AF37] px-14 py-5 text-lg font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
+            >
+              Purchase WTC on Uniswap
+              <span aria-hidden="true" className="transition-transform group-hover:translate-y-1">↓</span>
+            </a>
+          </div>
 
           {/* Rotating Scripture */}
-<blockquote
-  className={`mx-auto mt-12 flex min-h-[150px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:min-h-[130px] ${
-    scriptureVisible
-      ? "translate-y-0 opacity-100"
-      : "translate-y-2 opacity-0"
-  }`}
-  aria-live="polite"
->
-  <p className="text-xl italic leading-8 text-white/80 sm:text-2xl sm:leading-9">
-    {activeScripture.verse}
-  </p>
+          <blockquote
+            className={`mx-auto mt-12 flex min-h-[150px] max-w-3xl flex-col items-center justify-center px-1 transition-all duration-500 sm:min-h-[130px] ${
+              scriptureVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-2 opacity-0"
+            }`}
+            aria-live="polite"
+          >
+            <p className="text-xl italic leading-8 text-white/80 sm:text-2xl sm:leading-9">
+              {activeScripture.verse}
+            </p>
 
-  <cite className="mt-4 block font-display text-base not-italic uppercase tracking-[0.22em] text-[#D4AF37]/80">
-    {activeScripture.reference}
-  </cite>
-</blockquote>
-
+            <cite className="mt-4 block font-display text-base not-italic uppercase tracking-[0.22em] text-[#D4AF37]/80">
+              {activeScripture.reference}
+            </cite>
+          </blockquote>
 
           {/* Scripture progress indicators */}
           <div
@@ -255,7 +280,7 @@ export default function Hero() {
             </p>
 
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/55 sm:text-base">
-              You don’t have to share our faith to belong. All are welcome to participate with respect and integrity.
+              You don’t have to share our faith to belong. All are welcome to participate with respect and integrity..
             </p>
           </div>
         </div>

@@ -11,7 +11,7 @@ const USDC_DECIMALS = 6;
 const FALLBACK_PRICE_USD = 0.00025;
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 const POOL_URL =
-  `https://app.uniswap.org/explore/pools/polygon/${POOL_ADDRESS}`;
+  `https://app.uniswap.org/swap?inputCurrency=${USDC_CONTRACT}&outputCurrency=${WTC_CONTRACT}&chain=polygon`;
 
 const WTC_ABI = [
   "function balanceOf(address account) view returns (uint256)",

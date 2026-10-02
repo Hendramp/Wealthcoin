@@ -89,7 +89,7 @@ export default function LibrarySection() {
 
           <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
             Access official wallet guides and connect with WealthCoin through
-            the project&apos;s verified social channels.
+            the project&apos;s verified social channels. Community Hub coming soon.
           </p>
         </div>
 
