@@ -98,8 +98,7 @@ export default function BuyingSellingPhantom() {
               Each wallet in the guide has its own way of getting money in — some use
               third-party providers like MoonPay or Transak, others have their own
               built-in flow. The pattern is the same: you buy, it lands in your wallet,
-              and you move it where it needs to go. We'll add the specific steps for
-              each wallet here in a bit.{" "}
+              and you move it where it needs to go.{" "}
             </p>
           </Section>
 
