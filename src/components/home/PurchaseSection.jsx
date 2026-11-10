@@ -6,14 +6,15 @@ import { BrowserProvider, Contract, formatUnits } from "ethers";
 const WTC_CONTRACT = "0x394b57F4a40ff31530d66f904e1Db2C6516c018F";
 const WTC_CONTRACT_URL = `https://polygonscan.com/token/${WTC_CONTRACT}`;
 const WTC_DECIMALS = 18;
+
+// Fixed display price until the WTC/POL pool is indexed and has real volume.
+// When that happens, add a fetch here and replace this with live state.
 const FALLBACK_PRICE_USD = 0.000075;
 
-// TODO: swap in the real 42-char pool address once GeckoTerminal indexes the
-// WTC/POL pool. Until then the fetch below fails and the fallback price shows.
-const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
+const POL_CONTRACT = "0x0000000000000000000000000000000000001010";
 
 const POOL_URL =
-  `https://app.uniswap.org/swap?outputCurrency=${WTC_CONTRACT}&chain=polygon`;
+  `https://app.uniswap.org/swap?inputCurrency=${POL_CONTRACT}&outputCurrency=${WTC_CONTRACT}&chain=polygon`;
 
 const WTC_ABI = [
   "function balanceOf(address account) view returns (uint256)",
@@ -21,41 +22,8 @@ const WTC_ABI = [
 
 export default function PurchaseSection() {
   const { address, isConnected } = useAppKitAccount();
-  const [price, setPrice] = useState(null);
-  const [change24h, setChange24h] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [wtcBalance, setWtcBalance] = useState(0);
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    async function fetchPrice() {
-      try {
-        // Use the same WTC/POL pool as the Uniswap purchase link.
-        const gt = await fetch(
-          `https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/${POOL_ADDRESS}`
-        );
-        const gtData = await gt.json();
-        const gtPrice = gtData?.data?.attributes?.base_token_price_usd;
-        if (gtPrice) {
-          setPrice(parseFloat(gtPrice));
-          const gtChange = gtData?.data?.attributes?.price_change_percentage;
-          setChange24h(gtChange?.h24 ?? null);
-          setLoading(false);
-          return;
-        }
-        throw new Error("no indexed price");
-      } catch (err) {
-        console.error("Price fetch failed:", err);
-        setPrice(FALLBACK_PRICE_USD);
-        setChange24h(null);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchPrice();
-    const id = setInterval(fetchPrice, 30000);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     async function loadBalances() {
@@ -75,7 +43,7 @@ export default function PurchaseSection() {
     loadBalances();
   }, [isConnected, address]);
 
-  const wtcValueUsd = wtcBalance * (price ?? FALLBACK_PRICE_USD);
+  const wtcValueUsd = wtcBalance * FALLBACK_PRICE_USD;
 
   const handleCopyContract = async () => {
     try {
@@ -105,9 +73,8 @@ export default function PurchaseSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            Live price tracking for WTC on the Polygon network. Connect your
-            wallet, then swap securely through Uniswap — peer-to-peer with no
-            middleman.
+            Buy WTC on the Polygon network. Connect your wallet, then swap
+            securely through Uniswap — peer-to-peer with no middleman.
           </p>
         </div>
 
@@ -123,18 +90,8 @@ export default function PurchaseSection() {
             </div>
 
             <div className="text-5xl font-bold">
-              {loading
-                ? <span className="text-white/30">—</span>
-                : price
-                  ? <span className="gold-text">${price.toFixed(6)}</span>
-                  : <span className="text-white/30">Price unavailable</span>}
+              <span className="gold-text">${FALLBACK_PRICE_USD.toFixed(6)}</span>
             </div>
-
-            {change24h !== null && (
-              <div className={`mt-2 text-sm ${change24h >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                {change24h >= 0 ? "▲" : "▼"} {Math.abs(change24h).toFixed(2)}% 24h
-              </div>
-            )}
           </div>
 
           <div className="p-6">
