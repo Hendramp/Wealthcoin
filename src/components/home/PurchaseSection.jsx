@@ -5,19 +5,17 @@ import { BrowserProvider, Contract, formatUnits } from "ethers";
 
 const WTC_CONTRACT = "0x394b57F4a40ff31530d66f904e1Db2C6516c018F";
 const WTC_CONTRACT_URL = `https://polygonscan.com/token/${WTC_CONTRACT}`;
-const USDC_CONTRACT = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359";
 const WTC_DECIMALS = 18;
-const USDC_DECIMALS = 6;
-const FALLBACK_PRICE_USD = 0.00025;
+const FALLBACK_PRICE_USD = 0.000075;
+
+// TODO: swap in the real 42-char pool address once GeckoTerminal indexes the
+// WTC/POL pool. Until then the fetch below fails and the fallback price shows.
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
+
 const POOL_URL =
-  `https://app.uniswap.org/swap?inputCurrency=${USDC_CONTRACT}&outputCurrency=${WTC_CONTRACT}&chain=polygon`;
+  `https://app.uniswap.org/swap?outputCurrency=${WTC_CONTRACT}&chain=polygon`;
 
 const WTC_ABI = [
-  "function balanceOf(address account) view returns (uint256)",
-];
-
-const USDC_ABI = [
   "function balanceOf(address account) view returns (uint256)",
 ];
 
@@ -27,14 +25,12 @@ export default function PurchaseSection() {
   const [change24h, setChange24h] = useState(null);
   const [loading, setLoading] = useState(true);
   const [wtcBalance, setWtcBalance] = useState(0);
-  const [usdcBalance, setUsdcBalance] = useState(0);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function fetchPrice() {
       try {
-        // Use the same WTC/USDC pool as the Uniswap purchase link.
-
+        // Use the same WTC/POL pool as the Uniswap purchase link.
         const gt = await fetch(
           `https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/${POOL_ADDRESS}`
         );
@@ -65,19 +61,13 @@ export default function PurchaseSection() {
     async function loadBalances() {
       if (!isConnected || !address) {
         setWtcBalance(0);
-        setUsdcBalance(0);
         return;
       }
       try {
         const provider = new BrowserProvider(window.ethereum);
         const wtc = new Contract(WTC_CONTRACT, WTC_ABI, provider);
-        const usdc = new Contract(USDC_CONTRACT, USDC_ABI, provider);
-        const [wtcRaw, usdcRaw] = await Promise.all([
-          wtc.balanceOf(address),
-          usdc.balanceOf(address),
-        ]);
+        const wtcRaw = await wtc.balanceOf(address);
         setWtcBalance(parseFloat(formatUnits(wtcRaw, WTC_DECIMALS)));
-        setUsdcBalance(parseFloat(formatUnits(usdcRaw, USDC_DECIMALS)));
       } catch (err) {
         console.error("Balance fetch failed:", err);
       }
@@ -111,7 +101,7 @@ export default function PurchaseSection() {
           </p>
 
           <h2 className="gold-text mt-5 font-display text-4xl font-bold sm:text-5xl">
-            Swap USDC for WTC
+            Swap POL for WTC
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
@@ -129,7 +119,7 @@ export default function PurchaseSection() {
             </div>
 
             <div className="mt-4 text-sm uppercase tracking-widest text-white/50">
-              WTC / USDC
+              WTC / POL
             </div>
 
             <div className="text-5xl font-bold">
@@ -157,10 +147,6 @@ export default function PurchaseSection() {
                     <span className="text-white/40 ml-2">(≈${wtcValueUsd.toFixed(2)})</span>
                   </span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-white/50">Your USDC balance</span>
-                  <span className="font-semibold">{usdcBalance.toFixed(2)} USDC</span>
-                </div>
               </div>
             ) : (
               <p className="mb-6 text-center text-sm text-white/40">
@@ -179,7 +165,7 @@ export default function PurchaseSection() {
 
             <p className="mt-4 text-center text-xs leading-5 text-white/40">
               Your swap is completed on Uniswap, the decentralized exchange
-              hosting the WTC / USDC pool. This keeps every trade secure,
+              hosting the WTC / POL pool. This keeps every trade secure,
               transparent, and peer-to-peer — no middleman.
             </p>
 
