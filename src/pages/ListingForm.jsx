@@ -31,7 +31,8 @@ const HARD_BAN_TERMS = [
 ];
 
 const SIGNAGE_FEE_USD = 5.00; // flat advertising fee for local pickup / signpost posts
-const FALLBACK_PRICE_USD = 0.000075;
+// Last-resort display value only; never use this for pricing calculations.
+const FALLBACK_WTC_PRICE_USD = 0.000075;
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 const MAX_IMAGES = 4;
 const MAX_IMAGE_MB = 5;
@@ -52,6 +53,7 @@ export default function ListingForm({ onListed }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [wtcPrice, setWtcPrice] = useState(null);
+  const [wtcPriceUnavailable, setWtcPriceUnavailable] = useState(false);
   const [feeBps, setFeeBps] = useState(null);
   const [feeUnavailable, setFeeUnavailable] = useState(false);
   const [contractTerms, setContractTerms] = useState(null);
@@ -64,17 +66,24 @@ export default function ListingForm({ onListed }) {
         const gt = await fetch(
           `https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/${POOL_ADDRESS}`
         );
+        if (!gt.ok) throw new Error(`GeckoTerminal request failed (${gt.status})`);
         const gtData = await gt.json();
         const gtPrice = gtData?.data?.attributes?.base_token_price_usd;
         const parsedPrice = Number(gtPrice);
         if (Number.isFinite(parsedPrice) && parsedPrice > 0) {
           setWtcPrice(parsedPrice);
+          setWtcPriceUnavailable(false);
           return;
         }
         throw new Error("no indexed price");
       } catch (err) {
         console.error("Price fetch failed:", err);
-        setWtcPrice(FALLBACK_PRICE_USD);
+        console.warn(
+          "Live WTC price unavailable; fallback is display-only:",
+          FALLBACK_WTC_PRICE_USD
+        );
+        setWtcPrice(null);
+        setWtcPriceUnavailable(true);
       }
     }
     fetchPrice();
@@ -268,11 +277,6 @@ export default function ListingForm({ onListed }) {
 
     if (!address) {
       setError("Connect your wallet before listing an item.");
-      return;
-    }
-
-    if (!isSignage && (feeUnavailable || feeUsd === null)) {
-      setError("Escrow fee unavailable. Please try again after the contract fee is available.");
       return;
     }
 
@@ -479,6 +483,11 @@ export default function ListingForm({ onListed }) {
               <p className="mt-1 text-xs text-white/40">
                 Listed in USD — converts to WTC at the live price when someone buys.
               </p>
+              {wtcPriceUnavailable && (
+                <p className="mt-1 text-xs text-amber-300">
+                  Live rate unavailable. Fallback display only: ${FALLBACK_WTC_PRICE_USD.toFixed(6)} per WTC.
+                </p>
+              )}
             </div>
 
             <div>

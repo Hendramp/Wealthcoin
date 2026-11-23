@@ -3,6 +3,8 @@ import FactoryArtifact from "../abi/WealthCoinEscrowFactory.json";
 import EscrowArtifact from "../abi/WealthCoinEscrow.json";
 
 export const WTC_ADDRESS = "0x394b57F4a40ff31530d66f904e1Db2C6516c018F";
+// Mirrors WealthCoinEscrowFactory.feeBps() on Polygon mainnet. Update if the contract's fee changes.
+export const FALLBACK_FEE_BPS = 500;
 
 const ERC20_ABI = [
   "function approve(address spender,uint256 amount) returns (bool)",
@@ -100,8 +102,8 @@ export async function getFeeBps(signerOrProvider) {
   ) {
     return feeBpsCache;
   }
-  const runner = signerOrProvider || getReadProvider();
   try {
+    const runner = signerOrProvider || getReadProvider();
     const factory = getFactoryContract(runner);
     const [value, maxFeeBps] = await Promise.all([
       factory.feeBps(),
@@ -119,7 +121,14 @@ export async function getFeeBps(signerOrProvider) {
   } catch (error) {
     feeBpsCache = undefined;
     feeBpsCachedAt = 0;
-    throw new Error(decodeEscrowError(error));
+    console.warn("Escrow fee read failed; using the fallback fee.", error);
+    if (
+      typeof FALLBACK_FEE_BPS !== "number" ||
+      !Number.isFinite(FALLBACK_FEE_BPS)
+    ) {
+      throw new Error("Escrow fee is unavailable.");
+    }
+    return FALLBACK_FEE_BPS;
   }
 }
 

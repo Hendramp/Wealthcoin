@@ -31,7 +31,8 @@ const HARD_BAN_TERMS = [
 ];
 
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
-const FALLBACK_PRICE_USD = 0.000075;
+// Last-resort display value only; purchase calculations require the live rate.
+const FALLBACK_WTC_PRICE_USD = 0.000075;
 
 const MARKETPLACE_RULES = [
   "No illegal goods or services — including drugs, weapons, stolen property, or anything prohibited by law.",
@@ -66,6 +67,7 @@ export default function MarketplacePage() {
 
   // Price tracker + filters
   const [wtcPrice, setWtcPrice] = useState(null);
+  const [wtcPriceUnavailable, setWtcPriceUnavailable] = useState(false);
   const [locationFilter, setLocationFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [deliveryFilter, setDeliveryFilter] = useState("");
@@ -137,17 +139,24 @@ export default function MarketplacePage() {
         const gt = await fetch(
           `https://api.geckoterminal.com/api/v2/networks/polygon_pos/pools/${POOL_ADDRESS}`
         );
+        if (!gt.ok) throw new Error(`GeckoTerminal request failed (${gt.status})`);
         const gtData = await gt.json();
         const gtPrice = gtData?.data?.attributes?.base_token_price_usd;
         const parsedPrice = Number(gtPrice);
         if (Number.isFinite(parsedPrice) && parsedPrice > 0) {
           setWtcPrice(parsedPrice);
+          setWtcPriceUnavailable(false);
           return;
         }
         throw new Error("no indexed price");
       } catch (err) {
         console.error("Price fetch failed:", err);
-        setWtcPrice(FALLBACK_PRICE_USD);
+        console.warn(
+          "Live WTC price unavailable; fallback is display-only:",
+          FALLBACK_WTC_PRICE_USD
+        );
+        setWtcPrice(null);
+        setWtcPriceUnavailable(true);
       }
     }
     fetchPrice();
@@ -280,6 +289,15 @@ export default function MarketplacePage() {
                 <p className="font-mono text-lg font-bold text-emerald-400">
                   1 WTC = ${wtcPrice.toFixed(5)}
                 </p>
+              ) : wtcPriceUnavailable ? (
+                <>
+                  <p className="font-mono text-lg font-bold text-amber-300">
+                    1 WTC ≈ ${FALLBACK_WTC_PRICE_USD.toFixed(5)}
+                  </p>
+                  <p className="mt-0.5 text-xs text-amber-300/70">
+                    Fallback display only; live rate unavailable.
+                  </p>
+                </>
               ) : (
                 <p className="text-lg text-white/40">Loading…</p>
               )}
