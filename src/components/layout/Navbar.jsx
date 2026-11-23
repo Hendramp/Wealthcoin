@@ -56,6 +56,7 @@ export default function Navbar() {
   useEffect(() => {
     // Handle hash navigation on mount (e.g. arriving at /#purchase)
     scrollToHash(location.hash);
+    setMobileOpen(false);
   }, [location.pathname, location.hash]);
 
   useEffect(() => {
@@ -144,7 +145,7 @@ export default function Navbar() {
       <header className="fixed left-0 top-0 z-50 w-full border-b border-[#D4AF37]/20 bg-black/90 backdrop-blur-md">
         <AnnouncementBar />
 
-        <div className="flex h-20 items-center justify-between gap-4 px-4 sm:px-8 lg:px-10">
+        <div className="flex h-16 items-center justify-between gap-2 px-3 sm:h-20 sm:gap-4 sm:px-8 lg:px-10">
           <Link
             to="/#home"
             onClick={() => {
@@ -183,7 +184,7 @@ export default function Navbar() {
             <Link
               to="/#purchase"
               onClick={() => handleNavClick({ href: "/#purchase" })}
-              className="btn-gold hidden min-h-[44px] items-center rounded-xl px-4 py-2.5 text-xs font-bold sm:flex sm:px-4 sm:text-sm"
+              className="btn-gold hidden min-h-[44px] items-center rounded-xl px-4 py-2.5 text-xs font-bold lg:flex lg:px-4 lg:text-sm"
             >
               Purchase WTC
             </Link>
@@ -192,7 +193,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={handleLogOut}
-                className="min-h-[44px] rounded-xl border border-[#D4AF37]/25 bg-black/60 px-3 py-2.5 text-xs font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10 sm:px-4 sm:text-sm"
+                className="hidden min-h-[44px] rounded-xl border border-[#D4AF37]/25 bg-black/60 px-3 py-2.5 text-xs font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10 lg:block lg:px-4 lg:text-sm"
               >
                 {user.username}
                 <span className="hidden sm:inline"> · Log out</span>
@@ -201,7 +202,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={openSignIn}
-                className="flex min-h-[44px] items-center rounded-xl border border-[#D4AF37]/25 bg-black/60 px-3 py-2.5 text-xs font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10 sm:px-4 sm:text-sm"
+                className="hidden min-h-[44px] items-center rounded-xl border border-[#D4AF37]/25 bg-black/60 px-3 py-2.5 text-xs font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10 lg:flex lg:px-4 lg:text-sm"
               >
                 Sign in
               </button>
@@ -214,10 +215,7 @@ export default function Navbar() {
             >
               {isConnected
                 ? shortenAddress(address)
-                : "Connect"}
-              <span className="hidden sm:inline">
-                {!isConnected ? " Wallet" : ""}
-              </span>
+                : <><span className="sm:hidden">Connect</span><span className="hidden sm:inline">{!isConnected ? "Connect Wallet" : ""}</span></>}
             </button>
 
             <button
@@ -250,7 +248,7 @@ export default function Navbar() {
         </div>
 
         <div
-          className={`fixed inset-x-0 top-20 z-40 h-[calc(100svh-5rem)] bg-black/70 backdrop-blur-sm transition lg:hidden ${
+          className={`fixed inset-x-0 top-16 z-40 h-[calc(100svh-4rem)] bg-black/70 backdrop-blur-sm transition sm:top-20 sm:h-[calc(100svh-5rem)] lg:hidden ${
             mobileOpen
               ? "pointer-events-auto opacity-100"
               : "pointer-events-none opacity-0"
@@ -260,7 +258,7 @@ export default function Navbar() {
         >
           <nav
             id="mobile-navigation"
-            className={`ml-auto h-full w-[min(86vw,360px)] overflow-y-auto border-l border-[#D4AF37]/20 bg-[#020403] p-5 shadow-2xl transition-transform duration-300 ${
+            className={`ml-auto h-full w-[min(86vw,360px)] overflow-y-auto border-l border-[#D4AF37]/20 bg-[#020403] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] shadow-2xl transition-transform duration-300 ${
               mobileOpen ? "translate-x-0" : "translate-x-full"
             }`}
             onClick={(event) => event.stopPropagation()}
@@ -309,16 +307,6 @@ export default function Navbar() {
               </button>
             )}
 
-            <button
-              type="button"
-              onClick={openWalletModal}
-              className="btn-gold mt-3 min-h-[52px] w-full rounded-xl px-5 py-3 font-bold"
-            >
-              {isConnected
-                ? `Manage ${shortenAddress(address)}`
-                : "Connect Wallet"}
-            </button>
-
             <p className="mt-6 text-center text-xs leading-5 text-white/35">
               Built on Polygon with stewardship, transparency, and faith.
             </p>
@@ -333,7 +321,7 @@ export default function Navbar() {
             onClick={closeSignIn}
           >
             <div
-              className="w-full max-w-md rounded-2xl border border-[#D4AF37]/20 bg-[#020403] p-6 shadow-2xl sm:p-8"
+              className="max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#D4AF37]/20 bg-[#020403] p-5 shadow-2xl sm:p-8"
               onClick={(event) => event.stopPropagation()}
             >
               <h2 className="mb-1 font-display text-xl font-bold text-[#D4AF37]">
@@ -353,7 +341,7 @@ export default function Navbar() {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                    className="min-h-[48px] w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
                   />
                 </div>
 
@@ -366,7 +354,7 @@ export default function Navbar() {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                    className="min-h-[48px] w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
                   />
                 </div>
 

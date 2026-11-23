@@ -62,6 +62,7 @@ export default function BuyModal({ listing, priceInWTC, wtcPrice, onClose }) {
         listing: { ...listing, priceInWTC: priceBig.toString() },
         signer,
         onStep: setStep,
+        wtcPrice,
       });
       setResult(purchase);
       setStep("idle");

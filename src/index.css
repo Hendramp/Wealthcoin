@@ -13,6 +13,19 @@ body {
   background: #030303;
   color: white;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 639px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 .font-display {

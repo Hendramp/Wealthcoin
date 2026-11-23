@@ -510,6 +510,7 @@ export default function MarketplacePage() {
                       <img
                         src={listing.images[0]}
                         alt={listing.title}
+                        loading="lazy"
                         className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                       />
                       {listing.images.length > 1 && (

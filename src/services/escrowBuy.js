@@ -12,7 +12,7 @@ const ERC20_ABI = [
   "function approve(address spender,uint256 amount) returns (bool)",
 ];
 
-export async function buyListing({ listing, signer, onStep }) {
+export async function buyListing({ listing, signer, onStep, wtcPrice }) {
   if (!signer) throw new Error("Connect your wallet to continue");
   if (!listing?.seller_wallet) throw new Error("Seller has not set a payout wallet");
   if (!listing?.priceInWTC) throw new Error("The WTC price is unavailable");
@@ -34,7 +34,17 @@ export async function buyListing({ listing, signer, onStep }) {
   }
 
   const priceInWTC = BigInt(listing.priceInWTC);
-  if (priceInWTC <= 0n) throw new Error("The price must be greater than zero.");
+  if (priceInWTC <= 0n) throw new Error("The purchase amount is zero.");
+
+  // Guard against malformed or accidental overflow-sized approvals. One billion
+  // WTC is a deliberately generous upper bound for normal marketplace purchases.
+  const MAX_PURCHASE_WTC = 1_000_000_000n * 10n ** 18n;
+  if (priceInWTC > MAX_PURCHASE_WTC) {
+    throw new Error("This purchase amount is too large.");
+  }
+  if (!Number.isFinite(wtcPrice) || wtcPrice <= 0) {
+    throw new Error("The WTC price is unavailable.");
+  }
 
   try {
     const wtc = new ethers.Contract(WTC_ADDRESS, ERC20_ABI, signer);

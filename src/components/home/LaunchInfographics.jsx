@@ -50,6 +50,7 @@ export default function LaunchInfographics() {
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
               </div>

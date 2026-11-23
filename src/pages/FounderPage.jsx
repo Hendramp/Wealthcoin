@@ -22,6 +22,7 @@ const FounderPage = () => {
             <img
   src="/assets/Founder/Founder_Photo.jpg"
   alt="Hendrick Ramirez, Founder of WealthCoin"
+  loading="lazy"
   className="h-full w-full object-cover"
 />
 

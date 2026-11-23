@@ -405,6 +405,7 @@ export default function ListingForm({ onListed }) {
                     <img
                       src={img.url}
                       alt={img.name}
+                      loading="lazy"
                       className="h-full w-full object-cover"
                     />
                     {img.uploading && (
