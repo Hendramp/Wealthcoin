@@ -7,240 +7,217 @@ export const WTC_ADDRESS = "0x394b57F4a40ff31530d66f904e1Db2C6516c018F";
 const ERC20_ABI = [
   "function approve(address spender,uint256 amount) returns (bool)",
   "function balanceOf(address account) view returns (uint256)",
+  "function allowance(address owner,address spender) view returns (uint256)",
 ];
 
 let feeBpsCache;
 
-function getFactoryAddress() {
+export function getFactoryAddress() {
   const address = import.meta.env.VITE_ESCROW_FACTORY_ADDRESS;
   if (!address) {
     throw new Error("VITE_ESCROW_FACTORY_ADDRESS is missing");
   }
-
-  function getReadRunner() {
-    if (typeof window === "undefined" || !window.ethereum) {
-      throw new Error("Wallet or injected provider not detected");
-    }
-    return new ethers.BrowserProvider(window.ethereum);
-  }
   return address;
 }
 
-export function getFactoryContract(signerOrProvider) {
-  if (!signerOrProvider) {
-    throw new Error("A signer or provider is required");
+export function getReadRunner() {
+  if (typeof window === "undefined" || !window.ethereum) {
+    throw new Error("Wallet or injected provider not detected");
   }
-  return new ethers.Contract(
-    getFactoryAddress(),
-    FactoryArtifact.abi,
-    signerOrProvider
-  );
+  return new ethers.BrowserProvider(window.ethereum);
+}
+
+export function getFactoryContract(signerOrProvider) {
+  if (!signerOrProvider) throw new Error("A signer or provider is required");
+  return new ethers.Contract(getFactoryAddress(), FactoryArtifact, signerOrProvider);
 }
 
 export function getEscrowContract(address, signerOrProvider) {
-  if (!signerOrProvider) {
-    throw new Error("A signer or provider is required");
-  }
-  if (!ethers.isAddress(address)) {
-    throw new Error("Invalid escrow address");
-  }
-  return new ethers.Contract(address, EscrowArtifact.abi, signerOrProvider);
+  if (!signerOrProvider) throw new Error("A signer or provider is required");
+  if (!ethers.isAddress(address)) throw new Error("Invalid escrow address");
+  return new ethers.Contract(address, EscrowArtifact, signerOrProvider);
 }
 
-function readableError(error) {
+export function decodeEscrowError(error) {
+  const code = error?.errorName || error?.reason || error?.shortMessage || error?.message || "";
+  const customErrors = {
+    FeeTooHigh: "The fee is above the maximum allowed.",
+    InvalidWindow: "The delivery window is invalid.",
+    NotEscrow: "That address is not a WealthCoin escrow.",
+    SameParties: "The buyer and seller cannot be the same address.",
+    ZeroAddress: "A required address is missing.",
+    ZeroPrice: "The price must be greater than zero.",
+    SafeERC20FailedOperation: "The token transfer failed. Check your WTC balance and allowance.",
+    OwnableInvalidOwner: "Only the contract owner can do that.",
+    OwnableUnauthorizedAccount: "Only the contract owner can do that.",
+    DeadlinePassed: "The payment window has closed.",
+    DeadlineNotPassed: "The payment window is still open.",
+    WindowNotElapsed: "The delivery window has not passed yet.",
+    WrongState: "This escrow is not in the right state for that action.",
+    NotBuyer: "Only the buyer can do that.",
+    NotSeller: "Only the seller can do that.",
+    NotParty: "You are not a party to this escrow.",
+    NotResolver: "Only the resolver can resolve a dispute.",
+  };
+
+  for (const [name, message] of Object.entries(customErrors)) {
+    if (code.includes(name)) return message;
+  }
   if (error?.code === 4001 || error?.code === "ACTION_REJECTED") {
-    return new Error("User rejected the transaction");
+    return "You cancelled the transaction";
   }
-
-  const text = [
-    error?.shortMessage,
-    error?.reason,
-    error?.message,
-    error?.info?.error?.message,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  if (/insufficient balance|balance too low|ERC20.*insufficient/i.test(text)) {
-    return new Error("Insufficient WTC balance");
-  }
-
-  const reason =
-    error?.reason ||
-    error?.shortMessage ||
-    error?.info?.error?.message ||
-    error?.message;
-
-  if (reason) {
-    return new Error(`Transaction failed: ${reason}`);
-  }
-  return new Error("Transaction failed");
+  if (error?.shortMessage) return error.shortMessage;
+  if (error?.reason) return error.reason;
+  if (error?.message) return error.message;
+  return "Transaction failed";
 }
 
 export async function getFeeBps(signerOrProvider) {
   if (feeBpsCache !== undefined) return feeBpsCache;
   const runner = signerOrProvider || getReadRunner();
-
   try {
-    feeBpsCache = await getFactoryContract(runner).feeBps();
-    return feeBpsCache;
+    const value = await getFactoryContract(runner).feeBps();
+    feeBpsCache = value;
+    return value;
   } catch (error) {
-    throw readableError(error);
+    feeBpsCache = undefined;
+    throw new Error(decodeEscrowError(error));
   }
 }
 
 export async function createEscrow({ buyer, seller, priceInWTC }, signer) {
   if (!signer) throw new Error("A signer is required");
-  if (!ethers.isAddress(buyer) || !ethers.isAddress(seller)) {
-    throw new Error("Invalid buyer or seller address");
-  }
-
+  if (!ethers.isAddress(buyer) || !ethers.isAddress(seller)) throw new Error("Invalid buyer or seller address");
   try {
+    const connected = (await signer.getAddress()).toLowerCase();
+    if (connected !== buyer.toLowerCase()) {
+      throw new Error("You must be the buyer to create this escrow.");
+    }
     const contract = getFactoryContract(signer);
-    const tx = await contract.createEscrow(
-      buyer,
-      seller,
-      BigInt(priceInWTC)
-    );
+    const tx = await contract.createEscrow(buyer, seller, BigInt(priceInWTC));
     const receipt = await tx.wait();
-
     let escrowAddress;
     for (const log of receipt.logs) {
       try {
         const parsed = contract.interface.parseLog(log);
         if (parsed?.name === "EscrowCreated") {
-          escrowAddress =
-            parsed.args.escrowAddress ||
-            parsed.args.escrow ||
-            parsed.args[0];
+          escrowAddress = parsed.args.escrow;
           break;
         }
-      } catch {
-        // Ignore logs not emitted by the factory.
-      }
+      } catch {}
     }
-
-    if (!escrowAddress) {
-      throw new Error("EscrowCreated event was not found in the transaction receipt");
-    }
-
+    if (!escrowAddress) throw new Error("EscrowCreated event was not found in the transaction receipt");
     return { escrowAddress, txHash: tx.hash };
   } catch (error) {
-    throw readableError(error);
+    throw new Error(decodeEscrowError(error));
   }
 }
 
 export async function approveWtc(spender, amount, signer) {
   if (!signer) throw new Error("A signer is required");
   if (!ethers.isAddress(spender)) throw new Error("Invalid WTC spender address");
-
   try {
     const contract = new ethers.Contract(WTC_ADDRESS, ERC20_ABI, signer);
     const tx = await contract.approve(spender, BigInt(amount));
     await tx.wait();
     return tx.hash;
   } catch (error) {
-    throw readableError(error);
+    throw new Error(decodeEscrowError(error));
   }
 }
 
-async function runEscrowAction(address, signer, methodName) {
+async function runEscrowAction(address, signer, methodName, argument) {
   if (!signer) throw new Error("A signer is required");
   try {
     const contract = getEscrowContract(address, signer);
-    const tx = await contract[methodName]();
+    const tx = argument === undefined ? await contract[methodName]() : await contract[methodName](argument);
     await tx.wait();
     return tx.hash;
   } catch (error) {
-    throw readableError(error);
+    throw new Error(decodeEscrowError(error));
   }
 }
 
-export async function fundEscrow(address, signer) {
-  return runEscrowAction(address, signer, "fund");
-}
-
-export async function deliverEscrow(address, signer) {
-  return runEscrowAction(address, signer, "deliver");
-}
-
-export async function confirmDelivery(address, signer) {
-  return runEscrowAction(address, signer, "confirmDelivery");
-}
-
-export async function claimAfterWindow(address, signer) {
-  return runEscrowAction(address, signer, "claimAfterWindow");
-}
-
-export async function claimAfterNoDelivery(address, signer) {
-  return runEscrowAction(address, signer, "claimAfterNoDelivery");
-}
-
-export async function raiseDispute(address, signer) {
-  return runEscrowAction(address, signer, "raiseDispute");
-}
-
-export async function resolveEscrow(address, winner, signer) {
+export async function fundEscrow(address, signer) { return runEscrowAction(address, signer, "fund"); }
+export async function deliverEscrow(address, signer) { return runEscrowAction(address, signer, "deliver"); }
+export async function confirmDelivery(address, signer) { return runEscrowAction(address, signer, "confirmDelivery"); }
+export async function claimAfterWindow(address, signer) { return runEscrowAction(address, signer, "claimAfterWindow"); }
+export async function claimAfterNoDelivery(address, signer) { return runEscrowAction(address, signer, "claimAfterNoDelivery"); }
+export async function raiseDispute(address, signer) { return runEscrowAction(address, signer, "raiseDispute"); }
+export async function resolveEscrow(address, toSeller, signer) {
   if (!signer) throw new Error("A signer is required");
-  if (!ethers.isAddress(winner)) throw new Error("Invalid winner address");
-  try {
-    const contract = getEscrowContract(address, signer);
-    const tx = await contract.resolve(winner);
-    await tx.wait();
-    return tx.hash;
-  } catch (error) {
-    throw readableError(error);
-  }
+  return runEscrowAction(address, signer, "resolve", Boolean(toSeller));
 }
 
 export async function getEscrowState(address, signerOrProvider) {
   const runner = signerOrProvider || getReadRunner();
-
   try {
     const value = await getEscrowContract(address, runner).state();
-    const states = [
-      "Awaiting payment",
-      "Funded",
-      "Delivered",
-      "Completed",
-      "Disputed",
-      "Refunded",
-    ];
-    const index = Number(value);
-    return states[index] || "Unknown";
+    return ["Created", "Paid", "Delivered", "Completed", "Refunded", "Disputed"][Number(value)] || "Unknown";
   } catch (error) {
-    throw readableError(error);
+    throw new Error(decodeEscrowError(error));
+  }
+}
+
+export async function getEscrowSummary(escrowAddress, signerOrProvider) {
+  const runner = signerOrProvider || getReadRunner();
+  const escrow = getEscrowContract(escrowAddress, runner);
+  try {
+    const [state, buyer, seller, priceInWTC, feeInWTC, feeBps, paymentDeadline, deliveryWindow, deliveredAt, resolver] =
+      await Promise.all([
+        escrow.state(),
+        escrow.buyer(),
+        escrow.seller(),
+        escrow.priceInWTC(),
+        escrow.feeInWTC(),
+        escrow.feeBps(),
+        escrow.paymentDeadline(),
+        escrow.deliveryWindow(),
+        escrow.deliveredAt(),
+        escrow.resolver(),
+      ]);
+    const stateName = ["Created", "Paid", "Delivered", "Completed", "Refunded", "Disputed"][Number(state)] || "Unknown";
+    return {
+      state: stateName,
+      buyer,
+      seller,
+      priceInWTC: priceInWTC.toString(),
+      feeInWTC: feeInWTC.toString(),
+      feeBps: feeBps.toString(),
+      paymentDeadline: paymentDeadline.toString(),
+      deliveryWindow: deliveryWindow.toString(),
+      deliveredAt: deliveredAt.toString(),
+      resolver,
+    };
+  } catch (error) {
+    throw new Error(decodeEscrowError(error));
   }
 }
 
 export async function getSalesByBuyer(address, signerOrProvider) {
   const runner = signerOrProvider || getReadRunner();
   try {
-    const contract = getFactoryContract(runner);
-    if (typeof contract.getEscrowsByBuyer === "function") {
-      return await contract.getEscrowsByBuyer(address);
-    }
-
-    const filter = contract.filters.EscrowCreated(null, address, null);
-    const events = await contract.queryFilter(filter);
-    return events.map((event) => event.args.escrowAddress || event.args.escrow || event.args[0]);
+    const factory = getFactoryContract(runner);
+    const ids = await factory.salesByBuyer(address);
+    return Promise.all(ids.map(async (id) => {
+      const sale = await factory.sales(id);
+      return { saleId: id.toString(), escrow: sale.escrow, buyer: sale.buyer, seller: sale.seller, priceInWTC: sale.priceInWTC.toString(), createdAt: sale.createdAt.toString() };
+    }));
   } catch (error) {
-    throw readableError(error);
+    throw new Error(decodeEscrowError(error));
   }
 }
 
 export async function getSalesBySeller(address, signerOrProvider) {
   const runner = signerOrProvider || getReadRunner();
   try {
-    const contract = getFactoryContract(runner);
-    if (typeof contract.getEscrowsBySeller === "function") {
-      return await contract.getEscrowsBySeller(address);
-    }
-
-    const filter = contract.filters.EscrowCreated(null, null, address);
-    const events = await contract.queryFilter(filter);
-    return events.map((event) => event.args.escrowAddress || event.args.escrow || event.args[0]);
+    const factory = getFactoryContract(runner);
+    const ids = await factory.salesBySeller(address);
+    return Promise.all(ids.map(async (id) => {
+      const sale = await factory.sales(id);
+      return { saleId: id.toString(), escrow: sale.escrow, buyer: sale.buyer, seller: sale.seller, priceInWTC: sale.priceInWTC.toString(), createdAt: sale.createdAt.toString() };
+    }));
   } catch (error) {
-    throw readableError(error);
+    throw new Error(decodeEscrowError(error));
   }
 }

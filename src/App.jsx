@@ -13,6 +13,7 @@ import CommunityHubPage from "./pages/Communityhub";
 import MarketplacePage from "./pages/MarketplacePage";
 import RulesPage from "./pages/RulesPage";
 import AdminQueuePage from "./pages/AdminQueuePage";
+import OrdersPage from "./pages/OrdersPage";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/marketplace" element={<MarketplacePage />} />
           <Route path="/marketplace/rules" element={<RulesPage />} />
           <Route path="/admin/queue" element={<AdminQueuePage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

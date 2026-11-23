@@ -6,6 +6,8 @@ import { useAuth } from "../lib/auth";
 import Navbar from "../components/layout/Navbar";
 import ListingForm from "./ListingForm";
 import { getFeeBps } from "../services/escrow";
+import BuyModal from "../components/marketplace/BuyModal";
+import { ethers } from "ethers";
 
 const CATEGORIES = [
   { value: "handmade", label: "Handmade & Artisan" },
@@ -29,7 +31,6 @@ const HARD_BAN_TERMS = [
 ];
 
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
-const FALLBACK_PRICE_USD = 0.00025;
 
 const MARKETPLACE_RULES = [
   "No illegal goods or services — including drugs, weapons, stolen property, or anything prohibited by law.",
@@ -69,6 +70,7 @@ export default function MarketplacePage() {
   const [deliveryFilter, setDeliveryFilter] = useState("");
   const [feeBps, setFeeBps] = useState(null);
   const [feeUnavailable, setFeeUnavailable] = useState(false);
+  const [buyListing, setBuyListing] = useState(null);
 
   async function fetchListings() {
     let query = supabase
@@ -92,6 +94,17 @@ export default function MarketplacePage() {
   useEffect(() => {
     fetchListings();
   }, [locationFilter, categoryFilter, deliveryFilter]);
+
+  useEffect(() => {
+    if (!isConnected || !address || !user) return;
+    supabase
+      .from("hub_profiles")
+      .update({ wallet_address: address })
+      .eq("user_id", user.id)
+      .then(({ error }) => {
+        if (error) console.error("Could not sync wallet address:", error);
+      });
+  }, [isConnected, address, user]);
 
   useEffect(() => {
     let active = true;
@@ -132,7 +145,7 @@ export default function MarketplacePage() {
         throw new Error("no indexed price");
       } catch (err) {
         console.error("Price fetch failed:", err);
-        setWtcPrice(FALLBACK_PRICE_USD);
+        setWtcPrice(null);
       }
     }
     fetchPrice();
@@ -476,7 +489,17 @@ export default function MarketplacePage() {
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => {
-              const usdValue = wtcPrice ? listing.price_wtc * wtcPrice : null;
+              const usdValue = listing.price_usd ? Number(listing.price_usd) : null;
+              const wtcValue = wtcPrice && listing.price_usd
+                ? Number(listing.price_usd) / wtcPrice
+                : null;
+              const buyDisabled =
+                !wtcPrice ||
+                listing.delivery_method === "local_pickup" ||
+                !listing.seller_wallet ||
+                !isConnected ||
+                !address ||
+                address.toLowerCase() === listing.seller_wallet?.toLowerCase();
               return (
                 <div
                   key={listing.id}
@@ -500,7 +523,7 @@ export default function MarketplacePage() {
                     <div className="mb-3 flex items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="rounded-full bg-[#D4AF37]/10 px-3 py-1 text-xs font-bold text-[#D4AF37]">
-                          {listing.price_wtc} WTC
+                          {wtcValue ? `${wtcValue.toFixed(4)} WTC` : "Price unavailable"}
                         </span>
                         {usdValue && (
                           <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-400">
@@ -545,9 +568,24 @@ export default function MarketplacePage() {
                           Mark sold
                         </button>
                       ) : (
-                        <span className="text-xs font-bold text-[#D4AF37]">
-                          Contact on Hub
-                        </span>
+                        listing.delivery_method !== "local_pickup" && listing.seller_wallet &&
+                        isConnected && address &&
+                        address.toLowerCase() !== listing.seller_wallet.toLowerCase() ? (
+                          <button
+                            type="button"
+                            disabled={buyDisabled}
+                            onClick={() => {
+                              if (!wtcValue) return;
+                              const priceInWTC = ethers.parseUnits(wtcValue.toFixed(18).replace(/0+$/, "").replace(/\.$/, ""), 18);
+                              setBuyListing({ listing, priceInWTC: priceInWTC.toString() });
+                            }}
+                            className="min-h-[44px] rounded-lg bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-5 py-2 text-sm font-bold text-black disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            Buy
+                          </button>
+                        ) : listing.delivery_method === "local_pickup" ? null : !listing.seller_wallet ? (
+                          <span className="text-xs text-red-400">Seller has not set a payout wallet</span>
+                        ) : null
                       )}
                     </div>
                   </div>
@@ -557,6 +595,14 @@ export default function MarketplacePage() {
           </div>
         )}
       </main>
+      {buyListing && (
+        <BuyModal
+          listing={buyListing.listing}
+          priceInWTC={buyListing.priceInWTC}
+          wtcPrice={wtcPrice}
+          onClose={() => setBuyListing(null)}
+        />
+      )}
     </div>
   );
 }

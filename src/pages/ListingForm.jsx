@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../lib/auth";
-import { getFeeBps } from "../services/escrow";
+import { getFeeBps, getFactoryContract, getReadRunner } from "../services/escrow";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 const CATEGORIES = [
   { value: "handmade", label: "Handmade & Artisan" },
@@ -30,7 +31,6 @@ const HARD_BAN_TERMS = [
 ];
 
 const SIGNAGE_FEE_USD = 5.00; // flat advertising fee for local pickup / signpost posts
-const FALLBACK_PRICE_USD = 0.00025;
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 const MAX_IMAGES = 4;
 const MAX_IMAGE_MB = 5;
@@ -38,6 +38,7 @@ const MAX_FILE_MB = 25; // digital product file size cap
 
 export default function ListingForm({ onListed }) {
   const { user } = useAuth();
+  const { address } = useAppKitAccount();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priceUsd, setPriceUsd] = useState(""); // USD is the stable reference
@@ -52,6 +53,7 @@ export default function ListingForm({ onListed }) {
   const [wtcPrice, setWtcPrice] = useState(null);
   const [feeBps, setFeeBps] = useState(null);
   const [feeUnavailable, setFeeUnavailable] = useState(false);
+  const [contractTerms, setContractTerms] = useState(null);
   const [images, setImages] = useState([]); // preview images
   const [productFile, setProductFile] = useState(null); // the actual digital deliverable
 
@@ -70,7 +72,7 @@ export default function ListingForm({ onListed }) {
         throw new Error("no indexed price");
       } catch (err) {
         console.error("Price fetch failed:", err);
-        setWtcPrice(FALLBACK_PRICE_USD);
+        setWtcPrice(null);
       }
     }
     fetchPrice();
@@ -99,6 +101,35 @@ export default function ListingForm({ onListed }) {
     return () => {
       active = false;
     };
+  }, []);
+
+  React.useEffect(() => {
+    let active = true;
+    async function fetchTerms() {
+      try {
+        const factory = getFactoryContract(getReadRunner());
+        const [defaultPaymentWindow, defaultDeliveryWindow, MIN_PAYMENT_WINDOW, MIN_DELIVERY_WINDOW, MAX_FEE_BPS] =
+          await Promise.all([
+            factory.defaultPaymentWindow(),
+            factory.defaultDeliveryWindow(),
+            factory.MIN_PAYMENT_WINDOW(),
+            factory.MIN_DELIVERY_WINDOW(),
+            factory.MAX_FEE_BPS(),
+          ]);
+        if (active) setContractTerms({
+          defaultPaymentWindow: Number(defaultPaymentWindow),
+          defaultDeliveryWindow: Number(defaultDeliveryWindow),
+          MIN_PAYMENT_WINDOW: Number(MIN_PAYMENT_WINDOW),
+          MIN_DELIVERY_WINDOW: Number(MIN_DELIVERY_WINDOW),
+          MAX_FEE_BPS: Number(MAX_FEE_BPS),
+        });
+      } catch (error) {
+        console.error("Escrow terms read failed:", error);
+        if (active) setContractTerms({ unavailable: true });
+      }
+    }
+    fetchTerms();
+    return () => { active = false; };
   }, []);
 
   const priceUsdNum = Number(priceUsd);
@@ -233,6 +264,11 @@ export default function ListingForm({ onListed }) {
       return;
     }
 
+    if (!address) {
+      setError("Connect your wallet before listing an item.");
+      return;
+    }
+
     if (!isSignage && (feeUnavailable || feeUsd === null)) {
       setError("Escrow fee unavailable. Please try again after the contract fee is available.");
       return;
@@ -277,6 +313,7 @@ export default function ListingForm({ onListed }) {
         zip: zip.trim() || null,
         status: "pending",
         acknowledged: true,
+        seller_wallet: address,
         fee_usd: feeUsd,
         fee_type: isSignage ? "signage" : "transaction",
         images: images.map((i) => i.url),
@@ -592,6 +629,17 @@ export default function ListingForm({ onListed }) {
                     ? `${(Number(feeBps) / 100).toFixed(2)}% transaction fee, taken from escrow at release. No minimum fee.`
                     : "Loading escrow fee…"}
               </p>
+            )}
+            {contractTerms?.unavailable ? (
+              <p className="mt-2 text-xs text-red-400">Escrow window terms unavailable</p>
+            ) : contractTerms ? (
+              <p className="mt-2 text-xs text-white/40">
+                Payment window: {contractTerms.defaultPaymentWindow}s (minimum {contractTerms.MIN_PAYMENT_WINDOW}s) ·
+                Delivery window: {contractTerms.defaultDeliveryWindow}s (minimum {contractTerms.MIN_DELIVERY_WINDOW}s) ·
+                Maximum fee: {(contractTerms.MAX_FEE_BPS / 100).toFixed(2)}%
+              </p>
+            ) : (
+              <p className="mt-2 text-xs text-white/40">Loading escrow terms…</p>
             )}
           </div>
 
