@@ -5,6 +5,7 @@ import Hero from "../components/home/Hero";
 import FoundationSection from "../components/home/FoundationSection";
 import LibrarySection from "../components/home/LibrarySection";
 import PurchaseSection from "../components/home/PurchaseSection";
+import MarketplaceSection from "../components/home/MarketplaceSection";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
         <Hero />
         <FoundationSection />
         <LibrarySection />
+        <MarketplaceSection />
         <PurchaseSection />
       </main>
 

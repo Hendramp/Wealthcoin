@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./lib/auth";
 
 import HomePage from "./pages/HomePage";
 import WTCSPage from "./pages/WTCSPage";
@@ -8,19 +9,29 @@ import LessonPage from "./pages/LessonPage";
 import TokenomicsPage from "./pages/TokenomicsPage";
 import PrivacyNotice from "./pages/PrivacyNotice";
 import FounderPage from "./pages/FounderPage";
+import CommunityHubPage from "./pages/Communityhub";
+import MarketplacePage from "./pages/MarketplacePage";
+import RulesPage from "./pages/RulesPage";
+import AdminQueuePage from "./pages/AdminQueuePage";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/wtcs" element={<WTCSPage />} />
-        <Route path="/academy" element={<AcademyPage />} />
-        <Route path="/academy/lesson/:slug" element={<LessonPage />} />
-        <Route path="/tokenomics" element={<TokenomicsPage />} />
-        <Route path="/privacy-notice" element={<PrivacyNotice />} />
-        <Route path="/founder" element={<FounderPage />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/wtcs" element={<WTCSPage />} />
+          <Route path="/academy" element={<AcademyPage />} />
+          <Route path="/academy/lesson/:slug" element={<LessonPage />} />
+          <Route path="/tokenomics" element={<TokenomicsPage />} />
+          <Route path="/privacy-notice" element={<PrivacyNotice />} />
+          <Route path="/founder" element={<FounderPage />} />
+          <Route path="/hub" element={<CommunityHubPage />} />
+          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/marketplace/rules" element={<RulesPage />} />
+          <Route path="/admin/queue" element={<AdminQueuePage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
