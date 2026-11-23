@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../lib/auth";
+import { getFeeBps } from "../services/escrow";
 
 const CATEGORIES = [
   { value: "handmade", label: "Handmade & Artisan" },
@@ -28,9 +29,6 @@ const HARD_BAN_TERMS = [
   "fake id","social security",
 ];
 
-const LISTING_FEE_USD = 0.38;
-const TRANSACTION_FEE_PCT = 0.0125; // 1.25%
-const TRANSACTION_FEE_MIN_USD = 0.20;
 const SIGNAGE_FEE_USD = 5.00; // flat advertising fee for local pickup / signpost posts
 const FALLBACK_PRICE_USD = 0.00025;
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
@@ -52,6 +50,8 @@ export default function ListingForm({ onListed }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [wtcPrice, setWtcPrice] = useState(null);
+  const [feeBps, setFeeBps] = useState(null);
+  const [feeUnavailable, setFeeUnavailable] = useState(false);
   const [images, setImages] = useState([]); // preview images
   const [productFile, setProductFile] = useState(null); // the actual digital deliverable
 
@@ -78,6 +78,29 @@ export default function ListingForm({ onListed }) {
     return () => clearInterval(interval);
   }, []);
 
+  React.useEffect(() => {
+    let active = true;
+    async function fetchFee() {
+      try {
+        const bps = await getFeeBps();
+        if (active) {
+          setFeeBps(Number(bps));
+          setFeeUnavailable(false);
+        }
+      } catch (err) {
+        console.error("Escrow fee read failed:", err);
+        if (active) {
+          setFeeBps(null);
+          setFeeUnavailable(true);
+        }
+      }
+    }
+    fetchFee();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const priceUsdNum = Number(priceUsd);
   const isSignage = deliveryMethod === "local_pickup";
   const isDigital = deliveryMethod === "digital";
@@ -87,12 +110,12 @@ export default function ListingForm({ onListed }) {
     ? priceUsdNum / wtcPrice
     : null;
 
-  // Fee logic: signage = flat; digital/physical = 1.25% (min $0.20) on the USD price
+  // Fee logic: local pickup is a flat signage fee; escrow sales use the factory fee.
   const feeUsd = isSignage
     ? SIGNAGE_FEE_USD
-    : !Number.isNaN(priceUsdNum) && priceUsdNum > 0
-      ? Math.max(priceUsdNum * TRANSACTION_FEE_PCT, TRANSACTION_FEE_MIN_USD)
-      : LISTING_FEE_USD;
+    : !Number.isNaN(priceUsdNum) && priceUsdNum > 0 && feeBps !== null
+      ? priceUsdNum * (Number(feeBps) / 10000)
+      : null;
   const feeWtc = wtcPrice ? (feeUsd / wtcPrice).toFixed(4) : null;
   const feeLabel = isSignage ? "Signage / advertising fee" : "Transaction fee";
 
@@ -207,6 +230,11 @@ export default function ListingForm({ onListed }) {
 
     if (!acknowledged) {
       setError("You must confirm your listing complies with all Marketplace Rules.");
+      return;
+    }
+
+    if (!isSignage && (feeUnavailable || feeUsd === null)) {
+      setError("Escrow fee unavailable. Please try again after the contract fee is available.");
       return;
     }
 
@@ -539,10 +567,14 @@ export default function ListingForm({ onListed }) {
           <div className="rounded-xl border border-[#D4AF37]/20 bg-black/40 p-4 text-sm">
             <p className="text-white/60">
               {feeLabel}:{" "}
-              <span className="font-bold text-[#D4AF37]">
-                ${feeUsd.toFixed(2)}
-              </span>
-              {feeWtc && (
+              {feeUsd === null ? (
+                <span className="font-bold text-red-400">fee unavailable</span>
+              ) : (
+                <span className="font-bold text-[#D4AF37]">
+                  ${feeUsd.toFixed(2)}
+                </span>
+              )}
+              {feeUsd !== null && feeWtc && (
                 <span className="text-emerald-400">
                   {" "}≈ {feeWtc} WTC
                 </span>
@@ -554,7 +586,11 @@ export default function ListingForm({ onListed }) {
               </p>
             ) : (
               <p className="mt-1 text-xs text-white/40">
-                1.25% transaction fee (min ${TRANSACTION_FEE_MIN_USD.toFixed(2)}), taken from escrow at release. Listing fee ${LISTING_FEE_USD.toFixed(2)}. Fees are subject to change over time.
+                {feeUnavailable
+                  ? "fee unavailable"
+                  : feeBps !== null
+                    ? `${(Number(feeBps) / 100).toFixed(2)}% transaction fee, taken from escrow at release. No minimum fee.`
+                    : "Loading escrow fee…"}
               </p>
             )}
           </div>

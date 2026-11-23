@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabase";
 import { useAuth } from "../lib/auth";
 import Navbar from "../components/layout/Navbar";
 import ListingForm from "./ListingForm";
+import { getFeeBps } from "../services/escrow";
 
 const CATEGORIES = [
   { value: "handmade", label: "Handmade & Artisan" },
@@ -27,7 +28,6 @@ const HARD_BAN_TERMS = [
   "fake id","social security",
 ];
 
-const LISTING_FEE_USD = 0.38;
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 const FALLBACK_PRICE_USD = 0.00025;
 
@@ -67,6 +67,8 @@ export default function MarketplacePage() {
   const [locationFilter, setLocationFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [deliveryFilter, setDeliveryFilter] = useState("");
+  const [feeBps, setFeeBps] = useState(null);
+  const [feeUnavailable, setFeeUnavailable] = useState(false);
 
   async function fetchListings() {
     let query = supabase
@@ -91,6 +93,29 @@ export default function MarketplacePage() {
     fetchListings();
   }, [locationFilter, categoryFilter, deliveryFilter]);
 
+  useEffect(() => {
+    let active = true;
+    async function fetchFee() {
+      try {
+        const bps = await getFeeBps();
+        if (active) {
+          setFeeBps(Number(bps));
+          setFeeUnavailable(false);
+        }
+      } catch (err) {
+        console.error("Escrow fee read failed:", err);
+        if (active) {
+          setFeeBps(null);
+          setFeeUnavailable(true);
+        }
+      }
+    }
+    fetchFee();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Live WTC price — same GeckoTerminal pool as PurchaseSection
   useEffect(() => {
     async function fetchPrice() {
@@ -114,8 +139,6 @@ export default function MarketplacePage() {
     const interval = setInterval(fetchPrice, 30000);
     return () => clearInterval(interval);
   }, []);
-
-  const feeWtc = wtcPrice ? (LISTING_FEE_USD / wtcPrice).toFixed(4) : null;
 
   function checkHardBans(text) {
     const lower = text.toLowerCase();
@@ -249,13 +272,15 @@ export default function MarketplacePage() {
           </div>
 
           <div className="sm:border-l sm:border-white/10 sm:pl-6">
-            <p className="text-xs uppercase tracking-wider text-white/40">Listing fee</p>
-            {feeWtc ? (
+            <p className="text-xs uppercase tracking-wider text-white/40">Escrow fee</p>
+            {feeUnavailable ? (
+              <p className="text-lg text-red-400">fee unavailable</p>
+            ) : feeBps !== null ? (
               <>
-                <p className="font-mono text-lg font-bold text-white">
-                  $0.38 <span className="text-emerald-400">≈ {feeWtc} WTC</span>
+                <p className="font-mono text-lg font-bold text-emerald-400">
+                  {(Number(feeBps) / 100).toFixed(2)}%
                 </p>
-                <p className="mt-0.5 text-xs text-white/40">Subject to change over time.</p>
+                <p className="mt-0.5 text-xs text-white/40">No minimum fee.</p>
               </>
             ) : (
               <p className="text-lg text-white/40">Loading…</p>
