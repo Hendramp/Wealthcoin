@@ -102,10 +102,20 @@ export async function getFeeBps(signerOrProvider) {
   }
   const runner = signerOrProvider || getReadProvider();
   try {
-    const value = await getFactoryContract(runner).feeBps();
-    feeBpsCache = value;
+    const factory = getFactoryContract(runner);
+    const [value, maxFeeBps] = await Promise.all([
+      factory.feeBps(),
+      factory.MAX_FEE_BPS(),
+    ]);
+    if (value > maxFeeBps) {
+      console.warn(
+        `Factory fee ${value.toString()} bps exceeds MAX_FEE_BPS ${maxFeeBps.toString()} bps.`
+      );
+    }
+    const feeBps = Number(value);
+    feeBpsCache = feeBps;
     feeBpsCachedAt = Date.now();
-    return value;
+    return feeBps;
   } catch (error) {
     feeBpsCache = undefined;
     feeBpsCachedAt = 0;
