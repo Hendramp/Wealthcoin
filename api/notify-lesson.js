@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     // Pull everyone who hasn't unsubscribed
     const { data: subscribers, error } = await supabase
       .from("academy_subscribers")
-      .select("email")
+      .select("email, token")
       .eq("unsubscribed", false);
 
     if (error) throw error;
@@ -45,6 +45,10 @@ export default async function handler(req, res) {
     let sent = 0;
     for (const sub of subscribers) {
       try {
+        if (!sub.token) {
+          console.error("Skipped subscriber without an unsubscribe token:", sub.email);
+          continue;
+        }
         await transporter.sendMail({
           from: "WealthCoin Academy <officialwealthcoin@gmail.com>",
           to: sub.email,
@@ -76,7 +80,7 @@ export default async function handler(req, res) {
 
               <p style="margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; font-size: 13px; color: #888;">
                 You're receiving this because you subscribed to WealthCoin Academy updates.<br/>
-                <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://officialwealthcoin.com"}/api/unsubscribe?email=${encodeURIComponent(sub.email)}" style="color: #888;">Unsubscribe</a> anytime.
+                <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://officialwealthcoin.com"}/api/unsubscribe?token=${encodeURIComponent(sub.token)}" style="color: #888;">Unsubscribe</a> anytime.
               </p>
             </div>
           `,

@@ -30,11 +30,14 @@ export default async function handler(req, res) {
     }
 
     // Save subscriber to Supabase
-    const { error: supabaseError } = await supabase
+    const { data: subscriber, error: supabaseError } = await supabase
       .from("academy_subscribers")
-      .upsert({ email, unsubscribed: false }, { onConflict: "email" });
+      .upsert({ email, unsubscribed: false }, { onConflict: "email" })
+      .select("token")
+      .single();
 
     if (supabaseError) throw supabaseError;
+    if (!subscriber?.token) throw new Error("Subscriber token was not returned.");
 
     // Send general welcome email
     await transporter.sendMail({
@@ -63,7 +66,7 @@ export default async function handler(req, res) {
 
           <p style="margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee; font-size: 13px; color: #888;">
             You're receiving this because you subscribed to WealthCoin Academy updates.<br/>
-            <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://officialwealthcoin.com"}/api/unsubscribe?email=${encodeURIComponent(email)}" style="color: #888;">Unsubscribe</a> anytime.
+            <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://officialwealthcoin.com"}/api/unsubscribe?token=${encodeURIComponent(subscriber.token)}" style="color: #888;">Unsubscribe</a> anytime.
           </p>
         </div>
       `,
