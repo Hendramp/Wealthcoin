@@ -11,6 +11,8 @@ const ERC20_ABI = [
 ];
 
 let feeBpsCache;
+let feeBpsCachedAt = 0;
+const FEE_BPS_CACHE_TTL_MS = 60_000;
 
 export function getFactoryAddress() {
   const address = import.meta.env.VITE_ESCROW_FACTORY_ADDRESS;
@@ -20,7 +22,26 @@ export function getFactoryAddress() {
   return address;
 }
 
+export function getReadProvider() {
+  if (typeof window !== "undefined" && window.ethereum) {
+    return new ethers.BrowserProvider(window.ethereum);
+  }
+
+  const rpcUrl = import.meta.env.VITE_POLYGON_RPC_URL;
+  if (rpcUrl) {
+    return new ethers.JsonRpcProvider(rpcUrl);
+  }
+
+  throw new Error(
+    "No read provider available. Set VITE_POLYGON_RPC_URL to enable public contract reads."
+  );
+}
+
 export function getReadRunner() {
+  return getReadProvider();
+}
+
+export function getSignerProvider() {
   if (typeof window === "undefined" || !window.ethereum) {
     throw new Error("Wallet or injected provider not detected");
   }
@@ -73,14 +94,21 @@ export function decodeEscrowError(error) {
 }
 
 export async function getFeeBps(signerOrProvider) {
-  if (feeBpsCache !== undefined) return feeBpsCache;
-  const runner = signerOrProvider || getReadRunner();
+  if (
+    feeBpsCache !== undefined &&
+    Date.now() - feeBpsCachedAt < FEE_BPS_CACHE_TTL_MS
+  ) {
+    return feeBpsCache;
+  }
+  const runner = signerOrProvider || getReadProvider();
   try {
     const value = await getFactoryContract(runner).feeBps();
     feeBpsCache = value;
+    feeBpsCachedAt = Date.now();
     return value;
   } catch (error) {
     feeBpsCache = undefined;
+    feeBpsCachedAt = 0;
     throw new Error(decodeEscrowError(error));
   }
 }

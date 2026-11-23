@@ -7,6 +7,7 @@ import {
   getSalesByBuyer,
   getSalesBySeller,
   getEscrowSummary,
+  getSignerProvider,
   deliverEscrow,
   confirmDelivery,
   claimAfterWindow,
@@ -75,8 +76,7 @@ export default function OrdersPage() {
     setPending(`${row.escrow}:${name}`);
     setError("");
     try {
-      if (!window.ethereum) throw new Error("Connect your wallet to continue");
-      const signer = await new ethers.BrowserProvider(window.ethereum).getSigner();
+      const signer = await getSignerProvider().getSigner();
       await action(signer);
       const chainState = await getEscrowSummary(row.escrow);
       if (row.listing?.id) {

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { buyListing } from "../../services/escrowBuy";
-import { getFeeBps, WTC_ADDRESS } from "../../services/escrow";
+import {
+  getFeeBps,
+  getSignerProvider,
+  WTC_ADDRESS,
+} from "../../services/escrow";
 import { supabase } from "../../lib/supabase";
 
 const ERC20_ABI = [
@@ -56,7 +60,7 @@ export default function BuyModal({ listing, priceInWTC, wtcPrice, onClose }) {
     }
     try {
       setStep("creating escrow");
-      const signer = await new ethers.BrowserProvider(window.ethereum).getSigner();
+      const signer = await getSignerProvider().getSigner();
       setStep("creating escrow");
       const purchase = await buyListing({
         listing: { ...listing, priceInWTC: priceBig.toString() },

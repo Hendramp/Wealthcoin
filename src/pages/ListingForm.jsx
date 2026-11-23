@@ -31,6 +31,7 @@ const HARD_BAN_TERMS = [
 ];
 
 const SIGNAGE_FEE_USD = 5.00; // flat advertising fee for local pickup / signpost posts
+const FALLBACK_PRICE_USD = 0.000075;
 const POOL_ADDRESS = "0x9feffb07add2daa2a19a78ea0aa1e5bbdbeaa57753151146a83fe91ccb306c7e";
 const MAX_IMAGES = 4;
 const MAX_IMAGE_MB = 5;
@@ -65,14 +66,15 @@ export default function ListingForm({ onListed }) {
         );
         const gtData = await gt.json();
         const gtPrice = gtData?.data?.attributes?.base_token_price_usd;
-        if (gtPrice) {
-          setWtcPrice(parseFloat(gtPrice));
+        const parsedPrice = Number(gtPrice);
+        if (Number.isFinite(parsedPrice) && parsedPrice > 0) {
+          setWtcPrice(parsedPrice);
           return;
         }
         throw new Error("no indexed price");
       } catch (err) {
         console.error("Price fetch failed:", err);
-        setWtcPrice(null);
+        setWtcPrice(FALLBACK_PRICE_USD);
       }
     }
     fetchPrice();
