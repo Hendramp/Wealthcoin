@@ -56,9 +56,9 @@ const socialLinks = [
   },
   {
     name: "Reddit",
-    handle: "u/WealthcoinTeam",
+    handle: "u/TeamWTC",
     description: "Discussions, community updates, and educational content.",
-    href: "https://www.reddit.com/u/WealthcoinTeam/",
+    href: "https://www.reddit.com/u/TeamWTC",
     action: "Follow",
     icon: "👽",
   },
