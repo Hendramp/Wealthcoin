@@ -254,7 +254,7 @@ export default function Hero() {
                 Buy &amp; Sell
               </h2>
               <p className="relative mt-2 flex-1 text-sm leading-6 text-white/55">
-                Trade goods &amp; services in WTC.
+                Trade goods &amp; services in WTC.(not active, in development)
 
               </p>
               <span className="relative mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#D4AF37]">

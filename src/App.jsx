@@ -11,6 +11,7 @@ import PrivacyNotice from "./pages/PrivacyNotice";
 import FounderPage from "./pages/FounderPage";
 import CommunityHubPage from "./pages/Communityhub";
 import MarketplacePage from "./pages/MarketplacePage";
+import MarketplaceComingSoon from "./pages/MarketplaceComingSoon";
 import RulesPage from "./pages/RulesPage";
 import AdminQueuePage from "./pages/AdminQueuePage";
 import OrdersPage from "./pages/OrdersPage";
@@ -28,7 +29,10 @@ export default function App() {
           <Route path="/privacy-notice" element={<PrivacyNotice />} />
           <Route path="/founder" element={<FounderPage />} />
           <Route path="/hub" element={<CommunityHubPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
+          {/* MarketplacePage temporarily swapped out; restore this route to MarketplacePage later. */}
+          <Route path="/marketplace" element={<MarketplaceComingSoon />} />
+          {/* Admin-only marketplace preview route; remove after the public launch. */}
+          <Route path="/marketplace-preview" element={<MarketplacePage />} />
           <Route path="/marketplace/rules" element={<RulesPage />} />
           <Route path="/admin/queue" element={<AdminQueuePage />} />
           <Route path="/orders" element={<OrdersPage />} />
