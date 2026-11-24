@@ -47,7 +47,7 @@ export default function MarketplaceComingSoon() {
               to="/academy"
               className="min-h-[48px] rounded-xl bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-6 py-3 font-bold text-black shadow-[0_8px_30px_rgba(212,175,55,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(212,175,55,0.4)] active:translate-y-0"
             >
-              Get marketplace alerts
+              Get marketplace alerts by signing up for the academy.
             </Link>
             <Link
               to="/hub"
