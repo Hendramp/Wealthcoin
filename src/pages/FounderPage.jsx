@@ -33,7 +33,7 @@ const FounderPage = () => {
           </span>
 
           <h1 className="mt-5 font-display text-4xl font-bold text-white sm:text-5xl">
-            Hendrick Ramirez
+          
           </h1>
 
           <div className="mx-auto mt-5 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37]/70 to-transparent" />
