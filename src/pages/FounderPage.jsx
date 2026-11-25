@@ -15,17 +15,6 @@ const FounderPage = () => {
             Back to WealthCoin
           </Link>
         </div>
-
-        {/* Header with portrait */}
-        <header className="mb-14 text-center">
-          <div className="mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full border-2 border-[#D4AF37]/60 shadow-lg shadow-[#D4AF37]/10">
-            <img
-  src="/assets/Founder/Founder_Photo.jpg"
-  alt="Hendrick Ramirez, Founder of WealthCoin"
-  loading="lazy"
-  className="h-full w-full object-cover"
-/>
-
           </div>
 
           <span className="rounded-full border border-[#D4AF37]/50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
