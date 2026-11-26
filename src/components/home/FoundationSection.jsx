@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const resources = [
   {
@@ -147,6 +148,31 @@ export default function FoundationSection() {
                 <p className="mt-3 text-sm leading-7 text-secondary">{item.text}</p>
               </article>
             ))}
+          </div>
+
+          <div className="mx-auto mt-8 flex max-w-5xl flex-col items-center justify-between gap-5 rounded-2xl border border-accent/25 bg-black/35 p-5 sm:flex-row sm:p-6">
+            <div className="flex items-center gap-4">
+              <img
+                src="/assets/logos/polygon-logo.png"
+                alt=""
+                aria-hidden="true"
+                className="h-10 w-10 shrink-0 object-contain"
+              />
+              <div>
+                <p className="font-display text-lg font-semibold text-primary">
+                  The Founder&apos;s Story
+                </p>
+                <p className="mt-1 text-sm leading-6 text-secondary">
+                  The conviction and hands-on journey behind WealthCoin.
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/founder"
+              className="btn-ghost min-h-11 w-full px-5 py-2.5 font-semibold sm:w-auto"
+            >
+              Meet the Founder
+            </Link>
           </div>
 
           <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">

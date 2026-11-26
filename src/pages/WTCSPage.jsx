@@ -1,327 +1,163 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
 
-const tiers = [
+const servicePaths = [
   {
+    number: "01",
     name: "Individual",
-    service: "Digital Asset Education & Wallet Setup",
-    digital: "$80",
-    cash: "$100",
-    description:
-      "For the person who wants to hold their own keys and actually understand what that means.",
-    deliverables: [
-      "Personal wallet setup, done with you, not for you",
-      "Cryptocurrency and self-custody education",
-      "Security best practices and recovery planning",
-      "Digital Wallet Guide",
-      "Certificate of Completion",
-    ],
+    summary: "Learn self-custody and set up a wallet with confidence.",
+    includes: "Wallet setup · Safety education · Recovery planning",
   },
   {
+    number: "02",
     name: "Business",
-    service: "Cryptocurrency Payment Implementation",
-    digital: "$700",
-    cash: "$850",
-    description:
-      "For the business that wants to accept crypto at the counter, correctly, from day one.",
-    deliverables: [
-      "Business wallet setup",
-      "Cryptocurrency payment implementation",
-      "QR payment signage",
-      "Employee introduction training",
-      "Business Wallet Guide · Employee Quick Reference · Post-Implementation Handbook",
-      "Certificate of Completion",
-    ],
+    summary: "Prepare your team to accept cryptocurrency at the counter.",
+    includes: "Payment setup · QR signage · Employee training",
   },
   {
+    number: "03",
     name: "Ministry",
-    service: "Cryptocurrency Donation Implementation",
-    digital: "$700",
-    cash: "$850",
-    description:
-      "For the ministry that wants to receive giving in digital assets without compromising stewardship or trust.",
-    deliverables: [
-      "Ministry wallet setup",
-      "Donation QR signage",
-      "Leadership and volunteer training",
-      "Ministry Wallet Guide · Volunteer Quick Reference · Post-Implementation Handbook",
-      "Certificate of Completion",
-    ],
+    summary: "Receive digital-asset donations with clear stewardship practices.",
+    includes: "Donation setup · QR signage · Leadership training",
+  },
+  {
+    number: "04",
+    name: "Enterprise",
+    summary: "Train an internal team to implement across multiple locations.",
+    includes: "Team training · Implementation · Internal certification",
   },
 ];
-
-const enterpriseDeliverables = [
-  "Comprehensive WTCS implementation methodology",
-  "Cryptocurrency payment implementation training",
-  "Hands-on implementation at your first approved location",
-  "Wallet security and operational best practices",
-  "Internal implementation workflow and team education methodology",
-  "Live implementation exercises and Q&A sessions",
-  "WTCS Internal Team Certification",
-];
-
-const enterpriseScopes = [
-  ["Single location, small team", "$5,000 – $10,000"],
-  ["Multi-location, 2–5 sites", "$10,000 – $20,000"],
-  ["Franchise or 6+ locations", "$20,000 – $30,000"],
-];
-
-const addOns = [
-  ["NOWPayments merchant integration", "+$80", "+$90"],
-  ["Additional wallet setup", "+$20", "+$25 per wallet"],
-  ["Confidential Digital Asset Record Book", "$25", "$25"],
-  ["Additional business or ministry location", "from $250", "from $275"],
-];
-
-const engagementSteps = [
-  ["Discovery call.", "We scope what you actually need before anything is quoted."],
-  ["Written scope and quote.", "Fixed price, fixed deliverables, no surprises."],
-  ["50% deposit to schedule.", "Balance due on completion."],
-  ["Implementation.", "Done with your team, on your systems."],
-  ["Handoff.", "Guides, records, and certification so you can run it without us."],
-];
-
-function PriceCard({ tier }) {
-  return (
-    <article className="card-gold flex h-full flex-col p-6 sm:p-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-        {tier.name}
-      </p>
-      <h3 className="mt-3 text-h3 font-semibold text-primary">{tier.service}</h3>
-      <div className="mt-6 border-y border-border-subtle/25 py-5">
-        <p className="font-display text-3xl font-semibold text-accent">
-          {tier.digital}{" "}
-          <span className="font-sans text-sm font-medium text-secondary">
-            in digital assets
-          </span>
-        </p>
-        <p className="mt-2 text-sm text-secondary">{tier.cash} cash</p>
-      </div>
-      <p className="mt-5 text-sm leading-7 text-secondary">{tier.description}</p>
-      <ul className="mt-5 space-y-3 text-sm leading-6 text-secondary">
-        {tier.deliverables.map((item) => (
-          <li key={item} className="flex gap-3">
-            <span className="text-accent" aria-hidden="true">•</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </article>
-  );
-}
-
-function AddOnCards() {
-  return (
-    <div className="mt-8 grid gap-3 md:hidden">
-      {addOns.map(([name, digital, cash]) => (
-        <article key={name} className="rounded-card border border-border-subtle/25 bg-elevated p-5">
-          <h3 className="font-semibold text-primary">{name}</h3>
-          <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-secondary">Digital Assets</dt>
-              <dd className="mt-1 text-accent">{digital}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wide text-secondary">Cash</dt>
-              <dd className="mt-1 text-secondary">{cash}</dd>
-            </div>
-          </dl>
-        </article>
-      ))}
-    </div>
-  );
-}
 
 export default function WTCSPage() {
   return (
-    <main className="min-h-screen bg-base text-primary">
-      <div className="pointer-events-none fixed inset-0 bg-ambient" aria-hidden="true" />
-      <div className="relative mx-auto max-w-content px-6 pb-24 pt-12 sm:pt-16">
-        <div className="mb-12">
+    <>
+      <Navbar />
+      <main className="relative min-h-screen overflow-hidden bg-base text-primary">
+        <div className="pointer-events-none absolute inset-0 bg-ambient" />
+        <div className="pointer-events-none absolute -right-32 top-28 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
+
+        <div className="relative mx-auto max-w-content px-5 pb-20 pt-10 sm:px-8 sm:pb-24 sm:pt-14">
           <Link
-            to="/"
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-secondary transition hover:text-accent-hover"
+            to="/#home"
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-[#C2BDB5] transition hover:text-accent-hover"
           >
             <span aria-hidden="true">←</span> Back to WealthCoin
           </Link>
-        </div>
 
-        <section className="mx-auto max-w-4xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">
-            WealthCoin Solutions
-          </p>
-          <h1 className="mt-5 text-display font-semibold">
-            Safely accept cryptocurrency — as an individual, business, or ministry.
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-secondary">
-            With the professional education and support to do it responsibly.
-          </p>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-secondary">
-            Whether you're just curious or ready to move, we'll meet you where you are.
-          </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <a
-              href="mailto:WTCteam@outlook.com"
-              className="btn-gold min-h-12 w-full px-6 py-3 text-center font-semibold sm:w-auto"
-            >
-              Schedule a Complimentary Virtual Consultation
-            </a>
-            <a
-              href="/documents/WTCS_Menu.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost min-h-12 w-full px-6 py-3 text-center font-semibold sm:w-auto"
-            >
-              View WTCS Menu
-            </a>
-          </div>
-        </section>
-
-        <section className="mt-20 border-t border-border-subtle/25 pt-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
-              Choose Your Path
-            </p>
-            <h2 className="mt-3 text-h2 font-semibold">Four tiers. One methodology.</h2>
-            <p className="mt-4 leading-7 text-secondary">
-              Every engagement ends with your people able to run it without us.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {tiers.map((tier) => <PriceCard key={tier.name} tier={tier} />)}
-
-            <article className="card-gold grid gap-8 p-6 sm:p-8 lg:col-span-3 lg:grid-cols-2">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-                  Enterprise
-                </p>
-                <h3 className="mt-3 text-h3 font-semibold text-primary">
-                  Internal Implementation Team Training &amp; Certification
-                </h3>
-                <p className="mt-5 font-display text-3xl font-semibold text-accent">
-                  $5,000 – $30,000
-                </p>
-                <p className="mt-2 text-sm text-secondary">scoped to organization size</p>
-                <p className="mt-5 text-sm leading-7 text-secondary">
-                  For franchises, multi-location businesses, ministries, and organizations that want a certified internal team running the WTCS methodology themselves.
-                </p>
-
-                <h4 className="mt-7 font-semibold text-primary">What the engagement includes:</h4>
-                <ul className="mt-4 space-y-3 text-sm leading-6 text-secondary">
-                  {enterpriseDeliverables.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span className="text-accent" aria-hidden="true">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+          <header className="relative mx-auto mt-8 max-w-5xl overflow-hidden rounded-3xl border border-accent/25 bg-gradient-to-br from-[#1a1710] via-surface to-base px-6 py-10 text-center sm:mt-10 sm:px-12 sm:py-14">
+            <img
+              src="/assets/logos/polygon-logo.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute -right-7 -top-8 h-36 w-36 object-contain opacity-[0.12] sm:h-52 sm:w-52"
+            />
+            <div className="relative">
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-accent-hover">
+                <img
+                  src="/assets/logos/polygon-logo.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-5 w-5 object-contain"
+                />
+                WealthCoin Solutions
+              </p>
+              <h1 className="mx-auto mt-5 max-w-4xl font-display text-4xl font-semibold leading-tight text-primary sm:text-6xl">
+                Digital assets, made practical.
+              </h1>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#D0CCC4] sm:text-lg sm:leading-8">
+                Clear education and hands-on implementation for individuals,
+                businesses, ministries, and growing organizations.
+              </p>
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <a
+                  href="/documents/WTCS_Menu.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-gold min-h-12 px-6 py-3 text-center font-semibold"
+                >
+                  View the Full Services Menu
+                </a>
+                <a
+                  href="mailto:WTCteam@outlook.com"
+                  className="btn-ghost min-h-12 px-6 py-3 text-center font-semibold"
+                >
+                  Book a Complimentary Consultation
+                </a>
               </div>
+            </div>
+          </header>
 
+          <section className="mx-auto mt-12 max-w-5xl sm:mt-16">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <h4 className="font-semibold text-primary">How the scope scales:</h4>
-                <div className="mt-4 hidden overflow-hidden rounded-card border border-border-subtle/25 md:block">
-                  <table className="w-full text-left text-sm">
-                    <thead className="bg-elevated text-xs uppercase tracking-wide text-secondary">
-                      <tr>
-                        <th className="px-4 py-3 font-semibold">Organization size</th>
-                        <th className="px-4 py-3 font-semibold">Engagement range</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border-subtle/20">
-                      {enterpriseScopes.map(([size, range]) => (
-                        <tr key={size}>
-                          <td className="px-4 py-4 text-secondary">{size}</td>
-                          <td className="px-4 py-4 font-medium text-accent">{range}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="mt-4 grid gap-3 md:hidden">
-                  {enterpriseScopes.map(([size, range]) => (
-                    <div key={size} className="rounded-card border border-border-subtle/25 bg-elevated p-4">
-                      <p className="text-sm text-secondary">{size}</p>
-                      <p className="mt-2 font-semibold text-accent">{range}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-hover">
+                  Quick Guide
+                </p>
+                <h2 className="mt-2 font-display text-3xl font-semibold text-primary sm:text-4xl">
+                  Find your starting point
+                </h2>
+              </div>
+              <p className="max-w-sm text-sm leading-6 text-[#C2BDB5]">
+                Just the essentials here. The full menu has scope, pricing, and
+                complete service details.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-accent/30 bg-[#101012]/95 p-4 shadow-accent-soft sm:p-6">
+              <div className="grid gap-3 sm:grid-cols-2">
+                {servicePaths.map((service) => (
+                  <article
+                    key={service.name}
+                    className="rounded-2xl border border-white/10 bg-white/[0.025] p-5 transition hover:border-accent/35 hover:bg-accent/[0.04] sm:p-6"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="font-display text-sm text-accent">
+                        {service.number}
+                      </span>
+                      <h3 className="font-display text-xl font-semibold text-primary">
+                        {service.name}
+                      </h3>
                     </div>
-                  ))}
-                </div>
-                <p className="mt-5 text-sm leading-7 text-secondary">
-                  Final scope is set after a discovery call. Enterprise engagements are invoiced in digital assets or by wire.
-                </p>
-                <p className="mt-5 rounded-card border border-border-subtle/25 bg-elevated p-4 text-sm leading-6 text-secondary">
-                  <span className="font-semibold text-primary">Certification Notice:</span>{" "}
-                  WTCS Internal Team Certification is valid for internal organizational use only. Certification authorizes approved participants to implement the WTCS methodology within their own organization. Separate certification agreements apply.
-                </p>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section className="mt-20 rounded-card border border-border-subtle/25 bg-surface p-6 sm:p-10">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-              Implementation Add-Ons
-            </p>
-            <p className="mt-3 text-secondary">Available with any tier.</p>
-          </div>
-          <div className="mt-8 hidden overflow-hidden rounded-card border border-border-subtle/25 md:block">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-elevated text-xs uppercase tracking-wide text-secondary">
-                <tr>
-                  <th className="px-5 py-4 font-semibold">Add-On</th>
-                  <th className="px-5 py-4 font-semibold">Digital Assets</th>
-                  <th className="px-5 py-4 font-semibold">Cash</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border-subtle/20">
-                {addOns.map(([name, digital, cash]) => (
-                  <tr key={name}>
-                    <td className="px-5 py-4 text-primary">{name}</td>
-                    <td className="px-5 py-4 font-medium text-accent">{digital}</td>
-                    <td className="px-5 py-4 text-secondary">{cash}</td>
-                  </tr>
+                    <p className="mt-3 text-sm leading-6 text-[#D0CCC4]">
+                      {service.summary}
+                    </p>
+                    <p className="mt-4 border-t border-white/10 pt-3 text-xs leading-5 text-accent-hover">
+                      {service.includes}
+                    </p>
+                  </article>
                 ))}
-              </tbody>
-            </table>
-          </div>
-          <AddOnCards />
-        </section>
+              </div>
 
-        <section className="mt-20">
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-              How Engagements Work
-            </p>
-            <h2 className="mt-3 text-h2 font-semibold">Clear scope. Practical handoff.</h2>
-          </div>
-          <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {engagementSteps.map(([title, detail], index) => (
-              <li key={title} className="card-gold p-5">
-                <span className="font-display text-2xl text-accent">0{index + 1}</span>
-                <h3 className="mt-4 font-semibold text-primary">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-secondary">{detail}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="mx-auto mt-8 max-w-3xl text-center text-sm leading-7 text-secondary">
-            <span className="font-semibold text-primary">Payment:</span>{" "}
-            Digital assets or cash. Digital asset pricing reflects lower processing cost and is offered as a discount, not a cash surcharge.
-          </p>
-        </section>
+              <div className="mt-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-accent/20 bg-accent/[0.06] p-5 text-center sm:flex-row sm:p-6 sm:text-left">
+                <div>
+                  <p className="font-semibold text-primary">
+                    Want the full scope and pricing?
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-[#C2BDB5]">
+                    Open the complete WTCS menu for detailed descriptions and
+                    engagement information.
+                  </p>
+                </div>
+                <a
+                  href="/documents/WTCS_Menu.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-gold min-h-12 shrink-0 px-6 py-3 font-semibold"
+                >
+                  Open Full Menu
+                </a>
+              </div>
+            </div>
+          </section>
 
-        <section className="mt-20 border-t border-border-subtle/25 pt-12 text-center">
-          <p className="text-sm font-semibold text-primary">
-            WealthCoin Solutions — Security · Stewardship · Education
+          <p className="mx-auto mt-10 max-w-3xl text-center text-sm leading-7 text-[#C2BDB5]">
+            Security · Stewardship · Education
           </p>
-          <p className="mt-4 text-sm leading-7 text-secondary">
-            WealthCoin Solutions is committed to helping individuals, businesses, ministries, and organizations confidently implement blockchain payment solutions through education, transparency, and practical support.
-          </p>
-          <p className="mt-6 text-sm text-secondary">
-            OfficialWealthCoin.com
-          </p>
-        </section>
-      </div>
-    </main>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

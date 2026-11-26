@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./lib/auth";
 
 import HomePage from "./pages/HomePage";
+import FounderPage from "./pages/FounderPage";
 import WTCSPage from "./pages/WTCSPage";
 import AcademyPage from "./pages/AcademyPage";
 import LessonPage from "./pages/LessonPage";
@@ -54,6 +55,7 @@ export default function App() {
         <SectionReveal />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/founder" element={<FounderPage />} />
           <Route path="/wtcs" element={<WTCSPage />} />
           <Route path="/academy" element={<AcademyPage />} />
           <Route path="/academy/lesson/:slug" element={<LessonPage />} />

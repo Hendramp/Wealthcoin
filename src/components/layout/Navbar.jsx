@@ -33,7 +33,7 @@ function shortenAddress(address) {
 function scrollToHash(hash) {
   if (!hash) return;
 
-  const id = hash.replace("#", "");
+  const id = hash.includes("#") ? hash.split("#").pop() : hash.replace("#", "");
   const el = document.getElementById(id);
   if (el) {
     el.scrollIntoView({ behavior: "smooth" });
@@ -63,7 +63,7 @@ export default function Navbar() {
 
   useEffect(() => {
     function closeOnResize() {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1280) {
         setMobileOpen(false);
       }
     }
@@ -73,6 +73,17 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("resize", closeOnResize);
     };
+  }, []);
+
+  useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
 
   useEffect(() => {
@@ -169,7 +180,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex xl:gap-10">
+          <nav className="hidden items-center gap-4 xl:flex 2xl:gap-6">
             {links.map((link) => (
               <Link
                 key={link.label}
@@ -228,98 +239,113 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMobileOpen((openState) => !openState)}
-              className="flex h-11 w-11 items-center justify-center rounded-button border border-border-subtle/40 bg-surface text-accent transition active:scale-95 lg:hidden"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-button border border-border-subtle/40 bg-surface text-accent transition active:scale-95 xl:hidden"
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
             >
-              <span className="relative block h-4 w-5">
-                <span
-                  className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition ${
-                    mobileOpen ? "translate-y-[7px] rotate-45" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-[7px] h-0.5 w-5 bg-current transition ${
-                    mobileOpen ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-[14px] h-0.5 w-5 bg-current transition ${
-                    mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
-                  }`}
-                />
-              </span>
+              <svg
+                viewBox="0 0 24 24"
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                {mobileOpen ? (
+                  <path d="M6 6l12 12M18 6L6 18" />
+                ) : (
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
             </button>
           </div>
         </div>
-
-        <div
-          className={`fixed inset-0 z-40 bg-base/95 backdrop-blur-md transition lg:hidden ${
-            mobileOpen
-              ? "pointer-events-auto opacity-100"
-              : "pointer-events-none opacity-0"
-          }`}
-          onClick={closeMenu}
-          aria-hidden={!mobileOpen}
-        >
-          <nav
-            id="mobile-navigation"
-            className={`h-full w-full overflow-y-auto bg-base px-6 pb-8 pt-24 shadow-2xl transition-transform duration-200 ${
-              mobileOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <p className="mb-4 text-xs uppercase tracking-[0.25em] text-secondary">
-              Navigate
-            </p>
-
-            <div className="space-y-2">
-              {links.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  onClick={() => handleNavClick(link)}
-                  className="flex min-h-[50px] items-center justify-between rounded-button border border-transparent px-4 text-sm font-semibold uppercase tracking-wide text-secondary transition hover:border-border-subtle/40 hover:bg-accent/5 hover:text-accent"
-                >
-                  {link.label}
-                  <span aria-hidden="true">→</span>
-                </Link>
-              ))}
-            </div>
-
-            <Link
-              to="/#purchase"
-              onClick={() => handleNavClick({ href: "/#purchase" })}
-              className="btn-gold mt-6 flex min-h-[52px] w-full items-center justify-center rounded-xl px-5 py-3 font-bold"
-            >
-              Purchase WTC
-            </Link>
-
-            {user ? (
-              <button
-                type="button"
-                onClick={handleLogOut}
-                className="btn-gold mt-3 min-h-[52px] w-full rounded-xl px-5 py-3 font-bold"
-              >
-                Log out ({user.username})
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={openSignIn}
-                className="btn-gold mt-3 flex min-h-[52px] w-full items-center justify-center rounded-xl px-5 py-3 font-bold"
-              >
-                Sign in
-              </button>
-            )}
-
-            <p className="mt-6 text-center text-xs leading-5 text-secondary">
-              Built on Polygon with stewardship, transparency, and faith.
-            </p>
-          </nav>
-        </div>
       </header>
+
+      {createPortal(
+        mobileOpen && (
+          <div
+            className="fixed inset-0 z-[55] overflow-y-auto bg-base/98 px-5 pb-8 pt-5 backdrop-blur-xl sm:px-8"
+            onClick={closeMenu}
+          >
+            <div
+              className="mx-auto max-w-xl"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="mb-8 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/assets/logos/wealthcoin-logo.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                  <p className="font-display text-lg font-bold text-accent">
+                    WealthCoin
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={closeMenu}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-subtle/40 bg-surface text-2xl text-primary"
+                  aria-label="Close navigation"
+                >
+                  ×
+                </button>
+              </div>
+
+              <nav id="mobile-navigation" aria-label="Mobile navigation">
+                <p className="mb-4 text-xs uppercase tracking-[0.25em] text-secondary">
+                  Navigate
+                </p>
+                <div className="space-y-2">
+                  {links.map((link) => (
+                    <Link
+                      key={link.label}
+                      to={link.href}
+                      onClick={() => handleNavClick(link)}
+                      className="flex min-h-[50px] items-center justify-between rounded-xl border border-white/5 bg-white/[0.025] px-4 text-sm font-semibold uppercase tracking-wide text-[#D0CCC4] transition hover:border-accent/30 hover:bg-accent/5 hover:text-accent-hover"
+                    >
+                      {link.label}
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  to="/#purchase"
+                  onClick={() => handleNavClick({ href: "/#purchase" })}
+                  className="btn-gold mt-6 flex min-h-[52px] w-full px-5 py-3 font-bold"
+                >
+                  Purchase WTC
+                </Link>
+                {user ? (
+                  <button
+                    type="button"
+                    onClick={handleLogOut}
+                    className="btn-ghost mt-3 min-h-[52px] w-full px-5 py-3 font-bold"
+                  >
+                    Log out ({user.username})
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={openSignIn}
+                    className="btn-ghost mt-3 min-h-[52px] w-full px-5 py-3 font-bold"
+                  >
+                    Sign in
+                  </button>
+                )}
+                <p className="mt-6 text-center text-xs leading-5 text-[#C2BDB5]">
+                  Built on Polygon with stewardship, transparency, and faith.
+                </p>
+              </nav>
+            </div>
+          </div>
+        ),
+        document.body
+      )}
 
       {createPortal(
         signInOpen && (

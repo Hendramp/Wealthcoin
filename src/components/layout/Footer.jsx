@@ -31,6 +31,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-3 text-sm text-secondary">
             <li><Link className="transition hover:text-accent-hover" to="/">Home</Link></li>
             <li><Link className="transition hover:text-accent-hover" to="/academy">Academy</Link></li>
+            <li><Link className="transition hover:text-accent-hover" to="/founder">Founder&apos;s Story</Link></li>
             <li><Link className="transition hover:text-accent-hover" to="/wtcs">WTCS</Link></li>
             <li><Link className="transition hover:text-accent-hover" to="/tokenomics">Tokenomics</Link></li>
           </ul>
