@@ -6,9 +6,9 @@ import { useAuth } from "../../lib/auth";
 
 const CATEGORIES = [
   { id: "prayer", label: "Prayer Requests", emoji: "🙏", color: "text-sky-300 border-sky-300/40 bg-sky-300/10" },
-  { id: "scam", label: "Scam Alerts", emoji: "🛡️", color: "text-accent-hover border-danger/40 bg-danger/10" },
-  { id: "question", label: "Questions & Learning", emoji: "💡", color: "text-accent-hover border-accent-hover/40 bg-accent-hover/10" },
-  { id: "general", label: "General / Fellowship", emoji: "💬", color: "text-secondary border-white/15 bg-white/5" },
+  { id: "scam", label: "Scam Alerts", emoji: "🛡️", color: "text-red-300 border-red-300/40 bg-red-300/10" },
+  { id: "question", label: "Questions & Learning", emoji: "💡", color: "text-amber-300 border-amber-300/40 bg-amber-300/10" },
+  { id: "general", label: "General / Fellowship", emoji: "💬", color: "text-white/70 border-white/15 bg-white/5" },
 ];
 
 const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
@@ -103,23 +103,23 @@ export default function PostFeed() {
   });
 
   const rulesPanel = (
-    <aside className="sticky top-8 overflow-hidden rounded-3xl border border-accent/20 bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-xl">
+    <aside className="sticky top-8 overflow-hidden rounded-3xl border border-[#D4AF37]/20 bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-xl">
       {/* Gold top accent line */}
-      <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-accent/70 to-transparent" />
+      <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#D4AF37]/70 to-transparent" />
 
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-accent/40 bg-accent/10 text-lg">🛡️</span>
-            <h3 className="font-display text-base font-bold tracking-wide text-accent">The Circle Rules</h3>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-lg">🛡️</span>
+            <h3 className="font-display text-base font-bold tracking-wide text-[#D4AF37]">The Circle Rules</h3>
           </div>
           <button
             type="button"
             onClick={() => setRulesOpen((v) => !v)}
-            className="text-secondary transition hover:text-accent"
+            className="text-white/40 transition hover:text-[#D4AF37]"
             aria-label={rulesOpen ? "Collapse rules" : "Expand rules"}
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-transform duration-200 ${rulesOpen ? "rotate-180" : ""}`}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-transform duration-300 ${rulesOpen ? "rotate-180" : ""}`}>
               <path d="M3 6l5 5 5-5" />
             </svg>
           </button>
@@ -133,22 +133,22 @@ export default function PostFeed() {
                 onClick={() => setMinorsOpen((v) => !v)}
                 className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-white/5"
               >
-                <span className="text-sm font-semibold text-primary">For our users under 18</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className={`text-secondary transition-transform duration-200 ${minorsOpen ? "rotate-180" : ""}`}>
+                <span className="text-sm font-semibold text-white/80">For our users under 18</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/40 transition-transform duration-300 ${minorsOpen ? "rotate-180" : ""}`}>
                   <path d="M3 6l5 5 5-5" />
                 </svg>
               </button>
               {minorsOpen && (
-                <div className="border-t border-white/10 px-5 py-4 text-[13px] leading-6 text-secondary">
+                <div className="border-t border-white/10 px-5 py-4 text-[13px] leading-6 text-white/60">
                   <ul className="list-disc space-y-2 pl-4">
                     <li>Never share your real name, school, or city with anyone here.</li>
                     <li>Never move off this site to talk — no DMs, Discord, WhatsApp, nothing.</li>
                     <li>Even if someone seems friendly, never share your info or accept anything from them.</li>
                     <li>If anyone makes you uncomfortable or asks for your info — tell a trusted adult, and report it here.</li>
                   </ul>
-                  <blockquote className="mt-4 border-l-2 border-accent/60 pl-3.5 italic text-secondary">
+                  <blockquote className="mt-4 border-l-2 border-[#D4AF37]/60 pl-3.5 italic text-white/50">
                     "But whoso shall offend one of these little ones who believe in me, it would be better for him that a millstone were hanged about his neck, and that he were drowned in the depth of the sea."
-                    <span className="mt-1.5 block not-italic text-xs text-secondary">— Matthew 18:6 (JUB)</span>
+                    <span className="mt-1.5 block not-italic text-xs text-white/35">— Matthew 18:6 (JUB)</span>
                   </blockquote>
                 </div>
               )}
@@ -160,13 +160,13 @@ export default function PostFeed() {
                 onClick={() => setGeneralRulesOpen((v) => !v)}
                 className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-white/5"
               >
-                <span className="text-sm font-semibold text-primary">Community Hub Rules</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className={`text-secondary transition-transform duration-200 ${generalRulesOpen ? "rotate-180" : ""}`}>
+                <span className="text-sm font-semibold text-white/80">Community Hub Rules</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/40 transition-transform duration-300 ${generalRulesOpen ? "rotate-180" : ""}`}>
                   <path d="M3 6l5 5 5-5" />
                 </svg>
               </button>
               {generalRulesOpen && (
-                <ul className="border-t border-white/10 px-5 py-4 text-[13px] leading-6 text-secondary list-disc space-y-2 pl-4">
+                <ul className="border-t border-white/10 px-5 py-4 text-[13px] leading-6 text-white/60 list-disc space-y-2 pl-4">
                   <li>No wallet addresses, seed phrases, or private keys — ever.</li>
                   <li>No scams, shilling, or sketchy links.</li>
                   <li>No personal attacks — disagree with the idea, not the person.</li>
@@ -179,8 +179,8 @@ export default function PostFeed() {
               )}
             </div>
 
-            <p className="px-1 text-xs leading-5 text-secondary">
-              Report bad behavior to <a href="mailto:WTCteam@outlook.com" className="font-semibold text-accent transition hover:text-accent-hover">WTCteam@outlook.com</a>. We don't play that.
+            <p className="px-1 text-xs leading-5 text-white/35">
+              Report bad behavior to <a href="mailto:WTCteam@outlook.com" className="font-semibold text-[#D4AF37] transition hover:text-[#e6c55a]">WTCteam@outlook.com</a>. We don't play that.
             </p>
           </div>
         )}
@@ -191,21 +191,21 @@ export default function PostFeed() {
   if (loading) {
     return (
       <div className="flex items-center justify-center gap-3 py-24">
-        <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent/30 border-t-accent" />
-        <span className="text-sm text-secondary">Gathering the Circle…</span>
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#D4AF37]/30 border-t-[#D4AF37]" />
+        <span className="text-sm text-white/40">Gathering the Circle…</span>
       </div>
     );
   }
 
   if (error) {
-    return <p className="text-center text-accent-hover py-8">{error}</p>;
+    return <p className="text-center text-red-400 py-8">{error}</p>;
   }
 
   return (
     <div className="mx-auto max-w-5xl">
       {/* Wordmark with the real WealthCoin logo */}
       <div className="mb-10 text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-accent/30 bg-gradient-to-b from-accent/15 to-transparent shadow-accent-soft">
+        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#D4AF37]/30 bg-gradient-to-b from-[#D4AF37]/15 to-transparent shadow-[0_0_50px_-10px_rgba(212,175,55,0.5)]">
           <img
             src="/assets/logos/wealthcoin-logo.png"
             alt="WealthCoin"
@@ -213,9 +213,9 @@ export default function PostFeed() {
           />
         </div>
         <h2 className="font-display text-3xl font-bold tracking-tight text-white">
-          The WealthCoin <span className="text-accent">Circle</span>
+          The WealthCoin <span className="text-[#D4AF37]">Circle</span>
         </h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-secondary">
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/50">
           Encouragement, warnings, and questions among God's people. Share something good.
         </p>
       </div>
@@ -231,8 +231,8 @@ export default function PostFeed() {
               onClick={() => setActiveCategory("all")}
               className={`rounded-full border px-4 py-2 text-xs font-semibold transition-all duration-200 ${
                 activeCategory === "all"
-                  ? "border-accent bg-accent/15 text-accent shadow-accent-soft"
-                  : "border-white/15 bg-white/5 text-secondary hover:border-white/30 hover:text-primary"
+                  ? "border-[#D4AF37] bg-[#D4AF37]/15 text-[#D4AF37] shadow-[0_0_20px_-6px_rgba(212,175,55,0.5)]"
+                  : "border-white/15 bg-white/5 text-white/60 hover:border-white/30 hover:text-white/80"
               }`}
             >
               All
@@ -244,8 +244,8 @@ export default function PostFeed() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`rounded-full border px-4 py-2 text-xs font-semibold transition-all duration-200 ${
                   activeCategory === cat.id
-                    ? "border-accent bg-accent/15 text-accent shadow-accent-soft"
-                    : "border-white/15 bg-white/5 text-secondary hover:border-white/30 hover:text-primary"
+                    ? "border-[#D4AF37] bg-[#D4AF37]/15 text-[#D4AF37] shadow-[0_0_20px_-6px_rgba(212,175,55,0.5)]"
+                    : "border-white/15 bg-white/5 text-white/60 hover:border-white/30 hover:text-white/80"
                 }`}
               >
                 {cat.emoji} {cat.label}
@@ -260,7 +260,7 @@ export default function PostFeed() {
                 type="button"
                 onClick={() => setSortBy("latest")}
                 className={`rounded-full px-5 py-2 text-xs font-semibold transition-all duration-200 ${
-                  sortBy === "latest" ? "bg-accent text-black shadow-accent-soft" : "text-secondary hover:text-primary"
+                  sortBy === "latest" ? "bg-[#D4AF37] text-black shadow-[0_2px_12px_-4px_rgba(212,175,55,0.7)]" : "text-white/60 hover:text-white/80"
                 }`}
               >
                 Latest
@@ -269,7 +269,7 @@ export default function PostFeed() {
                 type="button"
                 onClick={() => setSortBy("hearts")}
                 className={`rounded-full px-5 py-2 text-xs font-semibold transition-all duration-200 ${
-                  sortBy === "hearts" ? "bg-accent text-black shadow-accent-soft" : "text-secondary hover:text-primary"
+                  sortBy === "hearts" ? "bg-[#D4AF37] text-black shadow-[0_2px_12px_-4px_rgba(212,175,55,0.7)]" : "text-white/60 hover:text-white/80"
                 }`}
               >
                 ♥ Most hearted
@@ -280,10 +280,10 @@ export default function PostFeed() {
 
           {sorted.length === 0 ? (
             <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-12 text-center backdrop-blur-xl">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-accent/30 bg-accent/10 text-2xl">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-2xl">
                 {activeCategory === "all" ? "🌱" : CATEGORY_MAP[activeCategory]?.emoji || "💬"}
               </div>
-              <p className="text-secondary">
+              <p className="text-white/60">
                 {activeCategory === "all"
                   ? "No posts yet — be the first to share something good."
                   : `Be the first to share a ${CATEGORY_MAP[activeCategory]?.label.toLowerCase() || "post"}…`}

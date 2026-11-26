@@ -20,10 +20,6 @@ const metadata = {
   ],
 };
 
-const themeStyles = getComputedStyle(document.documentElement);
-const accentColor = themeStyles.getPropertyValue("--wc-accent").trim();
-const baseColor = themeStyles.getPropertyValue("--wc-base").trim();
-
 export const appKit = createAppKit({
   adapters: [new EthersAdapter()],
   networks: [polygon],
@@ -33,10 +29,10 @@ export const appKit = createAppKit({
   themeMode: "dark",
 
   themeVariables: {
-    "--w3m-accent": accentColor,
-    "--w3m-color-mix": baseColor,
+    "--w3m-accent": "#D4AF37",
+    "--w3m-color-mix": "#071009",
     "--w3m-color-mix-strength": 25,
-    "--w3m-border-radius-master": "8px",
+    "--w3m-border-radius-master": "2px",
   },
 
   features: {

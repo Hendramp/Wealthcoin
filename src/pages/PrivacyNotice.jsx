@@ -8,7 +8,7 @@ export default function PrivacyNotice() {
       <Navbar />
 
       <main className="mx-auto max-w-3xl px-6 py-16 text-white">
-        <p className="font-display text-sm uppercase tracking-[0.4em] text-accent">
+        <p className="font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
           Privacy Notice
         </p>
 
@@ -16,7 +16,7 @@ export default function PrivacyNotice() {
           Your information stays yours.
         </h1>
 
-        <div className="mt-8 space-y-6 text-secondary leading-7">
+        <div className="mt-8 space-y-6 text-white/70 leading-7">
           <section>
             <h2 className="text-lg font-semibold text-white">What we collect</h2>
             <p>
@@ -70,7 +70,7 @@ export default function PrivacyNotice() {
             <h2 className="text-lg font-semibold text-white">Questions</h2>
             <p>
               Email us at{" "}
-              <a href="mailto:WTCteam@outlook.com" className="text-accent hover:underline">
+              <a href="mailto:WTCteam@outlook.com" className="text-[#D4AF37] hover:underline">
                 WTCteam@outlook.com
               </a>
               .

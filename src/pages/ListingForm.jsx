@@ -359,17 +359,17 @@ export default function ListingForm({ onListed }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative overflow-hidden rounded-3xl border border-accent/20 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-8"
+      className="relative overflow-hidden rounded-3xl border border-[#D4AF37]/20 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-8"
     >
-      <div className="pointer-events-none absolute -top-24 right-0 h-48 w-72 rounded-full bg-accent/[0.08] blur-3xl" />
+      <div className="pointer-events-none absolute -top-24 right-0 h-48 w-72 rounded-full bg-[#D4AF37]/[0.08] blur-3xl" />
 
       <div className="relative">
-        <p className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-accent">
+        <p className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
           New Listing
         </p>
         <h2 className="mb-6 font-display text-2xl font-extrabold text-white">
           List an item{" "}
-          <span className="bg-gradient-to-r from-accent-hover via-accent to-accent bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#F0D878] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">
             in WTC
           </span>
         </h2>
@@ -377,11 +377,11 @@ export default function ListingForm({ onListed }) {
         <div className="space-y-5">
           {/* Images (previews) */}
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
-              Photos <span className="normal-case text-secondary">(up to {MAX_IMAGES}, {MAX_IMAGE_MB} MB each)</span>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+              Photos <span className="normal-case text-white/30">(up to {MAX_IMAGES}, {MAX_IMAGE_MB} MB each)</span>
             </label>
 
-            <label className="flex min-h-[120px] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/15 bg-black/40 px-4 py-6 text-center transition hover:border-accent/40 hover:bg-accent/5">
+            <label className="flex min-h-[120px] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/15 bg-black/40 px-4 py-6 text-center transition hover:border-[#D4AF37]/40 hover:bg-[#D4AF37]/5">
               <input
                 type="file"
                 accept="image/*"
@@ -393,10 +393,10 @@ export default function ListingForm({ onListed }) {
                 }}
               />
               <span className="text-2xl">📷</span>
-              <span className="text-sm font-semibold text-secondary">
+              <span className="text-sm font-semibold text-white/70">
                 {images.length ? "Add more photos" : "Click to add photos"}
               </span>
-              <span className="text-xs text-secondary">
+              <span className="text-xs text-white/40">
                 JPG, PNG, or WebP
               </span>
             </label>
@@ -416,13 +416,13 @@ export default function ListingForm({ onListed }) {
                     />
                     {img.uploading && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-                        <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent/20 border-t-accent" />
+                        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#D4AF37]/20 border-t-[#D4AF37]" />
                       </div>
                     )}
                     <button
                       type="button"
                       onClick={() => removeImage(img.name)}
-                      className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-xs text-secondary transition hover:bg-danger/80 hover:text-white"
+                      className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-xs text-white/70 transition hover:bg-red-500/80 hover:text-white"
                       aria-label={`Remove ${img.name}`}
                     >
                       ✕
@@ -434,7 +434,7 @@ export default function ListingForm({ onListed }) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
               Title
             </label>
             <input
@@ -442,12 +442,12 @@ export default function ListingForm({ onListed }) {
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               placeholder="What are you listing?"
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
               Description
             </label>
             <textarea
@@ -455,13 +455,13 @@ export default function ListingForm({ onListed }) {
               onChange={(event) => setDescription(event.target.value)}
               placeholder="Describe the item or service…"
               rows={3}
-              className="w-full resize-none rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+              className="w-full resize-none rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
             />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
                 Price (USD)
               </label>
               <div className="relative">
@@ -472,32 +472,32 @@ export default function ListingForm({ onListed }) {
                   value={priceUsd}
                   onChange={(event) => setPriceUsd(event.target.value)}
                   placeholder="0.00"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 pr-40 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 pr-40 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
                 />
                 {wtcValue && (
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 font-mono text-sm font-bold text-accent">
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 font-mono text-sm font-bold text-[#D4AF37]">
                     ≈ {wtcValue.toFixed(0)} WTC
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-xs text-secondary">
+              <p className="mt-1 text-xs text-white/40">
                 Listed in USD — converts to WTC at the live price when someone buys.
               </p>
               {wtcPriceUnavailable && (
-                <p className="mt-1 text-xs text-accent-hover">
+                <p className="mt-1 text-xs text-amber-300">
                   Live rate unavailable. Fallback display only: ${FALLBACK_WTC_PRICE_USD.toFixed(6)} per WTC.
                 </p>
               )}
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
                 Category
               </label>
               <select
                 value={category}
                 onChange={(event) => setCategory(event.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+                className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
               >
                 {CATEGORIES.map((c) => (
                   <option key={c.value} value={c.value}>{c.label}</option>
@@ -507,13 +507,13 @@ export default function ListingForm({ onListed }) {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
               Delivery Method
             </label>
             <select
               value={deliveryMethod}
               onChange={(event) => setDeliveryMethod(event.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
             >
               {DELIVERY_METHODS.map((d) => (
                 <option key={d.value} value={d.value}>{d.label}</option>
@@ -524,12 +524,12 @@ export default function ListingForm({ onListed }) {
           {/* Digital product file upload */}
           {isDigital && (
             <div>
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
-                Digital File <span className="normal-case text-secondary">(the deliverable — up to {MAX_FILE_MB} MB)</span>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+                Digital File <span className="normal-case text-white/30">(the deliverable — up to {MAX_FILE_MB} MB)</span>
               </label>
 
               {!productFile ? (
-                <label className="flex min-h-[100px] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/15 bg-black/40 px-4 py-5 text-center transition hover:border-accent/40 hover:bg-accent/5">
+                <label className="flex min-h-[100px] cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/15 bg-black/40 px-4 py-5 text-center transition hover:border-[#D4AF37]/40 hover:bg-[#D4AF37]/5">
                   <input
                     type="file"
                     className="hidden"
@@ -539,20 +539,20 @@ export default function ListingForm({ onListed }) {
                     }}
                   />
                   <span className="text-2xl">📄</span>
-                  <span className="text-sm font-semibold text-secondary">
+                  <span className="text-sm font-semibold text-white/70">
                     Upload the file buyers will receive
                   </span>
-                  <span className="text-xs text-secondary">
+                  <span className="text-xs text-white/40">
                     PDF, DOCX, TXT, MD, JPG, PNG, or ZIP
                   </span>
                 </label>
               ) : (
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-accent/20 bg-black/40 p-4">
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#D4AF37]/20 bg-black/40 p-4">
                   <div className="flex min-w-0 items-center gap-3">
                     <span className="text-xl">📄</span>
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold text-white">{productFile.name}</p>
-                      <p className="text-xs text-secondary">
+                      <p className="text-xs text-white/40">
                         {(productFile.size / (1024 * 1024)).toFixed(2)} MB · unlocked on purchase
                       </p>
                     </div>
@@ -560,13 +560,13 @@ export default function ListingForm({ onListed }) {
                   <button
                     type="button"
                     onClick={removeProductFile}
-                    className="shrink-0 rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-bold text-secondary transition hover:text-accent-hover"
+                    className="shrink-0 rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-bold text-white/60 transition hover:text-red-400"
                   >
                     Remove
                   </button>
                 </div>
               )}
-              <p className="mt-1 text-xs text-secondary">
+              <p className="mt-1 text-xs text-white/40">
                 Buyers can't see this file until they pay. The preview image above is what they see.
               </p>
             </div>
@@ -575,7 +575,7 @@ export default function ListingForm({ onListed }) {
           {deliveryMethod === "local_pickup" && (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
                   City
                 </label>
                 <input
@@ -583,11 +583,11 @@ export default function ListingForm({ onListed }) {
                   value={city}
                   onChange={(event) => setCity(event.target.value)}
                   placeholder="Alpharetta"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
                   State
                 </label>
                 <input
@@ -595,11 +595,11 @@ export default function ListingForm({ onListed }) {
                   value={state}
                   onChange={(event) => setState(event.target.value)}
                   placeholder="GA"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
                   ZIP
                 </label>
                 <input
@@ -607,19 +607,19 @@ export default function ListingForm({ onListed }) {
                   value={zip}
                   onChange={(event) => setZip(event.target.value)}
                   placeholder="30004"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
                 />
               </div>
             </div>
           )}
 
-          <div className="rounded-xl border border-accent/20 bg-black/40 p-4 text-sm">
-            <p className="text-secondary">
+          <div className="rounded-xl border border-[#D4AF37]/20 bg-black/40 p-4 text-sm">
+            <p className="text-white/60">
               {feeLabel}:{" "}
               {feeUsd === null ? (
-                <span className="font-bold text-accent-hover">fee unavailable</span>
+                <span className="font-bold text-red-400">fee unavailable</span>
               ) : (
-                <span className="font-bold text-accent">
+                <span className="font-bold text-[#D4AF37]">
                   ${feeUsd.toFixed(2)}
                 </span>
               )}
@@ -630,11 +630,11 @@ export default function ListingForm({ onListed }) {
               )}
             </p>
             {isSignage ? (
-              <p className="mt-1 text-xs text-secondary">
+              <p className="mt-1 text-xs text-white/40">
                 Flat advertising fee for local pickup / signpost posts. No escrow or transaction fee — this is a signpost for your business.
               </p>
             ) : (
-              <p className="mt-1 text-xs text-secondary">
+              <p className="mt-1 text-xs text-white/40">
                 {feeUnavailable
                   ? "fee unavailable"
                   : feeBps !== null
@@ -643,24 +643,24 @@ export default function ListingForm({ onListed }) {
               </p>
             )}
             {contractTerms?.unavailable ? (
-              <p className="mt-2 text-xs text-accent-hover">Escrow window terms unavailable</p>
+              <p className="mt-2 text-xs text-red-400">Escrow window terms unavailable</p>
             ) : contractTerms ? (
-              <p className="mt-2 text-xs text-secondary">
+              <p className="mt-2 text-xs text-white/40">
                 Payment window: {contractTerms.defaultPaymentWindow}s (minimum {contractTerms.MIN_PAYMENT_WINDOW}s) ·
                 Delivery window: {contractTerms.defaultDeliveryWindow}s (minimum {contractTerms.MIN_DELIVERY_WINDOW}s) ·
                 Maximum fee: {(contractTerms.MAX_FEE_BPS / 100).toFixed(2)}%
               </p>
             ) : (
-              <p className="mt-2 text-xs text-secondary">Loading escrow terms…</p>
+              <p className="mt-2 text-xs text-white/40">Loading escrow terms…</p>
             )}
           </div>
 
-          <label className="flex items-start gap-3 text-sm text-secondary">
+          <label className="flex items-start gap-3 text-sm text-white/70">
             <input
               type="checkbox"
               checked={acknowledged}
               onChange={(event) => setAcknowledged(event.target.checked)}
-              className="mt-0.5 h-4 w-4 accent-accent"
+              className="mt-0.5 h-4 w-4 accent-[#D4AF37]"
             />
             <span>
               I confirm this listing complies with all Marketplace Rules and
@@ -670,7 +670,7 @@ export default function ListingForm({ onListed }) {
           </label>
 
           {error && (
-            <p className="rounded-xl border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-accent-hover">
+            <p className="rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-400">
               {error}
             </p>
           )}
@@ -678,12 +678,12 @@ export default function ListingForm({ onListed }) {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-gold w-full min-h-[52px] rounded-xl px-5 py-3 font-bold shadow-accent-soft transition hover:-translate-y-0.5 hover:shadow-accent-soft disabled:opacity-50 disabled:hover:translate-y-0"
+            className="btn-gold w-full min-h-[52px] rounded-xl px-5 py-3 font-bold shadow-[0_8px_30px_rgba(212,175,55,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(212,175,55,0.4)] disabled:opacity-50 disabled:hover:translate-y-0"
           >
             {submitting ? "Submitting for review…" : "List in WTC"}
           </button>
 
-          <p className="text-center text-xs text-secondary">
+          <p className="text-center text-xs text-white/40">
             Listings are reviewed before going live.
           </p>
         </div>

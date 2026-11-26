@@ -24,16 +24,16 @@ export default function LaunchInfographics() {
   ];
 
   return (
-    <section className="bg-base px-6 py-20 text-white">
+    <section className="bg-[#050706] px-6 py-20 text-white">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
-          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-accent-hover">
+          <p className="mb-3 text-sm uppercase tracking-[0.35em] text-yellow-400">
             Launch Day Visual System
           </p>
-          <h2 className="text-3xl font-bold text-accent-hover md:text-5xl">
+          <h2 className="text-3xl font-bold text-yellow-300 md:text-5xl">
             Explore the WealthCoin Foundation
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-secondary">
+          <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-white/70">
             Three launch-ready visuals guide every visitor through the heart of
             WealthCoin: why it exists, how to begin, and where the ecosystem is
             going.
@@ -44,9 +44,9 @@ export default function LaunchInfographics() {
           {graphics.map((item) => (
             <article
               key={item.title}
-              className="group overflow-hidden rounded-3xl border border-accent-hover/30 bg-black/50 shadow-accent-soft"
+              className="group overflow-hidden rounded-3xl border border-yellow-500/30 bg-black/50 shadow-[0_0_35px_rgba(234,179,8,0.08)]"
             >
-              <div className="aspect-[3/4] overflow-hidden border-b border-accent-hover/20 bg-black">
+              <div className="aspect-[3/4] overflow-hidden border-b border-yellow-500/20 bg-black">
                 <img
                   src={item.image}
                   alt={item.title}
@@ -56,13 +56,13 @@ export default function LaunchInfographics() {
               </div>
 
               <div className="p-6">
-                <h3 className="text-2xl font-semibold text-accent-hover">
+                <h3 className="text-2xl font-semibold text-yellow-300">
                   {item.title}
                 </h3>
-                <p className="mt-3 min-h-24 text-sm leading-6 text-secondary">
+                <p className="mt-3 min-h-24 text-sm leading-6 text-white/70">
                   {item.description}
                 </p>
-                <button className="mt-6 rounded-full border border-accent-hover/60 px-5 py-2 text-sm font-semibold text-accent-hover transition hover:bg-accent-hover hover:text-black">
+                <button className="mt-6 rounded-full border border-yellow-400/60 px-5 py-2 text-sm font-semibold text-yellow-300 transition hover:bg-yellow-400 hover:text-black">
                   {item.button}
                 </button>
               </div>

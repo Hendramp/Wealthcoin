@@ -51,8 +51,8 @@ export default function PostForm({ onPosted }) {
             onClick={() => setCategory(cat.id)}
             className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
               category === cat.id
-                ? "border-accent bg-accent/15 text-accent"
-                : "border-white/15 bg-white/5 text-secondary hover:border-white/30 hover:text-primary"
+                ? "border-[#D4AF37] bg-[#D4AF37]/15 text-[#D4AF37]"
+                : "border-white/15 bg-white/5 text-white/60 hover:border-white/30 hover:text-white/80"
             }`}
           >
             {cat.emoji} {cat.label}
@@ -66,25 +66,25 @@ export default function PostForm({ onPosted }) {
         maxLength={500}
         rows={3}
         placeholder="Share something..."
-        className="w-full resize-none rounded-2xl border border-white/10 bg-black/20 p-3 text-sm text-white placeholder-white/35 outline-none focus:border-accent/60"
+        className="w-full resize-none rounded-2xl border border-white/10 bg-black/20 p-3 text-sm text-white placeholder-white/35 outline-none focus:border-[#D4AF37]/60"
       />
 
       <div className="flex items-center justify-between">
-        <span className="text-xs text-secondary">{content.length}/500</span>
+        <span className="text-xs text-white/40">{content.length}/500</span>
         <button
           type="submit"
           disabled={posting || !content.trim()}
-          className="rounded-full bg-accent px-5 py-2 text-sm font-bold text-black transition hover:bg-accent-hover disabled:opacity-40"
+          className="rounded-full bg-[#D4AF37] px-5 py-2 text-sm font-bold text-black transition hover:bg-[#e6c55a] disabled:opacity-40"
         >
           {posting ? "Posting…" : "Post"}
         </button>
       </div>
 
-      <p className="text-[11px] text-secondary">
+      <p className="text-[11px] text-white/35">
         No wallet addresses, seed phrases, or private keys — ever.
       </p>
 
-      {error && <p className="text-sm text-accent-hover">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
     </form>
   );
 }

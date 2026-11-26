@@ -111,17 +111,17 @@ export default function LessonPage() {
 
   // Fallback
   return (
-    <main className="relative min-h-screen overflow-hidden bg-base px-4 pb-20 pt-8 text-white sm:px-6">
-      <div className="pointer-events-none absolute inset-0 bg-ambient" />
+    <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
       <div className="relative z-10 mx-auto max-w-3xl">
-        <p className="mt-10 text-xs font-bold uppercase tracking-[0.22em] text-accent">
+        <p className="mt-10 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
           Lesson 5 · Buying & Selling
         </p>
         <h1 className="mt-2 font-display text-3xl text-white sm:text-4xl">
           Lesson Coming Soon
         </h1>
         <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
-          <p className="text-base leading-8 text-secondary">Coming soon.</p>
+          <p className="text-base leading-8 text-white/70">Coming soon.</p>
         </div>
       </div>
     </main>

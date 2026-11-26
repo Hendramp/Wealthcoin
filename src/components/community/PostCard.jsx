@@ -127,15 +127,15 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
     <article className="rounded-3xl border border-white/10 bg-white/5 p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent text-sm font-bold text-black">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#D4AF37] to-[#8a6d1f] text-sm font-bold text-black">
             {initial}
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-semibold text-white">{post.username}</span>
-              <span className="text-xs text-secondary">{timeAgo(post.created_at)}</span>
+              <span className="text-xs text-white/35">{timeAgo(post.created_at)}</span>
             </div>
-            <span className="text-xs text-secondary">{meta.emoji} {meta.label}</span>
+            <span className="text-xs text-white/50">{meta.emoji} {meta.label}</span>
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
             type="button"
             onClick={handleDelete}
             disabled={busy}
-            className="rounded-full border border-danger/30 bg-danger/10 px-3 py-1 text-xs font-semibold text-accent-hover transition hover:bg-danger/20"
+            className="rounded-full border border-red-400/30 bg-red-400/10 px-3 py-1 text-xs font-semibold text-red-300 transition hover:bg-red-400/20"
             title="Remove post"
           >
             Remove
@@ -152,7 +152,7 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
         )}
       </div>
 
-      <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-primary">{post.content}</p>
+      <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-white/85">{post.content}</p>
 
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -161,8 +161,8 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
           disabled={!user || busy}
           className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
             hearted
-              ? "border-accent bg-accent/15 text-accent"
-              : "border-white/10 bg-black/20 text-secondary hover:text-primary"
+              ? "border-[#D4AF37] bg-[#D4AF37]/15 text-[#D4AF37]"
+              : "border-white/10 bg-black/20 text-white/60 hover:text-white/85"
           }`}
         >
           <span>{hearted ? "♥" : "♡"}</span>
@@ -175,8 +175,8 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
           disabled={!user || busy || reportedByMe}
           className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
             showReported
-              ? "border-danger bg-danger text-white"
-              : "border-white/10 bg-black/20 text-secondary hover:text-primary"
+              ? "border-red-500 bg-red-500 text-white"
+              : "border-white/10 bg-black/20 text-white/60 hover:text-white/85"
           }`}
         >
           {showReported ? "Reported" : "⚠ Report"}
@@ -185,7 +185,7 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
         <button
           type="button"
           onClick={() => setRepliesOpen((v) => !v)}
-          className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-semibold text-secondary transition hover:text-primary"
+          className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs font-semibold text-white/60 transition hover:text-white/85"
         >
           {repliesOpen ? "Hide replies" : "💬 Reply"}
         </button>
@@ -193,7 +193,7 @@ export default function PostCard({ post, categoryMeta, isAdmin, onDeleted, onRep
 
       {repliesOpen && <ReplySection postId={post.post} />}
 
-      {error && <p className="mt-2 text-xs text-accent-hover">{error}</p>}
+      {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
     </article>
   );
 }

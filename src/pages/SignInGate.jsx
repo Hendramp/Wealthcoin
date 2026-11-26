@@ -34,7 +34,7 @@ export default function SignInGate() {
     <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
       <Link
         to="/"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-accent transition hover:text-accent-hover"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-[#D4AF37] transition hover:text-[#e6c55a]"
       >
         ← Back to WealthCoin
       </Link>
@@ -42,7 +42,7 @@ export default function SignInGate() {
       <h2 className="font-display text-2xl font-bold">
         {mode === "login" ? "Welcome back" : "Join the Circle"}
       </h2>
-      <p className="mt-2 text-secondary">
+      <p className="mt-2 text-white/60">
         {mode === "login"
           ? "Sign in to join the community discussion."
           : "Create an account to post, reply,and list in the marketplace."}
@@ -51,19 +51,19 @@ export default function SignInGate() {
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         {mode === "signup" && (
           <div>
-            <label className="mb-1 block text-xs uppercase tracking-wide text-secondary">Username</label>
+            <label className="mb-1 block text-xs uppercase tracking-wide text-white/50">Username</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Your username"
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary focus:border-accent/50 focus:outline-none"
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 focus:border-[#D4AF37]/50 focus:outline-none"
             />
           </div>
         )}
 
         <div>
-          <label className="mb-1 block text-xs uppercase tracking-wide text-secondary">
+          <label className="mb-1 block text-xs uppercase tracking-wide text-white/50">
             {mode === "login" ? "Username or email" : "Email"}
           </label>
           <input
@@ -71,24 +71,24 @@ export default function SignInGate() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={mode === "login" ? "you@example.com or username" : "you@example.com"}
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary focus:border-accent/50 focus:outline-none"
+            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 focus:border-[#D4AF37]/50 focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs uppercase tracking-wide text-secondary">Password</label>
+          <label className="mb-1 block text-xs uppercase tracking-wide text-white/50">Password</label>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 pr-12 text-white placeholder:text-secondary focus:border-accent/50 focus:outline-none"
+              className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 pr-12 text-white placeholder:text-white/30 focus:border-[#D4AF37]/50 focus:outline-none"
             />
             <button
               type="button"
               onClick={() => setShowPassword((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary transition hover:text-accent"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 transition hover:text-[#D4AF37]"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
@@ -109,7 +109,7 @@ export default function SignInGate() {
           </div>
         </div>
 
-        {error && <p className="text-sm text-accent-hover">{error}</p>}
+        {error && <p className="text-sm text-red-400">{error}</p>}
 
         <button
           type="submit"
@@ -124,14 +124,14 @@ export default function SignInGate() {
         </button>
       </form>
 
-      <p className="mt-4 text-center text-sm text-secondary">
+      <p className="mt-4 text-center text-sm text-white/50">
         {mode === "login" ? (
           <>
             No account yet?{" "}
             <button
               type="button"
               onClick={() => { setMode("signup"); setError(""); }}
-              className="font-bold text-accent transition hover:text-accent-hover"
+              className="font-bold text-[#D4AF37] transition hover:text-[#e6c55a]"
             >
               Create one
             </button>
@@ -142,7 +142,7 @@ export default function SignInGate() {
             <button
               type="button"
               onClick={() => { setMode("login"); setError(""); }}
-              className="font-bold text-accent transition hover:text-accent-hover"
+              className="font-bold text-[#D4AF37] transition hover:text-[#e6c55a]"
             >
               Sign in
             </button>

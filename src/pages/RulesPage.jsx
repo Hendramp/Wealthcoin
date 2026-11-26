@@ -171,16 +171,16 @@ export default function RulesPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-surface text-secondary">
-      <header className="border-b border-border-subtle px-6 py-4">
+    <div className="min-h-screen bg-[#0b0f14] text-[#e8e3d8]">
+      <header className="border-b border-[#1f2a24] px-6 py-4">
         <div className="mx-auto flex max-w-4xl items-center justify-between">
           <Link
             to="/marketplace"
-            className="text-sm font-semibold tracking-widest text-accent hover:text-accent"
+            className="text-sm font-semibold tracking-widest text-[#c9a227] hover:text-[#d8b437]"
           >
             ← Back to Marketplace
           </Link>
-          <span className="text-xs uppercase tracking-widest text-secondary">
+          <span className="text-xs uppercase tracking-widest text-[#7a8a7d]">
             Marketplace Rules &amp; Regulations
           </span>
         </div>
@@ -191,17 +191,17 @@ export default function RulesPage() {
           <h1 className="mb-4 text-3xl font-semibold tracking-tight">
             Marketplace Rules &amp; Regulations
           </h1>
-          <p className="text-secondary">
+          <p className="text-[#aab4aa]">
             Read carefully. Your continued use of the Marketplace means you agree
             to everything below. This is a house, not a marketplace of noise.
           </p>
         </div>
 
         <section className="mb-14">
-          <h2 className="mb-6 text-2xl font-semibold text-accent">
+          <h2 className="mb-6 text-2xl font-semibold text-[#c9a227]">
             What You Can Do Here
           </h2>
-          <p className="mb-6 text-secondary">
+          <p className="mb-6 text-[#aab4aa]">
             The Marketplace is a place for stewards to trade honestly. Here's
             what's welcome:
           </p>
@@ -209,11 +209,11 @@ export default function RulesPage() {
             {canDo.map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-border-subtle bg-elevated p-4"
+                className="rounded-lg border border-[#1f2a24] bg-[#11161c] p-4"
               >
                 <p className="font-medium">{item.title}</p>
-                <p className="mt-1 text-sm text-secondary">{item.body}</p>
-                <p className="mt-1 text-sm font-semibold text-accent">
+                <p className="mt-1 text-sm text-[#aab4aa]">{item.body}</p>
+                <p className="mt-1 text-sm font-semibold text-[#c9a227]">
                   {item.highlight}
                 </p>
               </div>
@@ -222,18 +222,18 @@ export default function RulesPage() {
         </section>
 
         <section className="mb-14">
-          <h2 className="mb-6 text-2xl font-semibold text-accent">
+          <h2 className="mb-6 text-2xl font-semibold text-[#c9a227]">
             Local Pickup &amp; Delivery — Signpost Listings
           </h2>
-          <p className="mb-4 text-secondary">
+          <p className="mb-4 text-[#aab4aa]">
             Some listings are signposts — they point you to a local producer
             (meat, produce, dairy, fresh baked goods) rather than completing the
             sale here. That's because perishable goods can't be shipped through
             the platform.
           </p>
-          <div className="rounded-lg border border-border-subtle bg-elevated p-4">
-            <p className="font-semibold text-secondary">Please understand:</p>
-            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-secondary">
+          <div className="rounded-lg border border-[#3a2f1f] bg-[#14120f] p-4">
+            <p className="font-semibold text-[#e8c9a0]">Please understand:</p>
+            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#c8d0c8]">
               <li>
                 A signpost sale happens{" "}
                 <span className="font-semibold">between you and the seller</span>,
@@ -264,10 +264,10 @@ export default function RulesPage() {
         </section>
 
         <section className="mb-14">
-          <h2 className="mb-6 text-2xl font-semibold text-accent">
+          <h2 className="mb-6 text-2xl font-semibold text-[#c9a227]">
             What Is Never Allowed
           </h2>
-          <p className="mb-6 text-secondary">
+          <p className="mb-6 text-[#aab4aa]">
             The following are permanently prohibited. No appeal, no gray area, no
             "it was a joke." If you list any of these, we will preserve the
             evidence associated with your account — including your verified
@@ -278,11 +278,11 @@ export default function RulesPage() {
             {neverAllowed.map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-border-subtle bg-elevated p-4"
+                className="rounded-lg border border-[#3a1f1f] bg-[#14100f] p-4"
               >
-                <p className="font-medium text-secondary">{item.title}</p>
-                <p className="mt-1 text-sm text-secondary">{item.body}</p>
-                <p className="mt-1 text-sm font-semibold text-secondary">
+                <p className="font-medium text-[#e8b4a0]">{item.title}</p>
+                <p className="mt-1 text-sm text-[#aab4aa]">{item.body}</p>
+                <p className="mt-1 text-sm font-semibold text-[#e8b4a0]">
                   {item.highlight}
                 </p>
               </div>
@@ -291,10 +291,10 @@ export default function RulesPage() {
         </section>
 
         <section className="mb-14">
-          <h2 className="mb-6 text-2xl font-semibold text-accent">
+          <h2 className="mb-6 text-2xl font-semibold text-[#c9a227]">
             The Complete Prohibited List
           </h2>
-          <p className="mb-6 text-secondary">
+          <p className="mb-6 text-[#aab4aa]">
             This list is not exhaustive — it is a floor, not a ceiling. Laws vary
             by country, state, and jurisdiction; WealthCoin therefore directly
             prohibits these items regardless of local legality.
@@ -303,13 +303,13 @@ export default function RulesPage() {
             {prohibitedSections.map((section) => (
               <div
                 key={section.heading}
-                className="rounded-lg border border-border-subtle bg-elevated p-5"
+                className="rounded-lg border border-[#3a1f1f] bg-[#14100f] p-5"
               >
-                <h3 className="mb-2 flex items-center gap-2 text-lg font-bold text-secondary">
-                  <span className="inline-block h-2 w-2 rounded-sm bg-surface" />
+                <h3 className="mb-2 flex items-center gap-2 text-lg font-bold text-[#e8b4a0]">
+                  <span className="inline-block h-2 w-2 rounded-sm bg-[#e8b4a0]" />
                   {section.heading}
                 </h3>
-                <p className="mb-3 text-sm italic text-secondary">
+                <p className="mb-3 text-sm italic text-[#aab4aa]">
                   {section.note}
                 </p>
                 <ul className="space-y-2">
@@ -318,9 +318,9 @@ export default function RulesPage() {
                     return (
                       <li
                         key={i}
-                        className="text-sm leading-relaxed text-secondary"
+                        className="text-sm leading-relaxed text-[#c8d0c8]"
                       >
-                        <span className="font-bold text-secondary">{lead}</span>
+                        <span className="font-bold text-[#e8e3d8]">{lead}</span>
                         {rest.length > 0 && <>—{rest.join("—")}</>}
                       </li>
                     );
@@ -332,10 +332,10 @@ export default function RulesPage() {
         </section>
 
         <section className="mb-14">
-          <h2 className="mb-6 text-2xl font-semibold text-accent">
+          <h2 className="mb-6 text-2xl font-semibold text-[#c9a227]">
             Categories Not for Sale
           </h2>
-          <p className="mb-6 text-secondary">
+          <p className="mb-6 text-[#aab4aa]">
             These are not allowed to be listed for a price — no exceptions. If it
             falls in one of these categories, you may not charge for it:
           </p>
@@ -343,10 +343,10 @@ export default function RulesPage() {
             {notForSale.map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-border-subtle bg-elevated p-4"
+                className="rounded-lg border border-[#1f2a24] bg-[#11161c] p-4"
               >
                 <p className="font-medium">{item.title}</p>
-                <p className="mt-1 text-sm font-semibold text-accent">
+                <p className="mt-1 text-sm font-semibold text-[#c9a227]">
                   {item.highlight}
                 </p>
               </div>
@@ -355,15 +355,15 @@ export default function RulesPage() {
         </section>
 
         <section className="mb-14">
-          <h2 className="mb-6 text-2xl font-semibold text-accent">
+          <h2 className="mb-6 text-2xl font-semibold text-[#c9a227]">
             Reviews &amp; Reputation
           </h2>
-          <p className="mb-4 text-secondary">
+          <p className="mb-4 text-[#aab4aa]">
             WealthCoin is not responsible for the transactions between buyers and
             sellers — but we hold everyone accountable through reputation and
             rules. Here's how trust works here:
           </p>
-          <ul className="list-disc space-y-2 pl-5 text-sm text-secondary">
+          <ul className="list-disc space-y-2 pl-5 text-sm text-[#c8d0c8]">
             <li>
               <span className="font-semibold">Every seller has a reputation</span>,
               tied to their verified account and wallet. A history of honest
@@ -392,7 +392,7 @@ export default function RulesPage() {
         <div className="mt-10 text-center">
           <button
             onClick={() => navigate("/marketplace")}
-            className="rounded-lg bg-accent px-8 py-3 font-semibold text-secondary transition hover:bg-accent"
+            className="rounded-lg bg-[#c9a227] px-8 py-3 font-semibold text-[#0b0f14] transition hover:bg-[#d8b437]"
           >
             Back to Marketplace
           </button>

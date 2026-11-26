@@ -40,14 +40,14 @@ export default function DocumentViewer({
       }
     }
 
-    document.body.classList.add("scroll-locked");
+    document.body.style.overflow = "hidden";
     resizePage();
 
     window.addEventListener("resize", resizePage);
     window.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.body.classList.remove("scroll-locked");
+      document.body.style.overflow = "";
       window.removeEventListener("resize", resizePage);
       window.removeEventListener("keydown", handleEscape);
     };
@@ -65,21 +65,21 @@ export default function DocumentViewer({
       role="dialog"
       aria-modal="true"
     >
-      <header className="border-b border-accent/25 bg-base px-4 py-4 sm:px-6">
+      <header className="border-b border-[#D4AF37]/25 bg-[#020302] px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
               src="/assets/logos/wealthcoin-logo.png"
-              alt="WealthCoin emblem"
+              alt=""
               className="h-11 w-11 rounded-full object-contain"
             />
 
             <div>
-              <h2 className="font-display text-lg text-accent sm:text-xl">
+              <h2 className="font-display text-lg text-[#D4AF37] sm:text-xl">
                 {selectedDocument.title}
               </h2>
 
-              <p className="text-xs uppercase tracking-[0.2em] text-secondary">
+              <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                 WealthCoin Library
               </p>
             </div>
@@ -106,7 +106,7 @@ export default function DocumentViewer({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-white/20 px-4 py-2 text-sm font-bold text-secondary hover:border-accent/60 hover:text-accent"
+              className="rounded-lg border border-white/20 px-4 py-2 text-sm font-bold text-white/70 hover:border-[#D4AF37]/60 hover:text-[#D4AF37]"
             >
               Close
             </button>
@@ -116,16 +116,16 @@ export default function DocumentViewer({
 
       <main
         ref={containerRef}
-        className="min-h-0 flex-1 overflow-auto bg-elevated p-4 sm:p-8"
+        className="min-h-0 flex-1 overflow-auto bg-[#151515] p-4 sm:p-8"
       >
         <div className="mx-auto flex min-h-full max-w-5xl justify-center">
           {error ? (
-            <div className="m-auto max-w-xl rounded-2xl border border-danger/30 bg-black p-8 text-center">
-              <h3 className="font-display text-2xl text-accent">
+            <div className="m-auto max-w-xl rounded-2xl border border-red-500/30 bg-black p-8 text-center">
+              <h3 className="font-display text-2xl text-[#D4AF37]">
                 Preview unavailable
               </h3>
 
-              <p className="mt-4 break-words text-secondary">
+              <p className="mt-4 break-words text-white/60">
                 {error}
               </p>
 
@@ -149,7 +149,7 @@ export default function DocumentViewer({
                 );
               }}
               loading={
-                <p className="m-auto font-display text-xl text-accent">
+                <p className="m-auto font-display text-xl text-[#D4AF37]">
                   Loading document…
                 </p>
               }

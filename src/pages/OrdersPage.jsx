@@ -111,7 +111,7 @@ export default function OrdersPage() {
         type="button"
         disabled={Boolean(pending)}
         onClick={() => runAction(row, name, action)}
-        className="min-h-[44px] rounded-lg border border-accent/30 px-3 py-2 text-sm font-bold text-accent disabled:opacity-50"
+        className="min-h-[44px] rounded-lg border border-[#D4AF37]/30 px-3 py-2 text-sm font-bold text-[#D4AF37] disabled:opacity-50"
       >
         {pending === `${key}:${name}` ? `${label}…` : label}
       </button>
@@ -125,16 +125,16 @@ export default function OrdersPage() {
           <>
             {now >= deliveryDeadline
               ? button("claim-window", "Claim after window", (signer) => claimAfterWindow(row.escrow, signer))
-              : <button type="button" disabled className="min-h-[44px] rounded-lg border border-white/10 px-3 py-2 text-sm text-secondary">Claim after window</button>}
-            {now < deliveryDeadline && <span className="text-xs text-secondary">Available {formatDate(deliveryDeadline)}</span>}
+              : <button type="button" disabled className="min-h-[44px] rounded-lg border border-white/10 px-3 py-2 text-sm text-white/40">Claim after window</button>}
+            {now < deliveryDeadline && <span className="text-xs text-white/40">Available {formatDate(deliveryDeadline)}</span>}
           </>
         )}
         {buyer && summary.state === "Paid" && (
           <>
             {now >= refundDeadline
               ? button("claim-refund", "Claim refund", (signer) => claimAfterNoDelivery(row.escrow, signer))
-              : <button type="button" disabled className="min-h-[44px] rounded-lg border border-white/10 px-3 py-2 text-sm text-secondary">Claim refund</button>}
-            {now < refundDeadline && <span className="text-xs text-secondary">Available {formatDate(refundDeadline)}</span>}
+              : <button type="button" disabled className="min-h-[44px] rounded-lg border border-white/10 px-3 py-2 text-sm text-white/40">Claim refund</button>}
+            {now < refundDeadline && <span className="text-xs text-white/40">Available {formatDate(refundDeadline)}</span>}
           </>
         )}
         {(buyer || seller) && (summary.state === "Paid" || summary.state === "Delivered") && (
@@ -171,7 +171,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface text-white">
+    <div className="min-h-screen bg-[#07110d] text-white">
       <Navbar />
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-32 sm:px-6 sm:pt-36">
         <h1 className="font-display text-3xl font-bold">Orders</h1>
@@ -180,24 +180,24 @@ export default function OrdersPage() {
             ["purchases", "Purchases"],
             ["sales", "Sales"],
           ].map(([value, label]) => (
-            <button key={value} type="button" onClick={() => setTab(value)} className={`min-h-[44px] flex-1 rounded-lg text-sm font-bold ${tab === value ? "bg-accent text-black" : "text-secondary"}`}>{label}</button>
+            <button key={value} type="button" onClick={() => setTab(value)} className={`min-h-[44px] flex-1 rounded-lg text-sm font-bold ${tab === value ? "bg-[#D4AF37] text-black" : "text-white/60"}`}>{label}</button>
           ))}
         </div>
-        {error && <p className="mt-4 rounded-lg border border-danger/20 bg-danger/10 p-3 text-sm text-accent-hover">{error}</p>}
+        {error && <p className="mt-4 rounded-lg border border-red-400/20 bg-red-400/10 p-3 text-sm text-red-300">{error}</p>}
         {loading ? (
-          <p className="py-16 text-center text-secondary">Loading orders…</p>
+          <p className="py-16 text-center text-white/40">Loading orders…</p>
         ) : rows.length === 0 ? (
-          <p className="py-16 text-center text-secondary">{tab === "purchases" ? "You haven't bought anything yet" : "You haven't sold anything yet."}</p>
+          <p className="py-16 text-center text-white/40">{tab === "purchases" ? "You haven't bought anything yet" : "You haven't sold anything yet."}</p>
         ) : (
           <div className="mt-5 grid gap-4">
             {rows.map((row) => (
               <article key={row.escrow} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex sm:items-center sm:justify-between sm:gap-6">
                 <div className="min-w-0">
                   <h2 className="truncate font-display text-lg font-bold">{row.listing?.title || row.escrow}</h2>
-                  <p className="mt-1 break-all font-mono text-xs text-secondary">{row.escrow}</p>
-                  <p className="mt-2 text-sm"><span className="text-secondary">Price:</span> <span className="font-mono font-bold text-accent">{ethers.formatUnits(row.summary?.priceInWTC || row.priceInWTC, 18)} WTC</span></p>
-                  <p className="mt-1 text-sm"><span className="text-secondary">State:</span> {row.summary?.state || "syncing"}</p>
-                  {row.summaryError && <p className="mt-1 text-xs text-accent-hover">syncing chain state…</p>}
+                  <p className="mt-1 break-all font-mono text-xs text-white/40">{row.escrow}</p>
+                  <p className="mt-2 text-sm"><span className="text-white/40">Price:</span> <span className="font-mono font-bold text-[#D4AF37]">{ethers.formatUnits(row.summary?.priceInWTC || row.priceInWTC, 18)} WTC</span></p>
+                  <p className="mt-1 text-sm"><span className="text-white/40">State:</span> {row.summary?.state || "syncing"}</p>
+                  {row.summaryError && <p className="mt-1 text-xs text-amber-300">syncing chain state…</p>}
                 </div>
                 <div className="mt-4 min-w-[220px] sm:mt-0">{row.summary ? renderActions(row) : null}</div>
               </article>

@@ -1,163 +1,196 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Layout/Navbar";
-import Footer from "../components/Layout/Footer";
-
-const servicePaths = [
-  {
-    number: "01",
-    name: "Individual",
-    summary: "Learn self-custody and set up a wallet with confidence.",
-    includes: "Wallet setup · Safety education · Recovery planning",
-  },
-  {
-    number: "02",
-    name: "Business",
-    summary: "Prepare your team to accept cryptocurrency at the counter.",
-    includes: "Payment setup · QR signage · Employee training",
-  },
-  {
-    number: "03",
-    name: "Ministry",
-    summary: "Receive digital-asset donations with clear stewardship practices.",
-    includes: "Donation setup · QR signage · Leadership training",
-  },
-  {
-    number: "04",
-    name: "Enterprise",
-    summary: "Train an internal team to implement across multiple locations.",
-    includes: "Team training · Implementation · Internal certification",
-  },
-];
 
 export default function WTCSPage() {
   return (
-    <>
-      <Navbar />
-      <main className="relative min-h-screen overflow-hidden bg-base text-primary">
-        <div className="pointer-events-none absolute inset-0 bg-ambient" />
-        <div className="pointer-events-none absolute -right-32 top-28 h-96 w-96 rounded-full bg-accent/10 blur-3xl" />
+    <div className="min-h-screen bg-black text-white">
+      {/* Soft ambient glow behind the hero */}
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(212,175,55,0.12),_transparent_60%)]" />
 
-        <div className="relative mx-auto max-w-content px-5 pb-20 pt-10 sm:px-8 sm:pb-24 sm:pt-14">
+      <div className="relative mx-auto max-w-5xl px-6 py-24">
+
+        {/* Back to ecosystem */}
+        <div className="mb-12 text-center sm:text-left">
           <Link
-            to="/#home"
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-[#C2BDB5] transition hover:text-accent-hover"
+            to="/"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#D4AF37]/80 transition hover:text-[#D4AF37]"
           >
-            <span aria-hidden="true">←</span> Back to WealthCoin
+            <span aria-hidden="true">←</span>
+            Back to WealthCoin
           </Link>
-
-          <header className="relative mx-auto mt-8 max-w-5xl overflow-hidden rounded-3xl border border-accent/25 bg-gradient-to-br from-[#1a1710] via-surface to-base px-6 py-10 text-center sm:mt-10 sm:px-12 sm:py-14">
-            <img
-              src="/assets/logos/polygon-logo.png"
-              alt=""
-              aria-hidden="true"
-              className="absolute -right-7 -top-8 h-36 w-36 object-contain opacity-[0.12] sm:h-52 sm:w-52"
-            />
-            <div className="relative">
-              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-accent-hover">
-                <img
-                  src="/assets/logos/polygon-logo.png"
-                  alt=""
-                  aria-hidden="true"
-                  className="h-5 w-5 object-contain"
-                />
-                WealthCoin Solutions
-              </p>
-              <h1 className="mx-auto mt-5 max-w-4xl font-display text-4xl font-semibold leading-tight text-primary sm:text-6xl">
-                Digital assets, made practical.
-              </h1>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#D0CCC4] sm:text-lg sm:leading-8">
-                Clear education and hands-on implementation for individuals,
-                businesses, ministries, and growing organizations.
-              </p>
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <a
-                  href="/documents/WTCS_Menu.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-gold min-h-12 px-6 py-3 text-center font-semibold"
-                >
-                  View the Full Services Menu
-                </a>
-                <a
-                  href="mailto:WTCteam@outlook.com"
-                  className="btn-ghost min-h-12 px-6 py-3 text-center font-semibold"
-                >
-                  Book a Complimentary Consultation
-                </a>
-              </div>
-            </div>
-          </header>
-
-          <section className="mx-auto mt-12 max-w-5xl sm:mt-16">
-            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-hover">
-                  Quick Guide
-                </p>
-                <h2 className="mt-2 font-display text-3xl font-semibold text-primary sm:text-4xl">
-                  Find your starting point
-                </h2>
-              </div>
-              <p className="max-w-sm text-sm leading-6 text-[#C2BDB5]">
-                Just the essentials here. The full menu has scope, pricing, and
-                complete service details.
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-accent/30 bg-[#101012]/95 p-4 shadow-accent-soft sm:p-6">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {servicePaths.map((service) => (
-                  <article
-                    key={service.name}
-                    className="rounded-2xl border border-white/10 bg-white/[0.025] p-5 transition hover:border-accent/35 hover:bg-accent/[0.04] sm:p-6"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="font-display text-sm text-accent">
-                        {service.number}
-                      </span>
-                      <h3 className="font-display text-xl font-semibold text-primary">
-                        {service.name}
-                      </h3>
-                    </div>
-                    <p className="mt-3 text-sm leading-6 text-[#D0CCC4]">
-                      {service.summary}
-                    </p>
-                    <p className="mt-4 border-t border-white/10 pt-3 text-xs leading-5 text-accent-hover">
-                      {service.includes}
-                    </p>
-                  </article>
-                ))}
-              </div>
-
-              <div className="mt-5 flex flex-col items-center justify-between gap-4 rounded-2xl border border-accent/20 bg-accent/[0.06] p-5 text-center sm:flex-row sm:p-6 sm:text-left">
-                <div>
-                  <p className="font-semibold text-primary">
-                    Want the full scope and pricing?
-                  </p>
-                  <p className="mt-1 text-sm leading-6 text-[#C2BDB5]">
-                    Open the complete WTCS menu for detailed descriptions and
-                    engagement information.
-                  </p>
-                </div>
-                <a
-                  href="/documents/WTCS_Menu.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-gold min-h-12 shrink-0 px-6 py-3 font-semibold"
-                >
-                  Open Full Menu
-                </a>
-              </div>
-            </div>
-          </section>
-
-          <p className="mx-auto mt-10 max-w-3xl text-center text-sm leading-7 text-[#C2BDB5]">
-            Security · Stewardship · Education
-          </p>
         </div>
-      </main>
-      <Footer />
-    </>
+
+        {/* Hero */}
+        <section className="text-center">
+          <p className="text-2xl font-bold uppercase tracking-[0.22em] text-[#D4AF37] sm:text-3xl">
+            WealthCoin Solutions
+          </p>
+
+          <h1 className="mt-5 font-display text-4xl leading-tight text-white sm:text-5xl">
+            Safely accept cryptocurrency — as an individual, business, or ministry.
+
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/60">
+            With the professional education and support to do it responsibly.
+
+
+          </p>
+
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/40">
+            Whether you're just curious or ready to move, we'll meet you where you are.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href="mailto:WTCteam@outlook.com"
+              className="inline-flex rounded-lg bg-[#D4AF37] px-6 py-3 font-semibold text-black transition hover:bg-[#c19e2f]"
+            >
+              Schedule a Complimentary Virtual Consultation
+            </a>
+            <a
+              href="/documents/WTCS_Menu.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex rounded-lg border border-[#D4AF37]/40 px-6 py-3 font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37]/10"
+            >
+              View WTCS Menu
+            </a>
+          </div>
+        </section>
+
+        {/* Divider */}
+        <div className="my-20 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
+
+        {/* Scripture anchor */}
+        <section className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+            Everything we do starts here
+          </p>
+          <p className="mt-6 font-display text-2xl leading-9 text-white/80">
+            "And the LORD God took the man and put him into the garden of Eden to dress itand to keep it."
+          </p>
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+            Genesis  ‎2:15 — JUB
+          </p>
+        </section>
+
+        {/* Divider */}
+        <div className="my-20 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
+
+        {/* Services */}
+        <section>
+          <h2 className="text-center font-display text-3xl text-white">
+            Our Services
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-white/50">
+            Whether you're an individual learning the basics or an organization ready to implement,
+            we'll meet you where you are.
+
+          </p>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <div className="group rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-7 transition duration-300 hover:border-[#D4AF37]/40 hover:bg-white/[0.05]">
+              <h3 className="font-display text-xl text-[#D4AF37]">
+                Wallet &amp; Education
+              </h3>
+              <p className="mt-4 leading-8 text-white/60">
+                For individuals: personal wallet setup, self-custody education, and security best
+                practices — so you understand what you're holding before you ever transact.
+
+
+              </p>
+            </div>
+
+            <div className="group rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-7 transition duration-300 hover:border-[#D4AF37]/40 hover:bg-white/[0.05]">
+              <h3 className="font-display text-xl text-[#D4AF37]">
+                Business Implementation
+              </h3>
+              <p className="mt-4 leading-8 text-white/60">
+                For businesses: wallet setup, payment implementation, QR signage, employee
+                training, and security best practices — so you can accept crypto confidently.
+
+
+              </p>
+            </div>
+
+            <div className="group rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-7 transition duration-300 hover:border-[#D4AF37]/40 hover:bg-white/[0.05]">
+              <h3 className="font-display text-xl text-[#D4AF37]">
+                Ministry Implementation
+              </h3>
+              <p className="mt-4 leading-8 text-white/60">
+                For ministries: donation wallet setup, giving QR signage, leadership &amp; volunteer
+                training, and stewardship guidance — so more of every gift goes to your mission.
+
+
+              </p>
+            </div>
+
+            <div className="group rounded-xl border border-[#D4AF37]/15 bg-white/[0.03] p-7 transition duration-300 hover:border-[#D4AF37]/40 hover:bg-white/[0.05]">
+              <h3 className="font-display text-xl text-[#D4AF37]">
+                WealthCoin Support
+              </h3>
+              <p className="mt-4 leading-8 text-white/60">
+                Questions after your implementation? Email us anytime — we're happy to help you
+                keep things running smoothly.
+
+
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Consultation */}
+        <section className="mt-20 rounded-2xl border border-[#D4AF37]/15 bg-white/[0.03] p-10">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
+            Start with a conversation
+          </p>
+          <h2 className="mt-4 font-display text-3xl text-white">
+            Schedule a Complimentary Virtual Consultation
+          </h2>
+
+          <p className="mt-6 text-lg leading-8 text-white/60">
+            Every implementation begins with a conversation — and we'd be honored to have that
+            conversation with you.
+          </p>
+
+          <p className="mt-5 leading-8 text-white/60">
+            During our meeting, we'll discuss your goals, answer your questions, and see if implementation
+            is a good decision for you. No obligation, no pressure — just clarity.
+
+
+          </p>
+
+          <div className="mt-10 rounded-xl border border-[#D4AF37]/15 bg-black/40 p-6">
+            <p className="text-sm uppercase tracking-[0.3em] text-white/40">
+              Contact
+            </p>
+            <a
+              href="mailto:WTCteam@outlook.com"
+              className="mt-3 inline-block text-2xl font-semibold text-[#D4AF37] transition-colors hover:text-[#c19e2f]"
+            >
+              WTCteam@outlook.com
+            </a>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="mt-20 border-t border-white/10 pt-10 text-center">
+          <p className="text-lg text-white/70">
+            Professional Blockchain Consulting &amp; Education
+          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/40">
+            WealthCoin Solutions is committed to helping individuals, businesses, ministries, and organizations confidently
+            implement blockchain payment solutions through education, transparency, and practical support.
+
+
+          </p>
+          <p className="mt-8 font-display text-base text-[#D4AF37]/80">
+            We'd be honored to walk with you.
+          </p>
+        </footer>
+
+      </div>
+    </div>
   );
 }
