@@ -51,18 +51,18 @@ function ReplyNode({ reply, profiles, onPosted, depth }) {
     <div className={depth > 0 ? "ml-6 border-l border-white/10 pl-4" : ""}>
       <div className="rounded-2xl bg-black/20 p-3">
         <div className="flex items-center gap-2">
-          <p className="text-xs font-semibold text-white/80">
+          <p className="text-xs font-semibold text-primary">
             {profiles[reply.user_id] || "unknown"}
           </p>
-          <p className="text-[10px] text-white/35">{timeAgo(reply.created_at)}</p>
+          <p className="text-[10px] text-secondary">{timeAgo(reply.created_at)}</p>
         </div>
-        <p className="mt-1 whitespace-pre-wrap text-sm text-white/70">{reply.content}</p>
+        <p className="mt-1 whitespace-pre-wrap text-sm text-secondary">{reply.content}</p>
 
         {user && (
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="mt-2 text-[11px] font-semibold text-[#D4AF37] hover:text-[#e6c55a]"
+            className="mt-2 text-[11px] font-semibold text-accent hover:text-accent-hover"
           >
             {open ? "Cancel" : "Reply"}
           </button>
@@ -76,15 +76,15 @@ function ReplyNode({ reply, profiles, onPosted, depth }) {
               placeholder="Reply to this…"
               maxLength={300}
               rows={2}
-              className="w-full resize-none rounded-2xl border border-white/15 bg-white/5 p-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-[#D4AF37]/60"
+              className="w-full resize-none rounded-2xl border border-white/15 bg-white/5 p-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-accent/60"
             />
-            {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+            {error && <p className="mt-1 text-xs text-accent-hover">{error}</p>}
             <div className="mt-2 flex items-center justify-end gap-2">
-              <span className="text-[10px] text-white/35">{content.length}/300</span>
+              <span className="text-[10px] text-secondary">{content.length}/300</span>
               <button
                 type="submit"
                 disabled={posting || !content.trim()}
-                className="rounded-2xl bg-[#D4AF37] px-3 py-1 text-xs font-bold text-black transition hover:bg-[#e6c55a] disabled:opacity-50"
+                className="rounded-2xl bg-accent px-3 py-1 text-xs font-bold text-black transition hover:bg-accent-hover disabled:opacity-50"
               >
                 {posting ? "Posting…" : "Post"}
               </button>
@@ -197,15 +197,15 @@ export default function ReplySection({ postId }) {
           placeholder="Reply to this post…"
           maxLength={300}
           rows={2}
-          className="w-full resize-none rounded-2xl border border-white/15 bg-white/5 p-3 text-sm text-white placeholder-white/40 outline-none transition focus:border-[#D4AF37]/60"
+          className="w-full resize-none rounded-2xl border border-white/15 bg-white/5 p-3 text-sm text-white placeholder-white/40 outline-none transition focus:border-accent/60"
         />
-        {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+        {error && <p className="mt-1 text-xs text-accent-hover">{error}</p>}
         <div className="mt-2 flex items-center justify-between">
-          <span className="text-xs text-white/40">{content.length}/300</span>
+          <span className="text-xs text-secondary">{content.length}/300</span>
           <button
             type="submit"
             disabled={posting || !content.trim()}
-            className="rounded-2xl bg-[#D4AF37] px-4 py-1.5 text-xs font-bold text-black transition hover:bg-[#e6c55a] disabled:opacity-50"
+            className="rounded-2xl bg-accent px-4 py-1.5 text-xs font-bold text-black transition hover:bg-accent-hover disabled:opacity-50"
           >
             {posting ? "Posting…" : "Reply"}
           </button>
@@ -213,9 +213,9 @@ export default function ReplySection({ postId }) {
       </form>
 
       {loading ? (
-        <p className="text-xs text-white/40">Loading replies…</p>
+        <p className="text-xs text-secondary">Loading replies…</p>
       ) : replies.length === 0 ? (
-        <p className="text-xs text-white/35">No replies yet.</p>
+        <p className="text-xs text-secondary">No replies yet.</p>
       ) : (
         <div className="space-y-3">
           {replies.map((reply) => (

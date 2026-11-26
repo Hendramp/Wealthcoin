@@ -214,12 +214,12 @@ export default function MarketplacePage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#07110d] text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-surface text-white">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-48 left-1/2 h-[520px] w-[860px] -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.07] blur-3xl" />
+        <div className="absolute -top-48 left-1/2 h-[520px] w-[860px] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-3xl" />
         <div className="absolute -right-40 top-1/3 h-[420px] w-[560px] rounded-full bg-emerald-500/[0.05] blur-3xl" />
-        <div className="absolute -left-40 bottom-0 h-[380px] w-[520px] rounded-full bg-[#D4AF37]/[0.04] blur-3xl" />
+        <div className="absolute -left-40 bottom-0 h-[380px] w-[520px] rounded-full bg-accent/[0.04] blur-3xl" />
       </div>
 
       <Navbar />
@@ -228,7 +228,7 @@ export default function MarketplacePage() {
         {/* Breadcrumb */}
         <Link
           to="/"
-          className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-white/40 transition hover:text-[#D4AF37]"
+          className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-secondary transition hover:text-accent"
         >
           ← Back to WealthCoin
         </Link>
@@ -236,16 +236,16 @@ export default function MarketplacePage() {
         {/* Hero */}
         <div className="mb-8 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.35em] text-accent">
               The Marketplace
             </p>
             <h1 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl">
               Buy, Sell &amp; List{" "}
-              <span className="bg-gradient-to-r from-[#F0D878] via-[#D4AF37] to-[#B8860B] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-accent-hover via-accent to-accent bg-clip-text text-transparent">
                 in WTC
               </span>
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-white/60">
+            <p className="mt-4 max-w-2xl text-base leading-7 text-secondary">
               A space for stewards to trade goods and services using WealthCoin. Every listing is priced in WTC — the currency of the ecosystem.
             </p>
           </div>
@@ -255,7 +255,7 @@ export default function MarketplacePage() {
               <button
                 type="button"
                 onClick={handleOpenList}
-                className="min-h-[48px] rounded-xl bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-6 py-3 font-bold text-black shadow-[0_8px_30px_rgba(212,175,55,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(212,175,55,0.4)] active:translate-y-0"
+                className="min-h-[48px] rounded-xl bg-gradient-to-br from-accent-hover to-accent px-6 py-3 font-bold text-black shadow-accent-soft transition hover:-translate-y-0.5 hover:shadow-accent-soft active:translate-y-0"
               >
                 {showForm ? "Close" : "+ List an item"}
               </button>
@@ -263,14 +263,14 @@ export default function MarketplacePage() {
               <button
                 type="button"
                 onClick={() => setShowSignIn(true)}
-                className="min-h-[48px] rounded-xl border border-[#D4AF37]/25 bg-black/60 px-6 py-3 font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10"
+                className="min-h-[48px] rounded-xl border border-accent/25 bg-black/60 px-6 py-3 font-bold text-accent transition hover:bg-accent/10"
               >
                 Sign in to list
               </button>
             )}
             <Link
               to="/marketplace/rules"
-              className="min-h-[48px] rounded-xl border border-[#D4AF37]/25 bg-black/60 px-6 py-3 font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10"
+              className="min-h-[48px] rounded-xl border border-accent/25 bg-black/60 px-6 py-3 font-bold text-accent transition hover:bg-accent/10"
             >
               Rules &amp; Regulations
             </Link>
@@ -278,72 +278,72 @@ export default function MarketplacePage() {
         </div>
 
         {/* Live market bar: price, fee, wallet */}
-        <div className="mb-10 grid gap-6 rounded-2xl border border-[#D4AF37]/15 bg-white/[0.03] p-5 backdrop-blur-xl sm:grid-cols-3 sm:gap-0 sm:p-6">
+        <div className="mb-10 grid gap-6 rounded-2xl border border-accent/15 bg-white/[0.03] p-5 backdrop-blur-xl sm:grid-cols-3 sm:gap-0 sm:p-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10">
-              <span className="font-display text-sm font-bold text-[#D4AF37]">W</span>
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/10">
+              <span className="font-display text-sm font-bold text-accent">W</span>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wider text-white/40">Live price</p>
+              <p className="text-xs uppercase tracking-wider text-secondary">Live price</p>
               {wtcPrice ? (
                 <p className="font-mono text-lg font-bold text-emerald-400">
                   1 WTC = ${wtcPrice.toFixed(5)}
                 </p>
               ) : wtcPriceUnavailable ? (
                 <>
-                  <p className="font-mono text-lg font-bold text-amber-300">
+                  <p className="font-mono text-lg font-bold text-accent-hover">
                     1 WTC ≈ ${FALLBACK_WTC_PRICE_USD.toFixed(5)}
                   </p>
-                  <p className="mt-0.5 text-xs text-amber-300/70">
+                  <p className="mt-0.5 text-xs text-accent-hover">
                     Fallback display only; live rate unavailable.
                   </p>
                 </>
               ) : (
-                <p className="text-lg text-white/40">Loading…</p>
+                <p className="text-lg text-secondary">Loading…</p>
               )}
             </div>
           </div>
 
           <div className="sm:border-l sm:border-white/10 sm:pl-6">
-            <p className="text-xs uppercase tracking-wider text-white/40">Escrow fee</p>
+            <p className="text-xs uppercase tracking-wider text-secondary">Escrow fee</p>
             {feeUnavailable ? (
-              <p className="text-lg text-red-400">fee unavailable</p>
+              <p className="text-lg text-accent-hover">fee unavailable</p>
             ) : feeBps !== null ? (
               <>
                 <p className="font-mono text-lg font-bold text-emerald-400">
                   {(Number(feeBps) / 100).toFixed(2)}%
                 </p>
-                <p className="mt-0.5 text-xs text-white/40">No minimum fee.</p>
+                <p className="mt-0.5 text-xs text-secondary">No minimum fee.</p>
               </>
             ) : (
-              <p className="text-lg text-white/40">Loading…</p>
+              <p className="text-lg text-secondary">Loading…</p>
             )}
           </div>
 
           <div className="sm:border-l sm:border-white/10 sm:pl-6">
-            <p className="text-xs uppercase tracking-wider text-white/40">Wallet</p>
+            <p className="text-xs uppercase tracking-wider text-secondary">Wallet</p>
             {isConnected && address ? (
               <p className="font-mono text-lg font-bold text-emerald-400">
                 {shortenAddress(address)}
               </p>
             ) : (
-              <p className="text-lg text-white/40">Not connected</p>
+              <p className="text-lg text-secondary">Not connected</p>
             )}
           </div>
         </div>
 
         {/* Sign-in gate */}
         {showSignIn && !user && (
-          <div className="mb-8 rounded-2xl border border-[#D4AF37]/20 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-8">
-            <h2 className="mb-1 font-display text-xl font-bold text-[#D4AF37]">
+          <div className="mb-8 rounded-2xl border border-accent/20 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-8">
+            <h2 className="mb-1 font-display text-xl font-bold text-accent">
               Sign in to the Marketplace
             </h2>
-            <p className="mb-6 text-sm text-white/50">
+            <p className="mb-6 text-sm text-secondary">
               Sign in to list goods and services in WTC. You'll stay right here after.
             </p>
             <form onSubmit={handleSignIn} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
                   Email
                 </label>
                 <input
@@ -351,11 +351,11 @@ export default function MarketplacePage() {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="you@example.com"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
                   Password
                 </label>
                 <input
@@ -363,29 +363,29 @@ export default function MarketplacePage() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
                 />
               </div>
-              {authError && <p className="text-sm text-red-400">{authError}</p>}
+              {authError && <p className="text-sm text-accent-hover">{authError}</p>}
               <div className="flex gap-3">
                 <button
                   type="submit"
                   disabled={authLoading}
-                  className="min-h-[48px] flex-1 rounded-xl bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-5 py-3 font-bold text-black transition hover:brightness-110 disabled:opacity-50"
+                  className="min-h-[48px] flex-1 rounded-xl bg-gradient-to-br from-accent-hover to-accent px-5 py-3 font-bold text-black transition hover:brightness-110 disabled:opacity-50"
                 >
                   {authLoading ? "Signing in…" : "Sign in"}
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowSignIn(false)}
-                  className="min-h-[48px] rounded-xl border border-white/10 bg-black/40 px-5 py-3 font-bold text-white/60 transition hover:text-white/80"
+                  className="min-h-[48px] rounded-xl border border-white/10 bg-black/40 px-5 py-3 font-bold text-secondary transition hover:text-primary"
                 >
                   Cancel
                 </button>
               </div>
-              <p className="pt-1 text-center text-xs text-white/40">
+              <p className="pt-1 text-center text-xs text-secondary">
                 No account yet?{" "}
-                <Link to="/hub" className="font-semibold text-[#D4AF37] hover:text-[#e6c55a]">
+                <Link to="/hub" className="font-semibold text-accent hover:text-accent-hover">
                   Create one on the Hub
                 </Link>
               </p>
@@ -395,11 +395,11 @@ export default function MarketplacePage() {
 
         {/* Rules & Regulations acknowledgment gate */}
         {showRules && !showForm && (
-          <div className="mb-8 rounded-2xl border border-[#D4AF37]/25 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-8">
-            <h2 className="mb-1 font-display text-xl font-bold text-[#D4AF37]">
+          <div className="mb-8 rounded-2xl border border-accent/25 bg-white/[0.04] p-6 backdrop-blur-xl sm:p-8">
+            <h2 className="mb-1 font-display text-xl font-bold text-accent">
               Marketplace Rules &amp; Regulations
             </h2>
-            <p className="mb-6 text-sm text-white/50">
+            <p className="mb-6 text-sm text-secondary">
               Please review the rules before listing an item. You must acknowledge them to continue.
             </p>
 
@@ -407,22 +407,22 @@ export default function MarketplacePage() {
               {MARKETPLACE_RULES.map((rule, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-3 rounded-xl border border-white/10 bg-black/40 p-4 transition hover:border-[#D4AF37]/20"
+                  className="flex items-start gap-3 rounded-xl border border-white/10 bg-black/40 p-4 transition hover:border-accent/20"
                 >
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D4AF37]/10 text-xs font-bold text-[#D4AF37]">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-xs font-bold text-accent">
                     {i + 1}
                   </span>
-                  <p className="text-sm leading-6 text-white/70">{rule}</p>
+                  <p className="text-sm leading-6 text-secondary">{rule}</p>
                 </div>
               ))}
             </div>
 
-            <label className="mb-6 flex items-start gap-3 text-sm text-white/70">
+            <label className="mb-6 flex items-start gap-3 text-sm text-secondary">
               <input
                 type="checkbox"
                 checked={rulesAcked}
                 onChange={(e) => setRulesAcked(e.target.checked)}
-                className="mt-0.5 h-4 w-4 accent-[#D4AF37]"
+                className="mt-0.5 h-4 w-4 accent-accent"
               />
               <span>
                 I have read and agree to the Marketplace Rules &amp; Regulations above.
@@ -434,14 +434,14 @@ export default function MarketplacePage() {
                 type="button"
                 onClick={handleRulesAck}
                 disabled={!rulesAcked}
-                className="min-h-[48px] flex-1 rounded-xl bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-5 py-3 font-bold text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+                className="min-h-[48px] flex-1 rounded-xl bg-gradient-to-br from-accent-hover to-accent px-5 py-3 font-bold text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Continue to Listing
               </button>
               <button
                 type="button"
                 onClick={() => setShowRules(false)}
-                className="min-h-[48px] rounded-xl border border-white/10 bg-black/40 px-5 py-3 font-bold text-white/60 transition hover:text-white/80"
+                className="min-h-[48px] rounded-xl border border-white/10 bg-black/40 px-5 py-3 font-bold text-secondary transition hover:text-primary"
               >
                 Cancel
               </button>
@@ -462,12 +462,12 @@ export default function MarketplacePage() {
             value={locationFilter}
             onChange={(e) => setLocationFilter(e.target.value)}
             placeholder="Filter by city, state, or ZIP..."
-            className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+            className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
           />
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+            className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
           >
             <option value="">All Categories</option>
             {CATEGORIES.map((c) => (
@@ -477,7 +477,7 @@ export default function MarketplacePage() {
           <select
             value={deliveryFilter}
             onChange={(e) => setDeliveryFilter(e.target.value)}
-            className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+            className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
           >
             <option value="">All Delivery Methods</option>
             <option value="ship">Ships</option>
@@ -489,19 +489,19 @@ export default function MarketplacePage() {
         {/* Listings */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24">
-            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#D4AF37]/20 border-t-[#D4AF37]" />
-            <p className="mt-4 text-sm text-white/40">Loading listings…</p>
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-accent/20 border-t-accent" />
+            <p className="mt-4 text-sm text-secondary">Loading listings…</p>
           </div>
         ) : listings.length === 0 ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-16 text-center backdrop-blur-xl">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/5">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-accent/20 bg-accent/5">
               <span className="text-xl">🛒</span>
             </div>
-            <p className="font-display text-lg font-bold text-white/80">
+            <p className="font-display text-lg font-bold text-primary">
               No active listings yet.
             </p>
             {user && (
-              <p className="mt-2 text-sm text-white/50">
+              <p className="mt-2 text-sm text-secondary">
                 Be the first to list something in WTC.
               </p>
             )}
@@ -523,7 +523,7 @@ export default function MarketplacePage() {
               return (
                 <div
                   key={listing.id}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/30 hover:bg-white/[0.05] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:bg-white/[0.05] hover:shadow-elevated"
                 >
                   {listing.images && listing.images.length > 0 && (
                     <div className="relative -mx-6 -mt-6 mb-4 aspect-[4/3] w-[calc(100%+3rem)] overflow-hidden">
@@ -531,10 +531,10 @@ export default function MarketplacePage() {
                         src={listing.images[0]}
                         alt={listing.title}
                         loading="lazy"
-                        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                        className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
                       />
                       {listing.images.length > 1 && (
-                        <span className="absolute right-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-xs text-white/80">
+                        <span className="absolute right-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-xs text-primary">
                           +{listing.images.length - 1}
                         </span>
                       )}
@@ -543,7 +543,7 @@ export default function MarketplacePage() {
                   <div className="flex flex-1 flex-col">
                     <div className="mb-3 flex items-center justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-[#D4AF37]/10 px-3 py-1 text-xs font-bold text-[#D4AF37]">
+                        <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
                           {wtcValue ? `${wtcValue.toFixed(4)} WTC` : "Price unavailable"}
                         </span>
                         {usdValue && (
@@ -552,26 +552,26 @@ export default function MarketplacePage() {
                           </span>
                         )}
                       </div>
-                      <span className="text-xs text-white/40">
+                      <span className="text-xs text-secondary">
                         {listing.hub_profiles?.username ?? "Steward"}
                       </span>
                     </div>
 
-                    <h3 className="font-display text-lg font-bold text-white transition group-hover:text-[#F0D878]">
+                    <h3 className="font-display text-lg font-bold text-white transition group-hover:text-accent-hover">
                       {listing.title}
                     </h3>
-                    <p className="mt-2 flex-1 text-sm leading-6 text-white/60">
+                    <p className="mt-2 flex-1 text-sm leading-6 text-secondary">
                       {listing.description}
                     </p>
 
                     {listing.city && (
-                      <p className="mt-2 text-xs text-white/40">
+                      <p className="mt-2 text-xs text-secondary">
                         {[listing.city, listing.state, listing.zip].filter(Boolean).join(", ")}
                       </p>
                     )}
 
                     <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
-                      <span className="text-xs text-white/40">
+                      <span className="text-xs text-secondary">
                         {new Date(listing.created_at).toLocaleDateString()}
                       </span>
                       {user && user.id === listing.user_id ? (
@@ -584,7 +584,7 @@ export default function MarketplacePage() {
                               .eq("id", listing.id);
                             fetchListings();
                           }}
-                          className="text-xs font-bold text-white/50 transition hover:text-red-400"
+                          className="text-xs font-bold text-secondary transition hover:text-accent-hover"
                         >
                           Mark sold
                         </button>
@@ -600,12 +600,12 @@ export default function MarketplacePage() {
                               const priceInWTC = ethers.parseUnits(wtcValue.toFixed(18).replace(/0+$/, "").replace(/\.$/, ""), 18);
                               setBuyListing({ listing, priceInWTC: priceInWTC.toString() });
                             }}
-                            className="min-h-[44px] rounded-lg bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-5 py-2 text-sm font-bold text-black disabled:cursor-not-allowed disabled:opacity-50"
+                            className="min-h-[44px] rounded-lg bg-gradient-to-br from-accent-hover to-accent px-5 py-2 text-sm font-bold text-black disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             Buy
                           </button>
                         ) : listing.delivery_method === "local_pickup" ? null : !listing.seller_wallet ? (
-                          <span className="text-xs text-red-400">Seller has not set a payout wallet</span>
+                          <span className="text-xs text-accent-hover">Seller has not set a payout wallet</span>
                         ) : null
                       )}
                     </div>

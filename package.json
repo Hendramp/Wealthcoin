@@ -2,6 +2,7 @@
   "name": "officialwealthcoin-2",
   "private": true,
   "version": "1.0.0",
+  "author": "WealthCoin Solutions",
   "type": "module",
   "scripts": {
     "dev": "vite",

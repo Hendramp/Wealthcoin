@@ -30,12 +30,12 @@ export default function StewardsJourney() {
   ];
 
   return (
-    <section id="foundation" className="py-24 px-6 bg-[#0A0A0A]">
+    <section id="foundation" className="py-24 px-6 bg-base">
       <div className="max-w-7xl mx-auto">
 
         <div className="text-center mb-16">
 
-          <p className="uppercase tracking-[0.4em] text-[#D4AF37] text-sm">
+          <p className="uppercase tracking-[0.4em] text-accent text-sm">
             WealthCoin Foundation
           </p>
 
@@ -43,7 +43,7 @@ export default function StewardsJourney() {
             Stewardship Begins With Understanding
           </h2>
 
-          <p className="max-w-3xl mx-auto text-white/70 text-lg leading-8">
+          <p className="max-w-3xl mx-auto text-secondary text-lg leading-8">
             Before participating in Genesis, we encourage every visitor to
             understand the mission of the Foundation, learn how to safely
             steward digital assets, and explore the long-term vision of the
@@ -65,11 +65,11 @@ export default function StewardsJourney() {
                 {resource.icon}
               </div>
 
-              <h3 className="font-display text-2xl text-[#D4AF37] mb-4">
+              <h3 className="font-display text-2xl text-accent mb-4">
                 {resource.title}
               </h3>
 
-              <p className="text-white/70 leading-7 flex-grow">
+              <p className="text-secondary leading-7 flex-grow">
                 {resource.text}
               </p>
 

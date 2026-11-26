@@ -131,42 +131,42 @@ export default function AdminQueuePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#07110d] p-8 text-white">
-        <p className="text-white/50">Loading moderation queue…</p>
+      <div className="min-h-screen bg-surface p-8 text-white">
+        <p className="text-secondary">Loading moderation queue…</p>
       </div>
     );
   }
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-[#07110d] p-8 text-white">
-        <p className="text-white/70">You don't have access to this page.</p>
+      <div className="min-h-screen bg-surface p-8 text-white">
+        <p className="text-secondary">You don't have access to this page.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#07110d] p-8 text-white">
+    <div className="min-h-screen bg-surface p-8 text-white">
       <Link
         to="/marketplace"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-[#D4AF37] transition hover:text-[#e6c55a]"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-accent transition hover:text-accent-hover"
       >
         ← Back to Marketplace
       </Link>
 
-      <h1 className="mb-6 font-display text-2xl font-bold text-[#D4AF37]">
+      <h1 className="mb-6 font-display text-2xl font-bold text-accent">
         Moderation Queue
       </h1>
 
       {actionMsg && (
-        <p className="mb-4 rounded-lg border border-[#D4AF37]/25 bg-black/40 p-3 text-sm text-[#D4AF37]">
+        <p className="mb-4 rounded-lg border border-accent/25 bg-black/40 p-3 text-sm text-accent">
           {actionMsg}
         </p>
       )}
 
       {queue.length === 0 ? (
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-center">
-          <p className="text-white/70">No pending listings. You're all caught up.</p>
+          <p className="text-secondary">No pending listings. You're all caught up.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -180,16 +180,16 @@ export default function AdminQueuePage() {
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-display text-lg font-bold">{listing.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-white/60">
+                    <p className="mt-1 text-sm leading-6 text-secondary">
                       {listing.description}
                     </p>
                   </div>
-                  <span className="shrink-0 rounded-full bg-[#D4AF37]/10 px-3 py-1 text-xs font-bold text-[#D4AF37]">
+                  <span className="shrink-0 rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
                     {CATEGORY_LABELS[listing.category] ?? listing.category}
                   </span>
                 </div>
 
-                <div className="mb-4 grid grid-cols-2 gap-2 text-sm text-white/50 sm:grid-cols-4">
+                <div className="mb-4 grid grid-cols-2 gap-2 text-sm text-secondary sm:grid-cols-4">
                   <span>{listing.price_wtc} WTC</span>
                   <span>{DELIVERY_LABELS[listing.delivery_method] ?? listing.delivery_method}</span>
                   {listing.city && (
@@ -203,19 +203,19 @@ export default function AdminQueuePage() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleAction(listing.id, item.id, "approve")}
-                    className="rounded-xl bg-[#2a6b3f] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#357c4e]"
+                    className="rounded-xl bg-accent/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-accent/10"
                   >
                     Approve
                   </button>
                   <button
                     onClick={() => handleAction(listing.id, item.id, "remove")}
-                    className="rounded-xl bg-[#6b3f2a] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#7c4e35]"
+                    className="rounded-xl bg-accent/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-accent/10"
                   >
                     Remove
                   </button>
                   <button
                     onClick={() => handleAction(listing.id, item.id, "ban")}
-                    className="rounded-xl bg-[#6b2a2a] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#7c3535]"
+                    className="rounded-xl bg-accent/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-accent/10"
                   >
                     Ban
                   </button>

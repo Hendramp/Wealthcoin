@@ -1,5 +1,7 @@
 # WealthCoin Marketplace Escrow
 
+**Author:** WealthCoin Solutions
+
 ## Contracts
 
 The marketplace uses the deployed Polygon mainnet contracts:

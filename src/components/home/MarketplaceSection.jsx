@@ -9,13 +9,13 @@ export default function MarketplaceSection() {
     >
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-white/5 p-8 text-center sm:p-12">
-          <p className="text-xs uppercase tracking-[0.25em] text-[#D4AF37]">
+          <p className="text-xs uppercase tracking-[0.25em] text-accent">
             The Marketplace
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
             Buy, Sell & List in WTC
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/60">
+          <p className="mx-auto mt-4 max-w-xl text-secondary">
             A space for stewards to trade goods and services using WealthCoin —
             the currency of the ecosystem.
           </p>

@@ -49,23 +49,23 @@ export default function Lesson3() {
       {/* Back to Academy */}
       <a
         href="/academy"
-        className="mb-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-[#D4AF37] transition-colors hover:text-white"
+        className="mb-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-accent transition-colors hover:text-white"
       >
         ← Back to Academy
       </a>
 
       {/* Header */}
       <header className="mb-16 text-center sm:mb-20">
-        <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-accent">
           Lesson 3 · The Journey of the Stewards
         </p>
         <h2 className="mt-5 font-display text-4xl leading-tight text-white sm:text-6xl">
           Faithful Stewardship
         </h2>
-        <p className="mt-4 text-base font-bold uppercase tracking-[0.3em] text-[#D4AF37]/60">
+        <p className="mt-4 text-base font-bold uppercase tracking-[0.3em] text-accent-hover">
           Luke 19 — JUB
         </p>
-        <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+        <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-accent to-transparent" />
       </header>
 
       {/* The Setup */}
@@ -74,17 +74,17 @@ export default function Lesson3() {
           A nobleman was going away to receive a kingdom — but before he left, he
           called ten of his servants and gave each of them one mina.
         </p>
-        <p className="mt-8 text-xl italic text-[#D4AF37] sm:text-2xl">
+        <p className="mt-8 text-xl italic text-accent sm:text-2xl">
           “Occupy till I come.”
-          <span className="ml-3 block text-sm font-bold uppercase tracking-wider not-italic text-white/40 sm:inline">
+          <span className="ml-3 block text-sm font-bold uppercase tracking-wider not-italic text-secondary sm:inline">
             Luke 19:13 — JUB
           </span>
         </p>
-        <div className="mt-10 h-px w-full bg-[#D4AF37]/20" />
-        <p className="mt-10 text-lg leading-8 text-white/60 sm:text-xl sm:leading-9">
+        <div className="mt-10 h-px w-full bg-accent/20" />
+        <p className="mt-10 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
           Equal resources. Equal charge. One journey ahead of you.
           <br />
-          <span className="mt-2 block text-white/90">
+          <span className="mt-2 block text-primary">
             The question isn't how much you were given. It's what you do with it.
           </span>
         </p>
@@ -100,14 +100,14 @@ export default function Lesson3() {
           {paths.map((p) => (
             <div
               key={p.id}
-              className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-colors duration-300 hover:border-[#D4AF37]/40"
+              className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-colors duration-200 hover:border-accent/40"
             >
               <button
                 onClick={() => toggle(p.id)}
                 className="flex w-full items-center justify-between gap-6 px-8 py-7 text-left sm:px-10"
               >
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#D4AF37]">
+                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-accent">
                     {p.door}
                   </p>
                   <p className="mt-2 font-display text-2xl text-white sm:text-3xl">
@@ -115,7 +115,7 @@ export default function Lesson3() {
                   </p>
                 </div>
                 <span
-                  className={`text-4xl text-[#D4AF37] transition-transform duration-300 ${
+                  className={`text-4xl text-accent transition-transform duration-200 ${
                     open === p.id ? "rotate-45" : ""
                   }`}
                 >
@@ -125,21 +125,21 @@ export default function Lesson3() {
 
               {open === p.id && (
                 <div className="border-t border-white/10 px-8 py-8 sm:px-10 sm:py-10">
-                  <p className="text-lg leading-8 text-white/70">{p.action}</p>
-                  <div className="mt-8 rounded-2xl border border-[#D4AF37]/25 bg-[#D4AF37]/5 p-8 sm:p-10">
-                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#D4AF37]">
+                  <p className="text-lg leading-8 text-secondary">{p.action}</p>
+                  <div className="mt-8 rounded-2xl border border-accent/25 bg-accent/5 p-8 sm:p-10">
+                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-accent">
                       The Verdict
                     </p>
                     <p className="mt-4 font-display text-2xl text-white sm:text-3xl">
                       {p.verdict}
                     </p>
-                    <p className="mt-5 text-xl italic leading-relaxed text-[#D4AF37]">
+                    <p className="mt-5 text-xl italic leading-relaxed text-accent">
                       {p.verse}
-                      <span className="mt-2 block text-sm font-bold uppercase tracking-wider not-italic text-white/40">
+                      <span className="mt-2 block text-sm font-bold uppercase tracking-wider not-italic text-secondary">
                         {p.ref}
                       </span>
                     </p>
-                    <p className="mt-6 text-lg leading-8 text-white/60">
+                    <p className="mt-6 text-lg leading-8 text-secondary">
                       {p.outcome}
                     </p>
                   </div>
@@ -149,15 +149,15 @@ export default function Lesson3() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-lg italic text-white/50">
+        <p className="mt-10 text-center text-lg italic text-secondary">
           The napkin is the real warning. We do not walk in fear, but we do walk in faithfulness. The question is not whether you will be judged — the question is whether you will be found faithful.
         </p>
       </div>
 
       {/* The Turn — where all paths converge */}
       <div className="relative mb-16">
-        <div className="absolute left-1/2 top-0 h-14 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-[#D4AF37]/50" />
-        <p className="mb-12 pt-20 text-center text-sm font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
+        <div className="absolute left-1/2 top-0 h-14 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-accent/50" />
+        <p className="mb-12 pt-20 text-center text-sm font-bold uppercase tracking-[0.3em] text-accent">
           Every Path Converges Here
         </p>
 
@@ -165,22 +165,22 @@ export default function Lesson3() {
           <h3 className="font-display text-3xl text-white sm:text-4xl">
             The Weight
           </h3>
-          <p className="mt-6 text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+          <p className="mt-6 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
             Here's the part we don't like to sit with: the master in this parable
             is <span className="text-white">stern</span>. He reaps what he didn't
             sow. And the accounting is real — every one of us will answer for what
             we did with what was entrusted.
           </p>
-          <p className="mt-6 text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+          <p className="mt-6 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
             And the third steward's excuse cuts deepest of all:
           </p>
-          <p className="mt-6 text-xl italic text-[#D4AF37] sm:text-2xl">
+          <p className="mt-6 text-xl italic text-accent sm:text-2xl">
             “I feared thee, because thou art an austere man.”
-            <span className="mt-2 block text-sm font-bold uppercase tracking-wider not-italic text-white/40">
+            <span className="mt-2 block text-sm font-bold uppercase tracking-wider not-italic text-secondary">
               Luke 19:21 — JUB
             </span>
           </p>
-          <p className="mt-6 text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+          <p className="mt-6 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
             Fear is what buried the mina. Fear of the master. Fear of getting it
             wrong. Fear that the standard was too high. And that fear is... honest.
             Because if the standard is the law, none of us stewards it well enough.
@@ -191,36 +191,36 @@ export default function Lesson3() {
 
       {/* The Finished Work */}
       <div className="relative mb-16">
-        <div className="absolute left-1/2 top-0 h-14 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-[#D4AF37]/50" />
-        <div className="rounded-3xl border border-[#D4AF37]/30 bg-gradient-to-b from-[#D4AF37]/10 to-transparent p-8 sm:p-12">
+        <div className="absolute left-1/2 top-0 h-14 w-px -translate-x-1/2 bg-gradient-to-b from-transparent to-accent/50" />
+        <div className="rounded-3xl border border-accent/30 bg-gradient-to-b from-accent/10 to-transparent p-8 sm:p-12">
           <h3 className="font-display text-3xl text-white sm:text-4xl">
             The Finished Work
           </h3>
-          <p className="mt-6 text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+          <p className="mt-6 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
             But this is where the story doesn't end the way the parable does —
             because there is one who stood in the judgment for you.
           </p>
-          <p className="mt-8 text-xl italic leading-relaxed text-[#D4AF37] sm:text-2xl sm:leading-relaxed">
+          <p className="mt-8 text-xl italic leading-relaxed text-accent sm:text-2xl sm:leading-relaxed">
             “When Jesus therefore had received the vinegar, he said, It is
             finished: and he bowed his head, and gave up the ghost.”
-            <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-white/40">
+            <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-secondary">
               John 19:30 — JUB
             </span>
           </p>
-          <p className="mt-8 text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+          <p className="mt-8 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
             The stern master reaps what he did not sow. But on the cross, Christ{" "}
             <span className="text-white">sowed</span> what he did not reap — he
             took the judgment we earned, so that the accounting doesn't fall on
             us.
           </p>
-          <p className="mt-8 text-xl italic leading-relaxed text-[#D4AF37] sm:text-2xl sm:leading-relaxed">
+          <p className="mt-8 text-xl italic leading-relaxed text-accent sm:text-2xl sm:leading-relaxed">
             “There is therefore now no condemnation to those who are in Christ
             Jesus.”
-            <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-white/40">
+            <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-secondary">
               Romans 8:1 — JUB
             </span>
           </p>
-          <p className="mt-8 text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+          <p className="mt-8 text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
             The finished work changes everything. The fear that buried the mina is
             removed. You're not stewarding to earn the master's approval anymore —
             you're stewarding out of gratitude, because you've already been
@@ -231,7 +231,7 @@ export default function Lesson3() {
 
       {/* The Charge */}
       <div className="rounded-3xl bg-white/5 p-10 text-center sm:p-16">
-        <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-accent">
           The Charge
         </p>
         <p className="mt-8 text-2xl leading-relaxed text-white sm:text-3xl">
@@ -240,25 +240,25 @@ export default function Lesson3() {
           <br />
           <span className="mt-3 block">The gospel says the fear is gone.</span>
         </p>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/70 sm:text-xl sm:leading-9">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-secondary sm:text-xl sm:leading-9">
           So now you're free to do the one thing fear made impossible — put the
           mina to work.
         </p>
-        <div className="mx-auto mt-10 max-w-md space-y-4 text-lg text-white/60 sm:text-xl">
+        <div className="mx-auto mt-10 max-w-md space-y-4 text-lg text-secondary sm:text-xl">
           <p>Not to be saved. Because you already are.</p>
           <p>Not to earn. Because it is finished.</p>
           <p>Not out of fear. Out of faithfulness.</p>
         </div>
-        <div className="mx-auto mt-12 h-px w-2/3 bg-[#D4AF37]/25" />
-        <p className="mt-12 text-xl italic text-[#D4AF37] sm:text-2xl">
+        <div className="mx-auto mt-12 h-px w-2/3 bg-accent/25" />
+        <p className="mt-12 text-xl italic text-accent sm:text-2xl">
           “Moreover it is required of stewards, that a man be found faithful.”
-          <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-white/40">
+          <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-secondary">
             1 Corinthians 4:2 — JUB
           </span>
         </p>
-        <p className="mt-10 text-xl italic text-[#D4AF37] sm:text-2xl">
+        <p className="mt-10 text-xl italic text-accent sm:text-2xl">
           “He that is faithful in that which is least is faithful also in much.”
-          <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-white/40">
+          <span className="mt-3 block text-sm font-bold uppercase tracking-wider not-italic text-secondary">
             Luke 16:10 — JUB
           </span>
         </p>

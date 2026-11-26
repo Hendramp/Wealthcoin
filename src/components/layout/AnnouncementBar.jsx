@@ -52,14 +52,14 @@ export default function AnnouncementBar() {
 
   return (
     <div className="relative">
-      <div className="absolute left-3 top-[4.75rem] z-40 w-[min(520px,calc(100vw-1.5rem))] rounded-2xl border-2 border-[#D4AF37]/40 bg-[#071009]/95 p-5 pr-12 shadow-2xl backdrop-blur sm:left-4 sm:top-24 sm:p-6">
-        <p className="text-base font-medium leading-7 text-white/90">
+      <div className="absolute left-3 top-[4.75rem] z-40 w-[min(520px,calc(100vw-1.5rem))] rounded-2xl border-2 border-accent/40 bg-surface/95 p-5 pr-12 shadow-2xl backdrop-blur sm:left-4 sm:top-24 sm:p-6">
+        <p className="text-base font-medium leading-7 text-primary">
           {active.text}
         </p>
         {active.href && (
           <a
             href={active.href}
-            className="mt-3 inline-flex min-h-[44px] items-center rounded-xl bg-[#D4AF37] px-5 py-2.5 text-sm font-bold text-black transition hover:bg-[#e8c65a]"
+            className="mt-3 inline-flex min-h-[44px] items-center rounded-xl bg-accent px-5 py-2.5 text-sm font-bold text-black transition hover:bg-accent-hover"
           >
             {active.cta} →
           </a>
@@ -68,7 +68,7 @@ export default function AnnouncementBar() {
         <button
           type="button"
           onClick={dismiss}
-          className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-full bg-black/40 text-white/60 transition hover:text-white"
+          className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-full bg-black/40 text-secondary transition hover:text-white"
           aria-label="Dismiss announcement"
         >
           <svg

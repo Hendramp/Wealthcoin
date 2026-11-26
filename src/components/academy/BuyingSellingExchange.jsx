@@ -12,7 +12,7 @@ function Section({ title, children }) {
       >
         <span className="font-display text-lg text-white sm:text-xl">{title}</span>
         <span
-          className={`shrink-0 text-[#D4AF37] transition-transform duration-200 ${
+          className={`shrink-0 text-accent transition-transform duration-200 ${
             open ? "rotate-45" : ""
           }`}
         >
@@ -23,7 +23,7 @@ function Section({ title, children }) {
       </button>
       {open && (
         <div className="border-t border-white/10 px-6 py-6">
-          <div className="space-y-4 text-base leading-8 text-white/70">{children}</div>
+          <div className="space-y-4 text-base leading-8 text-secondary">{children}</div>
         </div>
       )}
     </div>
@@ -32,32 +32,32 @@ function Section({ title, children }) {
 
 export default function BuyingSellingExchange() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
+    <main className="relative min-h-screen overflow-hidden bg-base px-4 pb-20 pt-8 text-white sm:px-6">
+      <div className="pointer-events-none absolute inset-0 bg-ambient" />
       <div className="relative z-10 mx-auto max-w-3xl">
         <Link
           to="/academy/lesson/buying-selling"
-          className="inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-[#D4AF37]"
+          className="inline-flex items-center gap-2 text-sm text-secondary transition hover:text-accent"
         >
           <span aria-hidden="true">←</span>
           Back
         </Link>
 
-        <p className="mt-8 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+        <p className="mt-8 text-xs font-bold uppercase tracking-[0.22em] text-accent">
           Lesson 5 · The Exchange Road
         </p>
         <h1 className="mt-2 font-display text-3xl text-white sm:text-4xl">
           Centralized Exchanges, In Depth
         </h1>
-        <p className="mt-4 text-base leading-7 text-white/60">
+        <p className="mt-4 text-base leading-7 text-secondary">
           Tap a topic to learn it — go at your own pace.
         </p>
 
-        <div className="mt-8 rounded-3xl border border-[#D4AF37]/15 bg-[#D4AF37]/5 p-6 sm:p-8">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+        <div className="mt-8 rounded-3xl border border-accent/15 bg-accent/5 p-6 sm:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
             Important — send your assets to OKX or whatever wallet you chose.
           </p>
-          <p className="mt-3 text-sm leading-7 text-white/70">
+          <p className="mt-3 text-sm leading-7 text-secondary">
             This road ends sending crypto to your self-custody wallet. After you
             acquire crypto here, make sure you <strong className="text-white">send
             your assets to your wallet</strong> (the one you created in Lesson
@@ -202,14 +202,14 @@ export default function BuyingSellingExchange() {
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             to="/academy/lesson/buying-selling"
-            className="inline-flex items-center justify-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-white/70 transition hover:border-[#D4AF37]/50 hover:text-white"
+            className="inline-flex items-center justify-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-secondary transition hover:border-accent/50 hover:text-white"
           >
             <span aria-hidden="true">←</span>
             Back to the fork
           </Link>
           <Link
             to="/academy/lesson/buying-selling-core"
-            className="inline-flex items-center justify-center gap-2 rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-6 py-4 text-sm font-semibold text-[#D4AF37] transition hover:border-[#D4AF37] hover:text-white"
+            className="inline-flex items-center justify-center gap-2 rounded-3xl border border-accent/40 bg-accent/10 px-6 py-4 text-sm font-semibold text-accent transition hover:border-accent hover:text-white"
           >
             Continue to the technical core
             <span aria-hidden="true">→</span>

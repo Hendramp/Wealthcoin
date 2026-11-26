@@ -79,38 +79,38 @@ export default function AcademyPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
+    <main className="relative min-h-screen overflow-hidden bg-base px-4 pb-20 pt-8 text-white sm:px-6">
       {/* Background atmosphere */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-ambient" />
 
       <div className="relative z-10 mx-auto max-w-4xl">
         {/* Back to WealthCoin */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-[#D4AF37]"
+          className="inline-flex items-center gap-2 text-sm text-secondary transition hover:text-accent"
         >
           <span aria-hidden="true">←</span>
           Back to WealthCoin
         </Link>
 
         {/* Academy header */}
-        <header className="mt-10 border-b border-[#D4AF37]/15 pb-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#D4AF37]">
+        <header className="mt-10 border-b border-accent/15 pb-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent">
             WealthCoin Academy
           </p>
           <h1 className="mt-4 font-display text-4xl font-bold uppercase leading-tight sm:text-5xl">
             Learn to Steward
             <span className="gold-text block">Digital Assets Wisely</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-            The Academy is <span className="font-semibold text-[#D4AF37]">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with,and participate with confidence.
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-secondary sm:text-base">
+            The Academy is <span className="font-semibold text-accent">100% free, forever</span> — practical education rooted in faithful stewardship. Understand blockchain, protect what you've been entrusted with,and participate with confidence.
           </p>
           <p className="mx-auto mt-6 max-w-2xl font-display text-2xl font-bold leading-snug text-white sm:text-3xl">
             Everyone learns differently.
 
             <span className="gold-text block">Go at your own pace.</span>
           </p>
-          <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+          <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-accent to-transparent" />
         </header>
 
         {/* Lesson list */}
@@ -127,28 +127,28 @@ export default function AcademyPage() {
                 aria-disabled={!ready}
                 className={`group block w-full rounded-3xl border border-white/10 bg-white/5 p-6 text-left transition sm:p-7 ${
                   ready
-                    ? "hover:border-[#D4AF37]/50 hover:bg-white/[0.06]"
+                    ? "hover:border-accent/50 hover:bg-white/[0.06]"
                     : "cursor-not-allowed opacity-60"
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <div className="flex flex-wrap items-center gap-3">
-                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
                         Lesson {lesson.number}
                       </p>
                       {!ready && (
-                        <span className="rounded-full border border-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/50">
+                        <span className="rounded-full border border-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-secondary">
                           Coming Soon
                         </span>
                       )}
                       {gated && (
-                        <span className="rounded-full border border-[#D4AF37]/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#D4AF37]">
+                        <span className="rounded-full border border-accent/40 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent">
                           Free with Email
                         </span>
                       )}
                       {lesson.slug === "wallet-safety" && (
-                        <span className="rounded-full border border-purple-400/60 bg-purple-500/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-purple-300">
+                        <span className="rounded-full border border-accent/60 bg-accent/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent-hover">
                           Begin Here
                         </span>
                       )}
@@ -156,7 +156,7 @@ export default function AcademyPage() {
                     <h2 className="mt-2 font-display text-xl text-white sm:text-2xl">
                       {lesson.title}
                     </h2>
-                    <p className="mt-2 text-sm leading-7 text-white/60">
+                    <p className="mt-2 text-sm leading-7 text-secondary">
                       {lesson.description}
                     </p>
                   </div>
@@ -167,26 +167,26 @@ export default function AcademyPage() {
         </div>
 
         {/* Stewardship footer */}
-        <footer className="mt-16 rounded-3xl border border-[#D4AF37]/15 bg-[#D4AF37]/5 p-8 text-center">
-          <p className="text-sm italic leading-7 text-white/70">
+        <footer className="mt-16 rounded-3xl border border-accent/15 bg-accent/5 p-8 text-center">
+          <p className="text-sm italic leading-7 text-secondary">
             "Certainly there is a spirit in man, and the inspiration of the Almighty gives them understanding."
           </p>
-          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-accent">
             Job 32:8 — JUB
           </p>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/50">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-secondary">
             Everything we're entrusted with is meant to be cared for and kept. The Academy exists to help you do exactly that.
           </p>
-          <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-white/50">
+          <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-secondary">
             Need a hand? Reach out anytime — we're happy to help you along the way.{" "}
             <a
               href="mailto:WTCteam@outlook.com"
-              className="font-semibold text-[#D4AF37] underline underline-offset-2 hover:text-white"
+              className="font-semibold text-accent underline underline-offset-2 hover:text-white"
             >
               WTCteam@outlook.com
             </a>
           </p>
-          <p className="mx-auto mt-6 max-w-2xl border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
+          <p className="mx-auto mt-6 max-w-2xl border-t border-white/10 pt-6 text-xs leading-6 text-secondary">
             Disclaimer: The WealthCoin Academy is educational content only — not financial, legal, or tax advice. Crypto regulations vary by country,and it's not just based on where your home is — it's about where the transaction takes place. The responsibility is on you to know the rules where you act. Always do your own research before putting money into anything.{" "}
           </p>
         </footer>

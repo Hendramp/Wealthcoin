@@ -12,7 +12,7 @@ function Section({ title, children }) {
       >
         <span className="font-display text-lg text-white sm:text-xl">{title}</span>
         <span
-          className={`shrink-0 text-[#D4AF37] transition-transform duration-200 ${
+          className={`shrink-0 text-accent transition-transform duration-200 ${
             open ? "rotate-45" : ""
           }`}
         >
@@ -23,7 +23,7 @@ function Section({ title, children }) {
       </button>
       {open && (
         <div className="border-t border-white/10 px-6 py-6">
-          <div className="space-y-4 text-base leading-8 text-white/70">{children}</div>
+          <div className="space-y-4 text-base leading-8 text-secondary">{children}</div>
         </div>
       )}
     </div>
@@ -38,11 +38,11 @@ function AssetCard({ name, tagline, children }) {
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition hover:bg-white/5"
       >
-        <span className="font-display text-lg text-[#D4AF37]">{name}</span>
+        <span className="font-display text-lg text-accent">{name}</span>
         <span className="flex items-center gap-3">
-          <span className="text-sm text-white/50">{tagline}</span>
+          <span className="text-sm text-secondary">{tagline}</span>
           <span
-            className={`shrink-0 text-[#D4AF37] transition-transform duration-200 ${
+            className={`shrink-0 text-accent transition-transform duration-200 ${
               open ? "rotate-45" : ""
             }`}
           >
@@ -54,7 +54,7 @@ function AssetCard({ name, tagline, children }) {
       </button>
       {open && (
         <div className="border-t border-white/10 px-4 py-4">
-          <div className="text-base leading-8 text-white/70">{children}</div>
+          <div className="text-base leading-8 text-secondary">{children}</div>
         </div>
       )}
     </div>
@@ -63,24 +63,24 @@ function AssetCard({ name, tagline, children }) {
 
 export default function Lesson6() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
+    <main className="relative min-h-screen overflow-hidden bg-base px-4 pb-20 pt-8 text-white sm:px-6">
+      <div className="pointer-events-none absolute inset-0 bg-ambient" />
       <div className="relative z-10 mx-auto max-w-3xl">
         <Link
           to="/academy"
-          className="inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-[#D4AF37]"
+          className="inline-flex items-center gap-2 text-sm text-secondary transition hover:text-accent"
         >
           <span aria-hidden="true">←</span>
           Back to Academy
         </Link>
 
-        <p className="mt-8 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+        <p className="mt-8 text-xs font-bold uppercase tracking-[0.22em] text-accent">
           Lesson 6 · Crypto, the Big Picture
         </p>
         <h1 className="mt-2 font-display text-3xl text-white sm:text-4xl">
           Know What You're Holding
         </h1>
-        <p className="mt-4 text-base leading-7 text-white/60">
+        <p className="mt-4 text-base leading-7 text-secondary">
           There are countless coins out there — more than anyone can track. Some
           built for real reasons, some for no reason at all, some straight-up
           traps. That's why this lesson exists: know what you're putting your
@@ -89,15 +89,15 @@ export default function Lesson6() {
 
         <div className="mt-8 space-y-10">
           {/* ——— The Workhorses: Stablecoins ——— */}
-          <div className="overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-gradient-to-b from-[#D4AF37]/10 to-transparent">
+          <div className="overflow-hidden rounded-3xl border border-accent/30 bg-gradient-to-b from-accent/10 to-transparent">
             <div className="border-b border-white/10 px-6 py-5">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
                 The Workhorses
               </p>
               <h2 className="mt-1 font-display text-2xl text-white">
                 Stablecoins — the digital dollar
               </h2>
-              <p className="mt-2 text-sm text-white/60">
+              <p className="mt-2 text-sm text-secondary">
                 The assets that don't move. What they are, how they hold their value,and
                 why they're the everyday workhorse of crypto. Tap a section to learn it.
               </p>
@@ -194,13 +194,13 @@ export default function Lesson6() {
           {/* ——— The Movers: Volatile Assets ——— */}
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent">
             <div className="border-b border-white/10 px-6 py-5">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
                 The Movers
               </p>
               <h2 className="mt-1 font-display text-2xl text-white">
                 Volatile Assets — where the price actually moves
               </h2>
-              <p className="mt-2 text-sm text-white/60">
+              <p className="mt-2 text-sm text-secondary">
                 Each one was built for a reason. Tap a coin to learn what that reason is.
               </p>
             </div>
@@ -258,12 +258,12 @@ export default function Lesson6() {
           </div>
 
           {/* ——— Why This Matters (full-width callout) ——— */}
-          <div className="rounded-3xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-6 py-6">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+          <div className="rounded-3xl border border-accent/40 bg-accent/10 px-6 py-6">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
               The Point
             </p>
             <h2 className="mt-1 font-display text-2xl text-white">Why This Matters</h2>
-            <div className="mt-4 space-y-4 text-base leading-8 text-white/70">
+            <div className="mt-4 space-y-4 text-base leading-8 text-secondary">
               <p>
                 <strong className="text-white">
                   There are countless coins out there — know what you're holding.{" "}
@@ -287,7 +287,7 @@ export default function Lesson6() {
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             to="/academy"
-            className="inline-flex items-center justify-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-white/70 transition hover:border-[#D4AF37]/50 hover:text-white"
+            className="inline-flex items-center justify-center gap-2 rounded-3xl border border-white/10 bg-white/5 px-6 py-4 text-sm font-semibold text-secondary transition hover:border-accent/50 hover:text-white"
           >
             <span aria-hidden="true">←</span>
             Back to Academy

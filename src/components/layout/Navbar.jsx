@@ -13,7 +13,6 @@ const links = [
   { label: "Home", href: "/#home" },
   { label: "Foundation", href: "/#foundation" },
   { label: "Academy", href: "/academy" },
-  { label: "Founder", href: "/founder" },
   { label: "Library", href: "/#library" },
   { label: "Tokenomics", href: "/tokenomics" },
   { label: "WTCS", href: "/wtcs" },
@@ -52,6 +51,9 @@ export default function Navbar() {
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+  const activeHref = location.pathname === "/"
+    ? `/#${location.hash.replace("#", "") || "home"}`
+    : location.pathname;
 
   useEffect(() => {
     // Handle hash navigation on mount (e.g. arriving at /#purchase)
@@ -74,10 +76,10 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.classList.toggle("scroll-locked", mobileOpen);
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("scroll-locked");
     };
   }, [mobileOpen]);
 
@@ -142,7 +144,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed left-0 top-0 z-50 w-full border-b border-[#D4AF37]/20 bg-black/90 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b border-border-subtle/30 bg-base/80 backdrop-blur-md">
         <AnnouncementBar />
 
         <div className="flex h-16 items-center justify-between gap-2 px-3 sm:h-20 sm:gap-4 sm:px-8 lg:px-10">
@@ -162,7 +164,7 @@ export default function Navbar() {
               />
             </div>
 
-            <span className="truncate font-display text-lg font-bold text-[#D4AF37] sm:text-2xl">
+            <span className="truncate font-display text-lg font-bold text-accent sm:text-2xl">
               WealthCoin
             </span>
           </Link>
@@ -173,7 +175,12 @@ export default function Navbar() {
                 key={link.label}
                 to={link.href}
                 onClick={() => handleNavClick(link)}
-                className="text-sm uppercase tracking-wide text-white/70 transition hover:text-[#D4AF37]"
+                className={`relative py-2 text-sm uppercase tracking-wide transition hover:text-accent ${
+                  activeHref === link.href
+                    ? "text-accent after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:bg-accent"
+                    : "text-secondary"
+                }`}
+                aria-current={activeHref === link.href ? "page" : undefined}
               >
                 {link.label}
               </Link>
@@ -193,7 +200,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={handleLogOut}
-                className="hidden min-h-[44px] rounded-xl border border-[#D4AF37]/25 bg-black/60 px-3 py-2.5 text-xs font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10 lg:block lg:px-4 lg:text-sm"
+                className="hidden min-h-[44px] rounded-button border border-border-subtle/40 bg-surface px-3 py-2.5 text-xs font-bold text-accent transition hover:bg-accent/10 lg:block lg:px-4 lg:text-sm"
               >
                 {user.username}
                 <span className="hidden sm:inline"> · Log out</span>
@@ -202,7 +209,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={openSignIn}
-                className="hidden min-h-[44px] items-center rounded-xl border border-[#D4AF37]/25 bg-black/60 px-3 py-2.5 text-xs font-bold text-[#D4AF37] transition hover:bg-[#D4AF37]/10 lg:flex lg:px-4 lg:text-sm"
+                className="hidden min-h-[44px] items-center rounded-button border border-border-subtle/40 bg-surface px-3 py-2.5 text-xs font-bold text-accent transition hover:bg-accent/10 lg:flex lg:px-4 lg:text-sm"
               >
                 Sign in
               </button>
@@ -221,7 +228,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMobileOpen((openState) => !openState)}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#D4AF37]/25 bg-black/60 text-[#D4AF37] transition active:scale-95 lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-button border border-border-subtle/40 bg-surface text-accent transition active:scale-95 lg:hidden"
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
@@ -248,7 +255,7 @@ export default function Navbar() {
         </div>
 
         <div
-          className={`fixed inset-x-0 top-16 z-40 h-[calc(100svh-4rem)] bg-black/70 backdrop-blur-sm transition sm:top-20 sm:h-[calc(100svh-5rem)] lg:hidden ${
+          className={`fixed inset-0 z-40 bg-base/95 backdrop-blur-md transition lg:hidden ${
             mobileOpen
               ? "pointer-events-auto opacity-100"
               : "pointer-events-none opacity-0"
@@ -258,12 +265,12 @@ export default function Navbar() {
         >
           <nav
             id="mobile-navigation"
-            className={`ml-auto h-full w-[min(86vw,360px)] overflow-y-auto border-l border-[#D4AF37]/20 bg-[#020403] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] shadow-2xl transition-transform duration-300 ${
+            className={`h-full w-full overflow-y-auto bg-base px-6 pb-8 pt-24 shadow-2xl transition-transform duration-200 ${
               mobileOpen ? "translate-x-0" : "translate-x-full"
             }`}
             onClick={(event) => event.stopPropagation()}
           >
-            <p className="mb-4 text-xs uppercase tracking-[0.25em] text-white/40">
+            <p className="mb-4 text-xs uppercase tracking-[0.25em] text-secondary">
               Navigate
             </p>
 
@@ -273,7 +280,7 @@ export default function Navbar() {
                   key={link.label}
                   to={link.href}
                   onClick={() => handleNavClick(link)}
-                  className="flex min-h-[50px] items-center justify-between rounded-xl border border-transparent px-4 text-sm font-semibold uppercase tracking-wide text-white/75 transition hover:border-[#D4AF37]/20 hover:bg-[#D4AF37]/5 hover:text-[#D4AF37]"
+                  className="flex min-h-[50px] items-center justify-between rounded-button border border-transparent px-4 text-sm font-semibold uppercase tracking-wide text-secondary transition hover:border-border-subtle/40 hover:bg-accent/5 hover:text-accent"
                 >
                   {link.label}
                   <span aria-hidden="true">→</span>
@@ -307,7 +314,7 @@ export default function Navbar() {
               </button>
             )}
 
-            <p className="mt-6 text-center text-xs leading-5 text-white/35">
+            <p className="mt-6 text-center text-xs leading-5 text-secondary">
               Built on Polygon with stewardship, transparency, and faith.
             </p>
           </nav>
@@ -321,19 +328,19 @@ export default function Navbar() {
             onClick={closeSignIn}
           >
             <div
-              className="max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#D4AF37]/20 bg-[#020403] p-5 shadow-2xl sm:p-8"
+              className="max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-accent/20 bg-base p-5 shadow-2xl sm:p-8"
               onClick={(event) => event.stopPropagation()}
             >
-              <h2 className="mb-1 font-display text-xl font-bold text-[#D4AF37]">
+              <h2 className="mb-1 font-display text-xl font-bold text-accent">
                 Sign in to WealthCoin
               </h2>
-              <p className="mb-6 text-sm text-white/50">
+              <p className="mb-6 text-sm text-secondary">
                 Sign in to list on the Marketplace, post in the Hub, and more.
               </p>
 
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
                     Email
                   </label>
                   <input
@@ -341,12 +348,12 @@ export default function Navbar() {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="you@example.com"
-                    className="min-h-[48px] w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                    className="min-h-[48px] w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/50">
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-secondary">
                     Password
                   </label>
                   <input
@@ -354,36 +361,36 @@ export default function Navbar() {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="••••••••"
-                    className="min-h-[48px] w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/30 transition focus:border-[#D4AF37]/50 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20"
+                    className="min-h-[48px] w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-base text-white placeholder:text-secondary transition focus:border-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/20"
                   />
                 </div>
 
-                {authError && <p className="text-sm text-red-400">{authError}</p>}
+                {authError && <p className="text-sm text-accent-hover">{authError}</p>}
 
                 <div className="flex gap-3">
                   <button
                     type="submit"
                     disabled={authLoading}
-                    className="min-h-[48px] flex-1 rounded-xl bg-gradient-to-br from-[#F0D878] to-[#B8860B] px-5 py-3 font-bold text-black transition hover:brightness-110 disabled:opacity-50"
+                    className="min-h-[48px] flex-1 rounded-xl bg-gradient-to-br from-accent-hover to-accent px-5 py-3 font-bold text-black transition hover:brightness-110 disabled:opacity-50"
                   >
                     {authLoading ? "Signing in…" : "Sign in"}
                   </button>
                   <button
                     type="button"
                     onClick={closeSignIn}
-                    className="min-h-[48px] rounded-xl border border-white/10 bg-black/40 px-5 py-3 font-bold text-white/60 transition hover:text-white/80"
+                    className="min-h-[48px] rounded-xl border border-white/10 bg-black/40 px-5 py-3 font-bold text-secondary transition hover:text-primary"
                   >
                     Cancel
                   </button>
                 </div>
               </form>
 
-              <p className="pt-4 text-center text-xs text-white/40">
+              <p className="pt-4 text-center text-xs text-secondary">
                 No account yet?{" "}
                 <Link
                   to="/hub"
                   onClick={closeSignIn}
-                  className="font-semibold text-[#D4AF37] hover:text-[#e6c55a]"
+                  className="font-semibold text-accent hover:text-accent-hover"
                 >
                   Create one on the Hub
                 </Link>

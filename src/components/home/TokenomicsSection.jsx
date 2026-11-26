@@ -6,7 +6,7 @@ const allocations = [
     percent: 30,
     amount: "300,000,000 WTC",
     shortAmount: "300M WTC",
-    color: "#D4AF37",
+    colorClass: "text-accent",
     description:
       "Supports community distribution through Genesis Early Access and future public offerings.",
   },
@@ -15,7 +15,7 @@ const allocations = [
     percent: 17,
     amount: "170,000,000 WTC",
     shortAmount: "170M WTC",
-    color: "#22C55E",
+    colorClass: "text-accent-hover",
     description:
       "Supports ecosystem development, operations, liquidity, security, and future initiatives.",
   },
@@ -24,7 +24,7 @@ const allocations = [
     percent: 15,
     amount: "150,000,000 WTC",
     shortAmount: "150M WTC",
-    color: "#84CC16",
+    colorClass: "text-secondary",
     description:
       "Reserved for charitable outreach, humanitarian projects, and community impact.",
   },
@@ -33,7 +33,7 @@ const allocations = [
     percent: 13,
     amount: "130,000,000 WTC",
     shortAmount: "130M WTC",
-    color: "#F59E0B",
+    colorClass: "text-accent",
     description:
       "Reserved for future staking rewards and long-term participation incentives.",
   },
@@ -42,7 +42,7 @@ const allocations = [
     percent: 12,
     amount: "120,000,000 WTC",
     shortAmount: "120M WTC",
-    color: "#8B5CF6",
+    colorClass: "text-accent-hover",
     description:
       "Allocated for long-term leadership, development, and continued ecosystem stewardship.",
   },
@@ -51,7 +51,7 @@ const allocations = [
     percent: 10,
     amount: "100,000,000 WTC",
     shortAmount: "100M WTC",
-    color: "#EF4444",
+    colorClass: "text-border-subtle",
     description:
       "Reserved for future permanent supply reduction through transparent token burns.",
   },
@@ -60,7 +60,7 @@ const allocations = [
     percent: 3,
     amount: "30,000,000 WTC",
     shortAmount: "30M WTC",
-    color: "#0EA5E9",
+    colorClass: "text-primary",
     description:
       "Supports responsible awareness, strategic partnerships, education, and community growth.",
   },
@@ -200,17 +200,17 @@ export default function TokenomicsSection() {
       resizeObserver.disconnect();
     };
   }, [activeIndex]);
-    return (
+  return (
     <section
       ref={sectionRef}
       id="tokenomics"
-      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#071009] px-6 py-20 text-white"
+      className="relative overflow-hidden border-t border-border-subtle/20 bg-surface px-6 py-20 text-primary"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.08),transparent_40%),radial-gradient(circle_at_90%_70%,rgba(24,85,48,0.10),transparent_35%)]" />
+      <div className="absolute inset-0 bg-ambient" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="text-center">
-          <p className="font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
+          <p className="font-display text-sm uppercase tracking-[0.4em] text-accent">
             WealthCoin Tokenomics
           </p>
 
@@ -218,14 +218,14 @@ export default function TokenomicsSection() {
             Designed for Long-Term Stewardship
           </h2>
 
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-8 text-white/65 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-3xl text-base leading-8 text-secondary sm:text-lg">
             Every allocation within WealthCoin has been intentionally designed
             to support responsible growth, transparency, community
             participation, and long-term ecosystem development.
           </p>
 
           <div className="mt-8">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#D4AF37]">
+            <p className="text-xs uppercase tracking-[0.3em] text-accent">
               Total Supply
             </p>
 
@@ -233,7 +233,7 @@ export default function TokenomicsSection() {
               1,000,000,000
             </h3>
 
-            <p className="mt-1 text-white/60">WTC</p>
+            <p className="mt-1 text-secondary">WTC</p>
           </div>
         </div>
 
@@ -273,24 +273,21 @@ export default function TokenomicsSection() {
                       ${line.controlX2} ${line.endY},
                       ${line.endX} ${line.endY}`}
                 fill="none"
-                stroke={activeAllocation.color}
+                stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeDasharray="8 6"
                 pathLength="1"
                 filter="url(#tokenomicsLineGlow)"
-                style={{
-                  strokeDasharray: 1,
-                  strokeDashoffset: 0,
-                  animation: "tokenomicsLineDraw 320ms ease-out",
-                }}
+                className={`${activeAllocation.colorClass} tokenomics-line-draw`}
               />
 
               <circle
                 cx={line.startX}
                 cy={line.startY}
                 r="4"
-                fill={activeAllocation.color}
+                fill="currentColor"
+                className={activeAllocation.colorClass}
                 filter="url(#tokenomicsLineGlow)"
               />
 
@@ -298,7 +295,8 @@ export default function TokenomicsSection() {
                 cx={line.endX}
                 cy={line.endY}
                 r="4"
-                fill={activeAllocation.color}
+                fill="currentColor"
+                className={activeAllocation.colorClass}
                 filter="url(#tokenomicsLineGlow)"
               />
             </svg>
@@ -309,7 +307,7 @@ export default function TokenomicsSection() {
               ref={chartRef}
               className="relative h-72 w-72 sm:h-80 sm:w-80"
             >
-              <div className="absolute inset-[7%] rounded-full border border-[#D4AF37]/20 shadow-[0_0_45px_rgba(212,175,55,0.10)]" />
+              <div className="absolute inset-[7%] rounded-full border border-border-subtle/20" />
 
               <div className="absolute inset-[12%] rounded-full border border-white/5" />
 
@@ -344,7 +342,8 @@ export default function TokenomicsSection() {
                   cy={CHART_CENTER}
                   r={CHART_RADIUS}
                   fill="none"
-                  stroke="rgba(255,255,255,0.04)"
+                  stroke="currentColor"
+                  className="text-secondary"
                   strokeWidth={CHART_STROKE + 8}
                 />
 
@@ -379,7 +378,14 @@ export default function TokenomicsSection() {
                       cy={CHART_CENTER}
                       r={CHART_RADIUS}
                       fill="none"
-                      stroke={allocation.color}
+                      stroke="currentColor"
+                      className={`${allocation.colorClass} cursor-pointer transition-all duration-200 ${
+                        chartVisible
+                          ? anotherIsActive
+                            ? "opacity-40"
+                            : "opacity-100"
+                          : "opacity-0"
+                      }`}
                       strokeWidth={
                         isActive
                           ? CHART_STROKE + 5
@@ -396,19 +402,6 @@ export default function TokenomicsSection() {
                           ? "url(#tokenomicsSliceGlow)"
                           : undefined
                       }
-                      className="cursor-pointer transition-all duration-300"
-                      style={{
-                        opacity: chartVisible
-                          ? anotherIsActive
-                            ? 0.42
-                            : 1
-                          : 0,
-                        transition:
-                          "opacity 650ms ease, stroke-width 250ms ease, transform 250ms ease",
-                        transitionDelay: chartVisible
-                          ? `${index * 75}ms`
-                          : "0ms",
-                      }}
                       onMouseEnter={() =>
                         setActiveIndex(index)
                       }
@@ -424,15 +417,7 @@ export default function TokenomicsSection() {
               </svg>
 
               <div
-                className="absolute inset-[29%] flex flex-col items-center justify-center rounded-full border bg-[#071009]/95 px-3 text-center shadow-[inset_0_0_24px_rgba(212,175,55,0.06),0_0_30px_rgba(0,0,0,0.40)] transition-all duration-300"
-                style={{
-                  borderColor: activeAllocation
-                    ? `${activeAllocation.color}66`
-                    : "rgba(212,175,55,0.20)",
-                  boxShadow: activeAllocation
-                    ? `inset 0 0 24px ${activeAllocation.color}12, 0 0 24px ${activeAllocation.color}22`
-                    : undefined,
-                }}
+                className="absolute inset-[29%] flex flex-col items-center justify-center rounded-full border border-border-subtle/25 bg-base px-3 text-center transition-all duration-200"
               >
                 <div
                   key={
@@ -440,34 +425,31 @@ export default function TokenomicsSection() {
                       ? activeAllocation.title
                       : "total-supply"
                   }
-                  className="flex flex-col items-center animate-[fadeIn_250ms_ease-out]"
+                  className="flex flex-col items-center animate-fade-in"
                 >
                   {activeAllocation ? (
                     <>
                       <span
-                        className="font-display text-3xl font-bold"
-                        style={{
-                          color: activeAllocation.color,
-                        }}
+                        className={`font-display text-3xl font-bold ${activeAllocation.colorClass}`}
                       >
                         {activeAllocation.percent}%
                       </span>
 
-                      <span className="mt-1 max-w-[120px] text-[9px] font-bold uppercase tracking-[0.16em] text-white/70">
+                      <span className="mt-1 max-w-[120px] text-[9px] font-bold uppercase tracking-[0.16em] text-secondary">
                         {activeAllocation.title}
                       </span>
 
-                      <span className="mt-2 text-[10px] font-semibold text-white/45">
+                      <span className="mt-2 text-[10px] font-semibold text-secondary">
                         {activeAllocation.shortAmount}
                       </span>
                     </>
                   ) : (
                     <>
-                      <span className="font-display text-3xl font-bold text-[#D4AF37]">
+                      <span className="font-display text-3xl font-bold text-accent">
                         1B
                       </span>
 
-                      <span className="mt-1 text-[10px] uppercase tracking-[0.22em] text-white/45">
+                      <span className="mt-1 text-[10px] uppercase tracking-[0.22em] text-secondary">
                         Total WTC
                       </span>
                     </>
@@ -499,85 +481,55 @@ export default function TokenomicsSection() {
                   tabIndex={0}
                   role="button"
                   aria-pressed={isActive}
-                  className={`group relative cursor-pointer overflow-hidden rounded-2xl border bg-black/35 p-4 outline-none transition-all duration-300 ${
+                  className={`group relative cursor-pointer overflow-hidden rounded-card border p-4 outline-none transition-all duration-200 ${
                     isActive
-                      ? "-translate-y-1 bg-black/65"
-                      : "border-[#D4AF37]/15 hover:-translate-y-1"
+                      ? "-translate-y-1 border-accent/60 bg-elevated"
+                      : "border-border-subtle/15 bg-surface hover:-translate-y-0.5"
                   } ${
                     anotherIsActive ? "opacity-50" : "opacity-100"
                   }`}
-                  style={{
-                    borderColor: isActive
-                      ? allocation.color
-                      : undefined,
-                    boxShadow: isActive
-                      ? `0 0 26px ${allocation.color}24`
-                      : undefined,
-                  }}
                 >
                   <div
-                    className={`absolute inset-x-0 top-0 h-[2px] transition-opacity duration-300 ${
+                    className={`absolute inset-x-0 top-0 h-[2px] bg-accent transition-opacity duration-200 ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
-                    style={{
-                      backgroundColor: allocation.color,
-                      boxShadow: `0 0 14px ${allocation.color}`,
-                    }}
                   />
 
                   <div
-                    className="absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20"
-                    style={{
-                      backgroundColor: allocation.color,
-                    }}
+                    className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/10 opacity-0 blur-2xl transition-opacity duration-200 group-hover:opacity-20"
+                    aria-hidden="true"
                   />
 
                   <div className="relative">
                     <div className="flex items-center gap-2">
-                      <span
-                        className="h-2.5 w-2.5 shrink-0 rounded-full transition-all duration-300"
-                        style={{
-                          backgroundColor: allocation.color,
-                          boxShadow: isActive
-                            ? `0 0 12px ${allocation.color}`
-                            : "none",
-                        }}
-                      />
+                      <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-accent" />
 
-                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/50">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-secondary">
                         {allocation.title}
                       </p>
                     </div>
 
                     <p
-                      className="mt-3 font-display text-2xl font-bold transition-colors duration-300"
-                      style={{
-                        color: isActive
-                          ? allocation.color
-                          : "#D4AF37",
-                      }}
+                      className={`mt-3 font-display text-2xl font-bold transition-colors duration-200 ${
+                        isActive ? allocation.colorClass : "text-accent"
+                      }`}
                     >
                       {allocation.percent}%
                     </p>
 
-                    <p className="mt-1 text-xs leading-5 text-white/55">
+                    <p className="mt-1 text-xs leading-5 text-secondary">
                       {allocation.amount}
                     </p>
 
                     <div
-                      className={`grid transition-all duration-300 ${
+                      className={`grid transition-all duration-200 ${
                         isActive
                           ? "mt-3 grid-rows-[1fr] opacity-100"
                           : "grid-rows-[0fr] opacity-0"
                       }`}
                     >
                       <div className="overflow-hidden">
-                        <p
-                          className="border-t pt-3 text-[11px] leading-5 text-white/55"
-                          style={{
-                            borderColor: `${allocation.color}33`,
-                          }}
-                        >
+                        <p className="border-t border-border-subtle/30 pt-3 text-[11px] leading-5 text-secondary">
                           {allocation.description}
                         </p>
                       </div>
@@ -590,18 +542,18 @@ export default function TokenomicsSection() {
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          <article className="rounded-2xl border border-[#D4AF37]/20 bg-black/40 p-6 transition duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/40 hover:bg-black/55">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+          <article className="card-gold p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
               Genesis Early Access
             </p>
 
-            <h3 className="mt-3 font-display text-xl text-white">
+            <h3 className="mt-3 font-display text-xl text-primary">
               Part of the Public Sale Allocation
             </h3>
 
-            <p className="mt-3 text-sm leading-7 text-white/55">
+            <p className="mt-3 text-sm leading-7 text-secondary">
               Genesis Early Access distributes{" "}
-              <span className="font-semibold text-white/80">
+              <span className="font-semibold text-primary">
                 21,000,000 WTC
               </span>{" "}
               from the 300,000,000 WTC Public Sale allocation. It is not an
@@ -609,16 +561,16 @@ export default function TokenomicsSection() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-[#D4AF37]/20 bg-black/40 p-6 transition duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/40 hover:bg-black/55">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+          <article className="card-gold p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
               Governance Notice
             </p>
 
-            <h3 className="mt-3 font-display text-xl text-white">
+            <h3 className="mt-3 font-display text-xl text-primary">
               An Initial Stewardship Framework
             </h3>
 
-            <p className="mt-3 text-sm leading-7 text-white/55">
+            <p className="mt-3 text-sm leading-7 text-secondary">
               These allocations represent WealthCoin&apos;s initial stewardship
               plan. Certain ecosystem allocations may later be adjusted through
               transparent, community-approved governance proposals.
@@ -627,42 +579,6 @@ export default function TokenomicsSection() {
         </div>
       </div>
 
-      <style>{`
-        @keyframes tokenomicsLineDraw {
-          from {
-            stroke-dashoffset: 1;
-            opacity: 0;
-          }
-
-          to {
-            stroke-dashoffset: 0;
-            opacity: 1;
-          }
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(4px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          #tokenomics *,
-          #tokenomics *::before,
-          #tokenomics *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            scroll-behavior: auto !important;
-            transition-duration: 0.01ms !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

@@ -60,11 +60,11 @@ export default function FoundationSection() {
 
   useEffect(() => {
     if (!activeDocument) {
-      document.body.style.overflow = "";
+      document.body.classList.remove("scroll-locked");
       return undefined;
     }
 
-    document.body.style.overflow = "hidden";
+    document.body.classList.add("scroll-locked");
 
     function handleEscape(event) {
       if (event.key === "Escape") {
@@ -75,7 +75,7 @@ export default function FoundationSection() {
     window.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("scroll-locked");
       window.removeEventListener("keydown", handleEscape);
     };
   }, [activeDocument]);
@@ -102,13 +102,13 @@ export default function FoundationSection() {
     <>
       <section
         id="foundation"
-        className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#071009] px-4 py-16 text-white sm:px-6 sm:py-24"
+        className="relative overflow-hidden border-t border-accent/20 bg-surface px-4 py-16 text-white sm:px-6 sm:py-24"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.09),transparent_40%),radial-gradient(circle_at_85%_75%,rgba(24,85,48,0.12),transparent_35%)]" />
+        <div className="absolute inset-0 bg-ambient" />
 
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
+            <p className="font-display text-sm uppercase tracking-[0.4em] text-accent">
               The Foundation
             </p>
 
@@ -116,7 +116,7 @@ export default function FoundationSection() {
               Built for Stewardship
             </h2>
 
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/65">
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-secondary">
               Explore the foundational documents that define WealthCoin,
               communicate its vision, and establish the principles guiding its
               continued development.
@@ -124,18 +124,43 @@ export default function FoundationSection() {
             </p>
           </div>
 
+          <div className="mx-auto mt-10 grid max-w-5xl gap-5 md:grid-cols-3">
+            {[
+              {
+                title: "Our Mission",
+                text: "WealthCoin advances responsible digital-asset education, implementation, and stewardship through transparent tools and practical learning.",
+              },
+              {
+                title: "Our Method",
+                text: "We lead with education, explain risks clearly, and build systems around security, accountability, and informed participation.",
+              },
+              {
+                title: "Our Commitment",
+                text: "We prioritize community outcomes, accountable practice, and patient long-term stewardship.",
+              },
+            ].map((item) => (
+              <article
+                key={item.title}
+                className="rounded-card border border-border-subtle/25 bg-surface p-6"
+              >
+                <h3 className="text-xl font-semibold text-accent">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-secondary">{item.text}</p>
+              </article>
+            ))}
+          </div>
+
           <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {resources.map((resource) => (
               <article
                 key={resource.title}
-                className={`relative flex min-h-0 flex-col overflow-hidden rounded-2xl border p-5 transition duration-300 sm:min-h-[390px] sm:p-7 ${
+                className={`relative flex min-h-0 flex-col overflow-hidden rounded-2xl border p-5 transition duration-200 sm:min-h-[390px] sm:p-7 ${
                   resource.available
-                    ? "border-[#D4AF37]/25 bg-black/45 hover:-translate-y-1 hover:border-[#D4AF37]/55"
-                    : "border-[#D4AF37]/20 bg-black/35"
+                    ? "border-accent/25 bg-black/45 hover:-translate-y-0.5 hover:border-accent/55"
+                    : "border-accent/20 bg-black/35"
                 }`}
               >
                 {!resource.available && (
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(212,175,55,0.10),transparent_35%)]" />
+                  <div className="pointer-events-none absolute inset-0 bg-ambient" />
                 )}
 
                 <div className="relative z-10 flex h-full flex-col">
@@ -145,24 +170,24 @@ export default function FoundationSection() {
                     </div>
 
                     {!resource.available && (
-                      <span className="rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#D4AF37]">
+                      <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-accent">
                         In Development
                       </span>
                     )}
                   </div>
 
-                  <h3 className="mt-5 font-display text-xl text-[#D4AF37]">
+                  <h3 className="mt-5 font-display text-xl text-accent">
                     {resource.title}
                   </h3>
 
-                  <p className="mt-4 flex-1 leading-7 text-white/65">
+                  <p className="mt-4 flex-1 leading-7 text-secondary">
                     {resource.description}
                   </p>
 
                   {resource.available ? (
                     <div className="mt-7">
                       {resource.edition && (
-                        <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-[#D4AF37]">
+                        <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-accent">
                           {resource.edition}
                         </p>
                       )}
@@ -197,12 +222,12 @@ export default function FoundationSection() {
                     </div>
                   ) : (
                     <div className="mt-7">
-                      <div className="rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 px-5 py-4 text-center">
-                        <p className="font-display text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
+                      <div className="rounded-xl border border-accent/20 bg-accent/5 px-5 py-4 text-center">
+                        <p className="font-display text-sm uppercase tracking-[0.2em] text-accent">
                           {resource.status}
                         </p>
 
-                        <p className="mt-2 text-sm leading-6 text-white/50">
+                        <p className="mt-2 text-sm leading-6 text-secondary">
                           The whitepaper will be released after its research,
                           review, and stewardship process is complete.
 
@@ -215,28 +240,28 @@ export default function FoundationSection() {
             ))}
           </div>
 
-          <div className="mx-auto mt-10 max-w-4xl border-y border-[#D4AF37]/20 py-8 text-center">
-            <p className="font-display text-xl italic leading-9 text-white/75 sm:text-2xl">
+          <div className="mx-auto mt-10 max-w-4xl border-y border-accent/20 py-8 text-center">
+            <p className="font-display text-xl italic leading-9 text-secondary sm:text-2xl">
               “For which of you, intending to build a tower, sitteth not down
               first, and counteth the cost...”
             </p>
 
-            <p className="mt-3 text-xs font-bold uppercase tracking-[0.24em] text-[#D4AF37]">
+            <p className="mt-3 text-xs font-bold uppercase tracking-[0.24em] text-accent">
               Luke  ️14:28
             </p>
           </div>
 
           <div
             id="risk-section"
-            className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-[#D4AF37]/20 bg-black/45 shadow-[0_0_35px_rgba(212,175,55,0.05)]"
+            className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-3xl border border-accent/20 bg-black/45 shadow-accent-soft"
           >
-            <div className="border-b border-[#D4AF37]/15 px-6 py-6 sm:px-8">
+            <div className="border-b border-accent/15 px-6 py-6 sm:px-8">
               <div className="flex flex-wrap items-center gap-3">
-                <span className="rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-red-300">
+                <span className="rounded-full border border-danger/40 bg-danger/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent-hover">
                   Risk
                 </span>
 
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent">
                   Transparency &amp; Risk Disclosure
                 </p>
               </div>
@@ -247,7 +272,7 @@ export default function FoundationSection() {
             </div>
 
             <div className="px-6 py-8 sm:px-8">
-              <p className="text-sm leading-7 text-white/60 sm:text-base">
+              <p className="text-sm leading-7 text-secondary sm:text-base">
                 WealthCoin is committed to transparency. Digital assets involve
                 substantial risk, including market volatility, liquidity
                 constraints, technological vulnerabilities, and evolving
@@ -260,12 +285,12 @@ export default function FoundationSection() {
                 {riskFactors.map((factor) => (
                   <div
                     key={factor}
-                    className="rounded-xl border border-[#D4AF37]/15 bg-[#071009]/70 px-4 py-3"
+                    className="rounded-xl border border-accent/15 bg-surface/70 px-4 py-3"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-lg text-red-400">⚠</span>
+                      <span className="text-lg text-accent-hover">⚠</span>
 
-                      <span className="text-sm font-semibold text-white/85">
+                      <span className="text-sm font-semibold text-primary">
                         {factor}
                       </span>
                     </div>
@@ -273,8 +298,8 @@ export default function FoundationSection() {
                 ))}
               </div>
 
-              <div className="mt-8 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/60 p-5">
-                <p className="text-sm leading-6 text-white/55">
+              <div className="mt-8 rounded-2xl border border-accent/15 bg-surface/60 p-5">
+                <p className="text-sm leading-6 text-secondary">
                   Participation should be based on independent research,
                   responsible financial stewardship, and careful consideration
                   of personal circumstances. Never commit funds you cannot
@@ -282,7 +307,7 @@ export default function FoundationSection() {
                 </p>
               </div>
 
-              <p className="mt-6 text-xs leading-6 text-white/35">
+              <p className="mt-6 text-xs leading-6 text-secondary">
                 This disclosure is provided for transparency and education only
                 and should not be interpreted as financial, legal, tax, or
                 investment advice. 
@@ -291,7 +316,7 @@ export default function FoundationSection() {
           </div>
 
           <div className="mx-auto mt-16 max-w-4xl text-center">
-            <p className="text-base leading-8 text-white/65 sm:text-lg">
+            <p className="text-base leading-8 text-secondary sm:text-lg">
               WealthCoin seeks to honor God through responsible stewardship,
               transparency, education, and service. Every feature, partnership,
               and future initiative is intended to be developed with
@@ -314,16 +339,16 @@ export default function FoundationSection() {
             }
           }}
         >
-          <div className="flex h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#020403] shadow-[0_0_70px_rgba(0,0,0,0.8)]">
-            <div className="flex items-center justify-between gap-4 border-b border-[#D4AF37]/20 px-4 py-3 sm:px-5 sm:py-4">
+          <div className="flex h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-accent/30 bg-base shadow-elevated">
+            <div className="flex items-center justify-between gap-4 border-b border-accent/20 px-4 py-3 sm:px-5 sm:py-4">
               <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/40">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-secondary">
                   Document Preview
                 </p>
 
                 <h2
                   id="document-preview-title"
-                  className="mt-1 truncate font-display text-lg text-[#D4AF37] sm:text-xl"
+                  className="mt-1 truncate font-display text-lg text-accent sm:text-xl"
                 >
                   {activeDocument.title}
                 </h2>
@@ -332,14 +357,14 @@ export default function FoundationSection() {
               <button
                 type="button"
                 onClick={() => setActiveDocument(null)}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#D4AF37]/25 bg-black/50 text-xl text-white/75 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-black/50 text-xl text-secondary transition hover:border-accent/50 hover:text-accent"
                 aria-label="Close document preview"
               >
                 ×
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 bg-[#111]">
+            <div className="min-h-0 flex-1 bg-base">
               <iframe
                 src={`${activeDocument.href}#toolbar=1&navpanes=0&view=FitH`}
                 title={`${activeDocument.title} PDF preview`}
@@ -347,7 +372,7 @@ export default function FoundationSection() {
               />
             </div>
 
-            <div className="grid gap-3 border-t border-[#D4AF37]/20 p-3 sm:grid-cols-2 sm:p-4">
+            <div className="grid gap-3 border-t border-accent/20 p-3 sm:grid-cols-2 sm:p-4">
               <a
                 href={activeDocument.href}
                 target="_blank"

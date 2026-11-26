@@ -58,13 +58,13 @@ export default function PurchaseSection() {
   return (
     <section
       id="purchase"
-      className="relative overflow-hidden border-t border-[#D4AF37]/20 bg-[#030604] px-4 py-16 text-white sm:px-6 sm:py-24"
+      className="relative overflow-hidden border-t border-accent/20 bg-base px-4 py-16 text-white sm:px-6 sm:py-24"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.09),transparent_40%),radial-gradient(circle_at_15%_85%,rgba(24,85,48,0.14),transparent_35%)]" />
+      <div className="absolute inset-0 bg-ambient" />
 
       <div className="relative z-10 mx-auto max-w-4xl">
         <div className="text-center">
-          <p className="font-display text-sm uppercase tracking-[0.4em] text-[#D4AF37]">
+          <p className="font-display text-sm uppercase tracking-[0.4em] text-accent">
             Purchase WTC
           </p>
 
@@ -72,20 +72,20 @@ export default function PurchaseSection() {
             Swap POL for WTC
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-secondary">
             Buy WTC on the Polygon network. Connect your wallet, then swap
             securely through Uniswap — peer-to-peer with no middleman.
           </p>
         </div>
 
-        <div className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-black/50 shadow-[0_0_35px_rgba(212,175,55,0.05)]">
-          <div className="border-b border-[#D4AF37]/15 px-6 py-5 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#8247E5]/50 bg-[#8247E5]/15 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#8247E5]">
-              <span className="h-2 w-2 rounded-full bg-[#8247E5] animate-pulse" />
+        <div className="mx-auto mt-10 max-w-md overflow-hidden rounded-3xl border border-accent/25 bg-black/50 shadow-accent-soft">
+          <div className="border-b border-accent/15 px-6 py-5 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle/50 bg-accent/15 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-accent-hover">
+              <span className="h-2 w-2 rounded-full bg-accent/10 animate-pulse" />
               Live on Polygon Network
             </div>
 
-            <div className="mt-4 text-sm uppercase tracking-widest text-white/50">
+            <div className="mt-4 text-sm uppercase tracking-widest text-secondary">
               WTC / POL
             </div>
 
@@ -96,17 +96,17 @@ export default function PurchaseSection() {
 
           <div className="p-6">
             {isConnected ? (
-              <div className="mb-6 space-y-3 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4 text-left">
+              <div className="mb-6 space-y-3 rounded-2xl border border-accent/15 bg-surface/70 p-4 text-left">
                 <div className="flex justify-between text-sm">
-                  <span className="text-white/50">Your WTC balance</span>
+                  <span className="text-secondary">Your WTC balance</span>
                   <span className="font-semibold">
                     {wtcBalance.toFixed(4)} WTC
-                    <span className="text-white/40 ml-2">(≈${wtcValueUsd.toFixed(2)})</span>
+                    <span className="text-secondary ml-2">(≈${wtcValueUsd.toFixed(2)})</span>
                   </span>
                 </div>
               </div>
             ) : (
-              <p className="mb-6 text-center text-sm text-white/40">
+              <p className="mb-6 text-center text-sm text-secondary">
                 Connect your wallet to see your balances.
               </p>
             )}
@@ -115,20 +115,20 @@ export default function PurchaseSection() {
               href={POOL_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 block w-full rounded-xl bg-[#D4AF37] px-10 py-4 text-center text-lg font-semibold text-black shadow-lg shadow-[#D4AF37]/20 transition hover:bg-[#e8c65a]"
+              className="mt-6 block w-full rounded-xl bg-accent px-10 py-4 text-center text-lg font-semibold text-black shadow-lg shadow-accent/20 transition hover:bg-accent-hover"
             >
               Buy WTC on Uniswap
             </a>
 
-            <p className="mt-4 text-center text-xs leading-5 text-white/40">
+            <p className="mt-4 text-center text-xs leading-5 text-secondary">
               Your swap is completed on Uniswap, the decentralized exchange
               hosting the WTC / POL pool. This keeps every trade secure,
               transparent, and peer-to-peer — no middleman.
             </p>
 
-            <div className="mt-5 rounded-2xl border border-[#D4AF37]/15 bg-[#071009]/70 p-4">
+            <div className="mt-5 rounded-2xl border border-accent/15 bg-surface/70 p-4">
               <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/50">
+                <p className="text-xs font-semibold uppercase tracking-widest text-secondary">
                   WTC Contract Address
                 </p>
                 <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function PurchaseSection() {
                     href={WTC_CONTRACT_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-white/60 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                    className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-secondary transition hover:border-accent/50 hover:text-accent"
                     title="View on Polygonscan"
                   >
                     Polygonscan
@@ -148,7 +148,7 @@ export default function PurchaseSection() {
                   </a>
                   <button
                     onClick={handleCopyContract}
-                    className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-white/60 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                    className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-medium text-secondary transition hover:border-accent/50 hover:text-accent"
                     title="Copy contract address"
                   >
                     {copied ? (
@@ -170,10 +170,10 @@ export default function PurchaseSection() {
                   </button>
                 </div>
               </div>
-              <p className="mt-2 break-all font-mono text-sm text-[#D4AF37]">
+              <p className="mt-2 break-all font-mono text-sm text-accent">
                 {WTC_CONTRACT}
               </p>
-              <p className="mt-2 text-xs leading-5 text-white/45">
+              <p className="mt-2 text-xs leading-5 text-secondary">
                 This is the official WTC token contract on the Polygon network.
                 Always verify this address before transacting — scammers create
                 fake tokens with similar addresses. Check it on Polygonscan any
@@ -183,8 +183,8 @@ export default function PurchaseSection() {
           </div>
         </div>
 
-        <div className="mx-auto mt-8 max-w-md rounded-2xl border border-[#D4AF37]/15 bg-black/35 p-5 text-center">
-          <p className="text-xs leading-6 text-white/45">
+        <div className="mx-auto mt-8 max-w-md rounded-2xl border border-accent/15 bg-black/35 p-5 text-center">
+          <p className="text-xs leading-6 text-secondary">
             Digital assets involve substantial risk, including market
             volatility and liquidity constraints. Never commit funds you cannot
             afford to lose. This is not financial advice.

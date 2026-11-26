@@ -12,7 +12,7 @@ function Section({ title, children }) {
       >
         <span className="font-display text-lg text-white sm:text-xl">{title}</span>
         <span
-          className={`shrink-0 text-[#D4AF37] transition-transform duration-200 ${
+          className={`shrink-0 text-accent transition-transform duration-200 ${
             open ? "rotate-45" : ""
           }`}
         >
@@ -23,7 +23,7 @@ function Section({ title, children }) {
       </button>
       {open && (
         <div className="border-t border-white/10 px-6 py-6">
-          <div className="space-y-4 text-base leading-8 text-white/70">{children}</div>
+          <div className="space-y-4 text-base leading-8 text-secondary">{children}</div>
         </div>
       )}
     </div>
@@ -32,24 +32,24 @@ function Section({ title, children }) {
 
 export default function Lesson2BlockchainBasics() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#020302] px-4 pb-20 pt-8 text-white sm:px-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.10),transparent_40%),linear-gradient(180deg,#020302_0%,#061008_60%,#020202_100%)]" />
+    <main className="relative min-h-screen overflow-hidden bg-base px-4 pb-20 pt-8 text-white sm:px-6">
+      <div className="pointer-events-none absolute inset-0 bg-ambient" />
       <div className="relative z-10 mx-auto max-w-3xl">
         <Link
           to="/academy"
-          className="inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-[#D4AF37]"
+          className="inline-flex items-center gap-2 text-sm text-secondary transition hover:text-accent"
         >
           <span aria-hidden="true">←</span>
           Back to Academy
         </Link>
 
-        <p className="mt-8 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+        <p className="mt-8 text-xs font-bold uppercase tracking-[0.22em] text-accent">
           Lesson 2 · Blockchain Basics
         </p>
         <h1 className="mt-2 font-display text-3xl text-white sm:text-4xl">
           Blockchain Basics
         </h1>
-        <p className="mt-4 text-base leading-7 text-white/60">
+        <p className="mt-4 text-base leading-7 text-secondary">
           Tap a topic to learn it — go at your own pace.
         </p>
 
@@ -78,7 +78,7 @@ export default function Lesson2BlockchainBasics() {
                 href="https://polygonscan.com/token/0x394b57f4a40ff31530d66f904e1db2c6516c018f#transactions"
                 target="_blank"
                 rel="noreferrer"
-                className="font-semibold text-[#D4AF37] underline underline-offset-2 hover:text-white"
+                className="font-semibold text-accent underline underline-offset-2 hover:text-white"
               >
                 PolygonScan
               </a>
@@ -175,12 +175,12 @@ export default function Lesson2BlockchainBasics() {
           </Section>
         </div>
 
-        <div className="mt-10 rounded-3xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-6 text-center sm:p-8">
+        <div className="mt-10 rounded-3xl border border-accent/20 bg-accent/5 p-6 text-center sm:p-8">
           <p className="font-display text-lg text-white sm:text-xl">
             "Wisdom is the principal thing; therefore, get wisdom: and with all thy
             getting get understanding."
           </p>
-          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.22em] text-accent">
             Proverbs 4:7 — JUB
           </p>
         </div>

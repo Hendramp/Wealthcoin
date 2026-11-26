@@ -11,11 +11,11 @@ export default function CommunityHubPage() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <p className="p-10 text-center text-white/50">Loading community…</p>;
+    return <p className="p-10 text-center text-secondary">Loading community…</p>;
   }
 
   return (
-    <div className="min-h-screen bg-[#07110d] text-white">
+    <div className="min-h-screen bg-surface text-white">
       <Navbar />
 
       <main className="mx-auto max-w-3xl px-4 py-8 pt-36 sm:pt-40">
@@ -25,16 +25,16 @@ export default function CommunityHubPage() {
           <div className="space-y-6">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#D4AF37] transition hover:text-[#e6c55a]"
+              className="inline-flex items-center gap-2 text-sm font-bold text-accent transition hover:text-accent-hover"
             >
               ← Back to WealthCoin
             </Link>
 
             <div className="text-center">
-              <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
+              <p className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-accent">
                 The WealthCoin Circle
               </p>
-              <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-white/60">
+              <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-secondary">
                 A place for God's people to share, encourage, and learn together. Be kind, be
                 wise, and build one another up — this is a house, not a marketplace of noise.
               </p>
